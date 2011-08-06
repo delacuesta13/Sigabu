@@ -64,3 +64,11 @@ $menu_project = array(
 	) /* end usuarios */
 
 );
+
+/**
+* Declaro las variable como global,
+* de tal forma que, cuando se vaya
+* a usar se debe declarar así:
+* $GLOBALS['menu_project']
+*/
+$GLOBALS['menu_project'] = $menu_project;
