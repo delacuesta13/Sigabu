@@ -78,7 +78,7 @@ function redirectAction($controller, $action, $parameters = null) {
 
 	$redirectUrl = BASE_PATH . '/' . $controller . '/' . (isset($action) ? $action : 'index');
 	if(isset($parameters) && is_array($parameters) && count($parameters)!=0) {
-		foreach($parameters as $parameter)	$redirectUrl .= '/' . $tempUrl;
+		foreach($parameters as $parameter)	$redirectUrl .= '/' . $parameter;
 		unset($parameter);
 	}
 	header("Location: $redirectUrl");
@@ -125,6 +125,8 @@ function callHook() {
 /** Autoload any classes that are required **/
 
 function __autoload($className) {
+	global $default;
+	
 	if (file_exists(ROOT . DS . 'library' . DS . strtolower($className) . '.class.php')) {
 		require_once(ROOT . DS . 'library' . DS . strtolower($className) . '.class.php');
 	} else if (file_exists(ROOT . DS . 'application' . DS . 'controllers' . DS . strtolower($className) . '.php')) {
