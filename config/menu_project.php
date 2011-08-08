@@ -4,7 +4,7 @@ $menu_project = array(
 
 	"personas" => array(		
 		"ico" => "controllers/personas.png",
-		"desc" => "Gestiona las personas de la Comunidad Universitaria y su perfil dentro de ésta",
+		"desc" => "Gestiona las personas de la Comunidad Universitaria y su perfiles dentro de ésta",
 		"nivel" => 3, ## nivel mínimo exigido por una acción del controlador				
 		"actions" => array(
 					
@@ -32,7 +32,7 @@ $menu_project = array(
 
 	"actividades" => array(
 		"ico" => "controllers/actividades.png",
-		"desc" => "Gestiona las actividades que son ofertadas por Bienestar",
+		"desc" => "Gestiona las actividades de Bienestar u",
 		"nivel" => 2, ## nivel mínimo exigido por una acción del controlador
 		"actions" => array(
 		
