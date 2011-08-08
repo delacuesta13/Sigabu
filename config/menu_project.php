@@ -3,8 +3,8 @@
 $menu_project = array(
 
 	"personas" => array(		
-		"ico" => "",
-		"desc" => "",
+		"ico" => "controllers/personas.png",
+		"desc" => "Gestiona las personas de la Comunidad Universitaria y su perfil dentro de ésta",
 		"nivel" => 3, ## nivel mínimo exigido por una acción del controlador				
 		"actions" => array(
 					
@@ -31,8 +31,8 @@ $menu_project = array(
 	), /* end personas */
 
 	"actividades" => array(
-		"ico" => "",
-		"desc" => "",
+		"ico" => "controllers/actividades.png",
+		"desc" => "Gestiona las actividades que son ofertadas por Bienestar",
 		"nivel" => 2, ## nivel mínimo exigido por una acción del controlador
 		"actions" => array(
 		
@@ -42,8 +42,8 @@ $menu_project = array(
 	), /* end actividades */
 	
 	"lugares" => array(
-		"ico" => "",
-		"desc" => "",
+		"ico" => "controllers/lugares.png",
+		"desc" => "Gestiona los lugares o espacios deportivos/culturales utilizados por Bienestar U",
 		"nivel" => 3, ## nivel mínimo exigido por una acción del controlador
 		"actions" => array(
 		
@@ -53,8 +53,8 @@ $menu_project = array(
 	), /* end lugares */
 	
 	"usuarios" => array(
-		"ico" => "",
-		"desc" => "",
+		"ico" => "controllers/usuarios.png",
+		"desc" => "Gestiona las cuentas de usuarios",
 		"nivel" => 5, ## nivel mínimo exigido por una acción del controlador
 		"actions" => array(
 		
