@@ -1,0 +1,59 @@
+a {
+	text-decoration: none;
+	outline: none;
+}
+
+/*
+ * messages
+ */
+.flash .message{
+	cursor: pointer;
+	padding: 0 0 0 1px;	
+}
+
+/*
+ * Lista de Controladores / Controllers List
+ * Vista: index / dashboards 
+ */
+
+ul.controllerslist{
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+ul.controllerslist li{
+	padding: 15px 0 0 0;
+	margin: 0;
+	background: 0;
+	width: 260px;
+	height: 140px;
+	display: block;
+	float: left;
+	position: relative;
+	margin: 10px 10px 0px 10px;
+	border: 1px solid #ccc;
+	box-shadow: 0 0 3px #ccc;
+	-moz-box-shadow: 0 0 3px #ccc;
+	-webkit-box-shadow: 0 0 3px #ccc;
+	border-radius:4px;	
+}
+
+ul.controllerslist li a:hover{
+	text-decoration:underline;
+}
+
+ul.controllerslist li img{
+	display:block;
+	width:auto;
+	margin:auto;
+	padding:0 0 12px 0;
+}
+
+ul.controllerslist li span{
+	display:block;
+	width:100%;
+	text-align:center;
+	margin-top:8px;
+	color:#222;
+}
