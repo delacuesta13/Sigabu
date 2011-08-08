@@ -39,23 +39,6 @@
 	}	
     ?>	
 	<?php if(isset($make_tag_js)) echo $html->javascript_tag($make_tag_js);?>	
-	<?php 
-	/*
-	 * Agregar HTML al div 'sidebar'
-	 * Declarar variable 'make_sidebar' y en ésta
-	 * agregar el contenido a mostrar.
-	 */
-	if(isset($make_sidebar) && strlen($make_sidebar)!=0){
-		?>
-		<script type="text/javascript">
-		<!--
-			$('#sidebar').append('<?php echo $make_sidebar?>');
-		//-->
-		</script>
-		<?php 
-	}
-		
-	?>		
 </head>
 <body>	
 	<div id="container">
