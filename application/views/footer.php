@@ -1,7 +1,7 @@
 
-						<div> <!-- end inner -->
+						</div> <!-- end inner -->
 					</div> <!-- end content  -->
-				<div> <!-- end block -->
+				</div> <!-- end block -->
 			
 			</div> <!-- end main -->
 			<div id="sidebar">
