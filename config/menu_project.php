@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * 
+ *  NOTA: Definir todas las 'actions' de los
+ *  controladores que interactúan con el usuario, 
+ *  es decir, que tienen su interfaz en el sistema,
+ *  muéstrense o no en el menú secundario. Si no se
+ *  definen, para efectos de permiso se toma el default
+ *  del controlador donde ésta la 'action'.
+ */
+
 $menu_project = array(
 
 	"personas" => array(		
@@ -32,7 +42,7 @@ $menu_project = array(
 
 	"actividades" => array(
 		"ico" => "controllers/actividades.png",
-		"desc" => "Gestiona las actividades de Bienestar u",
+		"desc" => "Gestiona las actividades de Bienestar U",
 		"nivel" => 2, ## nivel mínimo exigido por una acción del controlador
 		"actions" => array(
 		
