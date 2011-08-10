@@ -11,4 +11,4 @@ define('DB_HOST', 'localhost');
 
 define('BASE_PATH','http://localhost/sigabu');
 
-define('PAGINATE_LIMIT', '15');
+define('PAGINATE_LIMIT', '10');
