@@ -51,7 +51,7 @@ class PersonasController extends VanillaController{
 			 * Revisar si el nivel de permiso del usuario 
 			 * es INsuficiente para interactuar con la 'action'
 			 */
-			if($_SESSION['nivel'] < $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']){
+			if( (array_key_exists($this->_action, $GLOBALS['menu_project'][strtolower($this->_controller)]['actions']) && array_key_exists('nivel', $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action])) && $_SESSION['nivel'] < $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']){
 				redirectAction($GLOBALS['default_controller'], $GLOBALS['default_action'], array('error', '1'));
 			}			
 			
@@ -66,8 +66,260 @@ class PersonasController extends VanillaController{
 	
 	function index () {
 		
+		$tag_js = '
+		
+		var info_preload = \'<div id="info_preload" class="dataTablas_preload">Cargando...</div>\';
+		var col = "nombres";
+		var orderDir = "asc";
+		
+		function load_dataTable (pag, sort, order) {		
+			$(function() {
+				$( "#dynamic" ).html( info_preload );
+				var url = "'. BASE_PATH . '/'. strtolower($this->_controller) . '/' . 'listar_personas' .'";
+				var q = $( "#search" ).val();	
+				if(pag.length!=0) url += "/pag=" + pag;
+				url += "/record=" + $( "#reg_pag" ).val();
+				if(sort.length!=0) url += "/sort=" + sort;
+				if(order.length!=0) url += "/order=" + order;
+				if(q.length!=0) url += "/q=" + encodeURIComponent(q);
+				$.ajax({
+					url: url,
+					success: function(data) {
+						$( "#dynamic" ).html(data);
+					}
+				});	
+			});		
+		}
+		
+		$(document).ready(function() {
+			
+			load_dataTable(1, col, orderDir);
+			
+			$( "#reg_pag" ).change(function() {
+				load_dataTable(1, col, orderDir);
+			});
+			
+			$( "#search" ).bind("keyup", function() {
+				load_dataTable(1, col, orderDir);
+			});			
+			
+		});	
+		';
+		
+		$this->set('make_tag_js', $tag_js);
+		
 	}
 	
+	function listar_personas (){			
+		
+		$parametros = func_get_args();
+		
+		$tabla = strtolower($this->_controller); ## tabla del controlador en la BD
+		$campo_dft = 'nombres'; ## empieza a ordenar por este campo
+		$dir_dft = 'asc'; ## dirección de ordenamiento default
+		$pag_dft = 1;
+		$record_dft = PAGINATE_LIMIT;
+		
+		## variables que pueden pasarse por medio de parámetros		 
+		$var_data = array(
+			## número de página
+			'/^pag=/' => array(
+				'name' => 'pag',
+				'default' => $pag_dft,
+				'regex' => '/^[\d]+$/'
+			),
+			## número de registros por página
+			'/^record=/' => array(
+				'name' => 'record',
+				'default' => $record_dft,
+				'regex' => '/^[\d]+$/'
+			),
+			## columna por la cual ordenar
+			'/^sort=/' => array(
+				'name' => 'sort',
+				'default' => $campo_dft,
+				'regex' => '/^[a-zA-Z0-9_]+$/'
+			),
+			## dirección del ordenamiento
+			'/^order=/' => array(	
+				'name' => 'order',
+				'default' => $dir_dft,
+				'regex' => '/^(asc|desc)$/'
+			),
+			## cadena de búsqueda
+			'/^q=/' => array(
+				'name' => 'search',
+				'regex' => '/^[a-zA-Z 0-9-]{1,45}$/'
+			)
+		);
+		
+		$campos_tabla = array(
+			'tipo_dni' => array(
+				'text' => 'Tipo de <abbr title="Identificación">Ident.</abbr>',
+				'sort' => true, ## puede ordenarse la tabla por este campo
+				'where' => false ## buscar por esta columna
+			),
+			'dni' => array(
+				'text' => 'Identificación',
+				'sort' => false,
+				'where' => true
+			),
+			'nombres' => array(
+				'text' => 'Nombres',
+				'sort' => true,
+				'where' => true
+			),
+			'apellidos' => array(
+				'text' => 'Apellidos',
+				'sort' => true,
+				'where' => true
+			),
+			'fecha_nac' => array(
+				'text' => 'Fecha de <abbr title="Nacimiento">Nac.</abbr>',
+				'sort' => true,
+				'where' => true
+			),
+			'genero' => array(
+				'text' => 'Género',
+				'sort' => true,
+				'where' => false
+			),
+			'monitor' => array(
+				'text' => 'Monitor',
+				'sort' => true,
+				'where' => false
+			),
+			'estado' => array(
+				'text' => 'Estado',
+				'sort' => true,
+				'where' => false
+			)
+		);
+		
+		$opciones_data = array(); ## opciones de la consulta
+		
+		/**
+		 * recorro los parámetros recibidos,
+		 * y si cumplen el respectivo patrón
+		 * definido los agrego al SQL de consulta.
+		 */
+		$str_temp = '';
+		for($i = 0; $i < count($parametros); $i++){			
+			foreach($var_data as $patron => $atributos){
+				## el parámetros es un patrón para el SQL
+				if(preg_match($patron, $parametros[$i])){
+					## valido el valor de la variable que se recibió por parámetro
+					$str_temp = preg_replace($patron, '', $parametros[$i]);
+					if(preg_match($atributos['regex'], $str_temp)){
+						$opciones_data[$atributos['name']] = $str_temp;
+					} /* if */
+					## como lo que se recibió no coincide con el patrón, asigno valor default
+					elseif (array_key_exists('default', $atributos)){
+						$opciones_data[$atributos['name']] = $atributos['default'];
+					} /* elseif */
+				} /* if */
+			} /* foreach */			
+		} /* for */
+		unset($str_temp);
+		if(isset($patron)) unset($patron);
+		if(isset($atributos)) unset($atributos);
+		
+		/*
+		 * inicializo el query de consulta
+		 */
+		$str_query = 'SELECT SQL_CALC_FOUND_ROWS ';
+		
+		/**
+		 * agrego las columnas al query
+		 */		
+		foreach($campos_tabla as $campos => $def){
+			$str_query .= $campos . ', ';
+		}
+		$str_query = rtrim($str_query, ', ') . ' ';		
+		
+		unset($campos, $def);
+		
+		$str_query .= 'FROM ' . $tabla . ' ';
+		
+		/**
+		 * agrego el where a cada una de las columnas
+		 */
+		if(array_key_exists('search', $opciones_data)){
+			$str_query .= 'WHERE (';
+			foreach($campos_tabla as $campos => $def){
+				## se puede buscar utilizando el campo
+				if($def['where']){
+					$str_query .= $campos . ' LIKE \'%' . mysql_real_escape_string($opciones_data['search']) . '%\' OR ';
+				} /* if */
+			} /* foreach */
+			$str_query = substr_replace($str_query, "", -3);
+			$str_query .= ')';
+			unset($campos, $def);
+		} /* if where */
+		
+		/*
+		 * agrego la columna y la dirección del ordenamiento
+		 */
+		if(array_key_exists('sort', $opciones_data) && array_key_exists('order', $opciones_data) && $campos_tabla[strtolower(mysql_real_escape_string($opciones_data['sort']))]['sort']){
+			$str_query .= ' ORDER BY ' . mysql_real_escape_string($opciones_data['sort']) . ' ' . strtoupper(mysql_real_escape_string($opciones_data['order']));
+		} else {
+			$str_query .= ' ORDER BY ' . $campo_dft . ' ' . $dir_dft;
+		}
+		
+		/*
+		 * agrego el limit
+		 */
+		if (!array_key_exists('pag', $opciones_data)) $opciones_data['pag'] = $pag_dft;
+		if (!array_key_exists('record', $opciones_data)) $opciones_data['record'] = $record_dft;
+		$offset = $opciones_data['record'] * ($opciones_data['pag'] - 1);		
+		$str_query .= ' LIMIT '. $offset . ', ' . $opciones_data['record'];		 
+		
+		## ejecuto la consulta y recibo las tuplas
+		$data_query = $this->Persona->query($str_query);
+		
+		## total de tuplas sin LIMIT
+		$str_totalquery = 'SELECT FOUND_ROWS() as total';
+		$totalreg_query = $this->Persona->query($str_totalquery); 
+		$totalreg_query = $totalreg_query[0]['']['total']; 
+		
+		$offset++;
+		$limit = ($opciones_data['pag'] * $opciones_data['record']);
+		
+		/**
+		 * envío variables a la vista
+		 */		
+		$this->set('campos_tabla', $campos_tabla);
+		$this->set('data_query', $data_query);
+		$this->set('totalreg_query', $totalreg_query);
+		$this->set('pagina', $opciones_data['pag']);
+		$this->set('limit', $limit);
+		$this->set('record', $opciones_data['record']);
+		
+		if (array_key_exists('sort', $opciones_data) && array_key_exists('order', $opciones_data)) {
+			$this->set('sort', $opciones_data['sort']);
+			$this->set('order', $opciones_data['order']);
+		} else {
+			$this->set('sort', $campo_dft);
+			$this->set('order', $dir_dft);
+		}
+		
+		unset ($data_query, $totalreg_query, $offset, $limit);
+		
+		/****************************************************/
+		
+		$this->set('campos_tabla', $campos_tabla);
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
+	/**
+	 * 
+	 * action para crear nuevas personas ...
+	 */
 	function nuevo () {
 
 		## se ha enviado el formulario
