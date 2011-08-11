@@ -23,7 +23,7 @@
 		for($i = 0; $i < count($data_query); $i++){
 		?>
 		<tr class="<?php echo (($i+1)%2==0) ? 'even' : 'odd' ?>"> <!-- cuerpo -->
-			<td><input type="checkbox" class="checkbox" name="dni[]" value="<?php echo $data_query[$i]['Persona']['dni']?>"/></td>		
+			<td><input type="checkbox" class="checkbox" id="dni_persona" name="dni[]" value="<?php echo $data_query[$i]['Persona']['dni']?>"/></td>		
 			<td><?php echo $data_query[$i]['Persona']['tipo_dni']?></td>		
 			<td><?php echo $data_query[$i]['Persona']['dni']?></td>		
 			<td><?php echo $data_query[$i]['Persona']['nombres']?></td>		
@@ -40,9 +40,10 @@
 			<td><?php echo ($data_query[$i]['Persona']['monitor']=='1') ? $html->includeImg('icons/tick.png', 'Activo') : $html->includeImg('icons/cross.png', 'No')?></td>		
 			<td><?php echo ($data_query[$i]['Persona']['estado']=='1') ? $html->includeImg('icons/tick.png', 'Activo') : $html->includeImg('icons/cross.png', 'No')?></td>
 			<td class="last">
-				<?php echo $html->link('ver', strtolower($this->_controller) . '/ver/' . $data_query[$i]['Persona']['dni'])?> |
-				<?php echo $html->link('editar', strtolower($this->_controller) . '/editar/' . $data_query[$i]['Persona']['dni'])?> |
-				<?php echo $html->link('eliminar', strtolower($this->_controller) . '/eliminar/' . $data_query[$i]['Persona']['dni'])?>
+				<a href="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/ver/' . $data_query[$i]['Persona']['dni'];?>" style="text-decoration: underline;">ver</a> |
+				<a href="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/editar/' . $data_query[$i]['Persona']['dni'];?>" style="text-decoration: underline;">editar</a> |
+				<a onclick="dataEliminar(<?php echo $data_query[$i]['Persona']['dni']?>, '<?php echo $data_query[$i]['Persona']['nombres']. ' '. $data_query[$i]['Persona']['apellidos']?>', '<?php echo $data_query[$i]['Persona']['tipo_dni']?>');"
+				style="text-decoration: underline;cursor: pointer;">eliminar</a>
 			</td>		
 		</tr> <!-- end cuerpo -->		
 		<?php
@@ -68,7 +69,7 @@
 		$numpag = ceil($totalreg_query / $record);
 		$numpag_antes = 3;
 		$numpag_desp = 3;
-		
+	
 		if($numpag > 1){
 		?>
 		<div class="pagination">
@@ -78,25 +79,25 @@
 			} else {
 				echo '<a  rel="prev" class="prev_page" onclick="load_dataTable('.($pagina - 1).', \''.$sort.'\', \''.$order.'\')" style="cursor:pointer">« Anterior</a>';
 			}
-			 
+		 
 			$inic_pag = (($pagina >= $numpag_antes) ? ($pagina - $numpag_antes) : 0); ## página inicial de paginación	
 			if($inic_pag==0) $inic_pag++;
-			
+		
 			## ubico botones hasta el número de la página actual - 1
 			for($i = $inic_pag; $i < $pagina;$i++){
 				echo '<a onclick="load_dataTable('.$i.', \''.$sort.'\', \''.$order.'\')" style="cursor:pointer">'.$i.'</a>';
 			}
-			
+		
 			## imprimo botón página actual
 			echo '<span class="current">'.$pagina.'</span>';
-			
+		
 			$fin_pag = ((($pagina + $numpag_desp) > $numpag) ? $numpag : ($pagina + $numpag_desp));
 			
 			## ubico botones desde el número de la página + 1, hasta el número de la página + 3
 			for($i = $pagina + 1; $i <= $fin_pag; $i++){
 				echo '<a onclick="load_dataTable('.$i.', \''.$sort.'\', \''.$order.'\')" style="cursor:pointer">'.$i.'</a>';
 			}
-			
+		
 			if ($pagina==$numpag) {
 				?><span class="disabled next_page">Siguiente »</span><?php
 			} else {
@@ -110,9 +111,40 @@
 	</div>
 </form>
 
+<div id="dialog-confirm" title="Eliminar persona" style="display: none;"></div>
+
 <script type="text/JavaScript">
 //<![CDATA[
+
+	function dataEliminar(dni, nombre, tipo_dni) {
+		$(function() {
+			var msj_confirm = '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 10px 0;"></span>' + 
+			'¿Está seguro que desea eliminar permanentemente esta persona?</p>' + 
+			'<p style="margin-left:40px">' + 
+				nombre + '<br/>' + tipo_dni + ' ' + dni +
+			'</p>';
+			$( "#dialog-confirm" ).html(msj_confirm);
+			$( "#dialog-confirm" ).dialog({
+				resizable: false,
+				width: 500,
+				height: 200,
+				buttons: {
+					"Sí": function() {
+						url = '<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/eliminar/'?>' + dni;
+						window.location.href = url;
+					},
+					"No": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+		});
+	}
+           
 	$(function() {
+
+		$( "#dialog:ui-dialog" ).dialog( "destroy" );		
+
 		$( ".table :checkbox.toggle" ).each(function(i, toggle) {
 			$(toggle).change(function(e) {
 				$(toggle).parents("table:first").find(":checkbox:not(.toggle)").each(function(j, checkbox) {
@@ -120,7 +152,48 @@
 				});
 			});
 		});
-	
-	});           
+
+		$( "#formulario" ).submit(function() {
+
+			// no seleccionó ninguna persona
+			if ($("input[@id="+dni_persona+"]:checked").length == 0) {
+				var msj_confirm = '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 10px 0;"></span>' + 
+				'No se ha seleccionado ninguna persona.</p>';
+				$( "#dialog-confirm" ).html(msj_confirm);
+				$( "#dialog-confirm" ).dialog({
+					resizable: false,
+					width: 500,
+					height: 160,
+					buttons: {
+						"Ok": function() {
+							$( this ).dialog( "close" );
+						}
+					}
+				});				
+				return false; 
+			} else {
+				var msj_confirm = '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 10px 0;"></span>' + 
+				'¿Está seguro que desea eliminar permanentemente esta (s) persona (s)?</p>';
+				$( "#dialog-confirm" ).html(msj_confirm);
+				$( "#dialog-confirm" ).dialog({
+					resizable: false,
+					width: 500,
+					height: 160,
+					buttons: {
+						"Sí": function() {
+							document.formulario.submit();
+						},
+						"No": function() {
+							$( this ).dialog( "close" );
+						}
+					}
+				});	
+				return false;
+			}
+			
+		});
+				 	
+	});
+	           
 //]]>
 </script>
