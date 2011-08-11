@@ -1,9 +1,9 @@
 <?php 
-if(isset($showMensaje) && is_array($showMensaje) && count($showMensaje)!=0){
+if(isset($showMensaje)){
 	?>
 	<div class="flash">
-		<div class="message <?php echo $showMensaje['tipo']?>">
-			<p><?php echo $showMensaje['mensaje']?></p>
+		<div class="message notice">
+			<p><?php echo $showMensaje?></p>
 		</div>
 	</div>
 	<?php 
