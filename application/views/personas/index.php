@@ -1,3 +1,15 @@
+<?php 
+if(isset($showMensaje) && is_array($showMensaje) && count($showMensaje)!=0){
+	?>
+	<div class="flash">
+		<div class="message <?php echo $showMensaje['tipo']?>">
+			<p><?php echo $showMensaje['mensaje']?></p>
+		</div>
+	</div>
+	<?php 
+}
+?>
+
 <form action="#" method="get" class="form">
 <div class="columns wat-cf">
 	<div class="column left">
