@@ -26,4 +26,28 @@ class Persona extends VanillaModel {
 		return $this->query('select * from personas where dni = \''. $dni .'\'');
 	}
 	
+	/**
+	 * 
+	 * Eliminar personas ...
+	 * @param array $datos
+	 */
+	function eliminar($datos){
+		
+		$j = 0; ## número de querys exitosos
+		
+		## construyo las sentencias de eliminación
+		for($i = 0; $i < count($datos); $i++){
+			## valido que dni sea número
+			if(preg_match('/^[\d]{5,20}$/', $datos[$i])){
+				## query exitoso
+				if($this->query('DELETE FROM personas WHERE dni = \'' . $datos[$i] . '\'')){
+					$j++;
+				}			
+			}
+		}
+		
+		return (array('trueQuery' => $j, 'totalQuery' => count($datos)));
+		
+	}
+	
 }
