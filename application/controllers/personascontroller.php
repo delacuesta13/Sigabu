@@ -9,6 +9,14 @@ class PersonasController extends VanillaController{
 	
 	function beforeAction () {
 		
+		/**
+		 * NOTA: beforeAction(), función que valida
+		 * si un usuario tiene el nivel de permiso necesario
+		 * para interactuar con una 'action', es efectiva
+		 * y sólo valida, cuando la 'action' renderiza,
+		 * es decir, cuando tiene su propia vista.
+		 */
+		
 		session_start();		
 		
 		/**
