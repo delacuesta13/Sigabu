@@ -64,7 +64,7 @@ class PersonasController extends VanillaController{
 		
 	}
 	
-	function index () {
+	function index ($tipo_mensaje = null, $str_mensaje = null) {
 		
 		$tag_js = '
 		
@@ -108,6 +108,13 @@ class PersonasController extends VanillaController{
 		
 		$this->set('make_tag_js', $tag_js);
 		
+		/*******************************************************/
+		
+		if(isset($tipo_mensaje, $str_mensaje) && strtolower($tipo_mensaje)=='query' && preg_match('/^[\d]{1,}-[\d]{1,}$/', $str_mensaje)){
+			$str_mensaje = explode('-', $str_mensaje);
+			$this->set('showMensaje', 'Se ha ejecutado exitósamente ' . $str_mensaje[0] . ' petición (es), de ' . $str_mensaje[1] . ' solicitada (s).');
+		}
+				
 	}
 	
 	function listar_personas (){			
@@ -313,6 +320,30 @@ class PersonasController extends VanillaController{
 		$this->doNotRenderHeader = 1;
 
 		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
+	/**
+	 * 
+	 * eliminar personas ...
+	 * @param int $dni
+	 */
+	function eliminar ($dni =  null) {
+		
+		## se recibe un dni para eliminar
+		if(isset($dni) && preg_match('/^[\d]{5,20}$/', $dni)){
+			$rs = $this->Persona->eliminar(array($dni));
+			redirectAction('personas', 'index', array('query', $rs['trueQuery']. '-' . $rs['totalQuery']));
+		}
+		## se recibe (n) mediante post, dni (s) para eliminar
+		elseif (isset($_POST['dni']) && is_array($_POST['dni']) && count($_POST['dni'])!=0) {
+			$rs = $this->Persona->eliminar($_POST['dni']);
+			redirectAction('personas', 'index', array('query', $rs['trueQuery']. '-' . $rs['totalQuery']));
+		}
+		## no se recibe nada
+		else{
+			redirectAction(strtolower($this->_controller), 'index');
+		}
 		
 	}
 	
