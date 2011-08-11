@@ -57,3 +57,18 @@ ul.controllerslist li span{
 	margin-top:8px;
 	color:#222;
 }
+
+/*
+ * Tablas
+ */
+ .dataTablas_preload {
+ 	margin: 0 auto;	
+	width: 250px;
+	height: 30px;	
+	padding: 14px 0 2px 0;
+	border: 1px solid #afafaf;
+	text-align: center;
+	color: #222;
+	font-size: 14px;
+	background: #eaeaea;
+}
