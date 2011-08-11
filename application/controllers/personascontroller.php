@@ -330,20 +330,27 @@ class PersonasController extends VanillaController{
 	 */
 	function eliminar ($dni =  null) {
 		
-		## se recibe un dni para eliminar
-		if(isset($dni) && preg_match('/^[\d]{5,20}$/', $dni)){
-			$rs = $this->Persona->eliminar(array($dni));
-			redirectAction('personas', 'index', array('query', $rs['trueQuery']. '-' . $rs['totalQuery']));
-		}
-		## se recibe (n) mediante post, dni (s) para eliminar
-		elseif (isset($_POST['dni']) && is_array($_POST['dni']) && count($_POST['dni'])!=0) {
-			$rs = $this->Persona->eliminar($_POST['dni']);
-			redirectAction('personas', 'index', array('query', $rs['trueQuery']. '-' . $rs['totalQuery']));
-		}
-		## no se recibe nada
-		else{
-			redirectAction(strtolower($this->_controller), 'index');
-		}
+		## el usuario tiene permiso para eliminar
+		if($_SESSION['nivel'] >= $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']){
+		
+			## se recibe un dni para eliminar
+			if(isset($dni) && preg_match('/^[\d]{5,20}$/', $dni)){
+				$rs = $this->Persona->eliminar(array($dni));
+				redirectAction('personas', 'index', array('query', $rs['trueQuery']. '-' . $rs['totalQuery']));
+			}
+			## se recibe (n) mediante post, dni (s) para eliminar
+			elseif (isset($_POST['dni']) && is_array($_POST['dni']) && count($_POST['dni'])!=0) {
+				$rs = $this->Persona->eliminar($_POST['dni']);
+				redirectAction('personas', 'index', array('query', $rs['trueQuery']. '-' . $rs['totalQuery']));
+			}
+			## no se recibe nada
+			else{
+				redirectAction(strtolower($this->_controller), 'index');
+			}
+		
+		} else {
+			redirectAction($GLOBALS['default_controller'], $GLOBALS['default_action'], array('error', '1'));
+		}	
 		
 	}
 	
