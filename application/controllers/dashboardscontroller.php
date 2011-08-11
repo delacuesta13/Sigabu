@@ -24,22 +24,9 @@ class DashboardsController extends VanillaController {
 	function index($tipo_mensaje = null, $nro_mensaje = null) {
 		
 		/**
-		 * 
-		 * Lista de mensajes del proyecto ...
-		 * @var array
+		 * llamo a los mensajes del proyecto
 		 */
-		$mensajes_project = array(
-			"error" => array(
-				"404" => array(
-					"text" => "Oops! Al parecer la página que intentas acceder no está disponible o definitivamente no existe.",
-					"tipo" => "notice" ## tipo de mensaje: noticia, warning, error
-				),
-				"1" => array(
-					"text" => "Vaya! No tienes el permiso necesario para interactuar con la página solicitada.",
-					"tipo" => "warning"
-				)
-			)
-		);
+		$mensajes_project = $GLOBALS['mensajes_project'];
 		
 		## Validar si se recibe un mensaje que debe ser mostrado
 		if((isset($tipo_mensaje, $nro_mensaje)) && (strlen($tipo_mensaje)!=0 && strlen($nro_mensaje)!=0) && (array_key_exists($tipo_mensaje, $mensajes_project) && array_key_exists($nro_mensaje, $mensajes_project[$tipo_mensaje]))){
