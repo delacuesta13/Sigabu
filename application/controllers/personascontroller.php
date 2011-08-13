@@ -472,9 +472,72 @@ class PersonasController extends VanillaController{
 	 */
 	function consultar_persona_fk ($dni) {
 		if(preg_match('/^[\d]{5,20}$/', $dni))
-		return $this->Persona->consultar_persona($dni);
+			return $this->Persona->consultar_persona($dni);
 		else
-		return 0;
+			return 0;
+	}
+	
+	function ver ($dni = null, $nombre = null) {
+		
+		$search_caract_espec = array('á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú', 'ñ', 'Ñ');
+		$replace_caract_espec = array('a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U', 'n', 'N');
+		
+		## se recibe el dni, y éste coincide con el patrón
+		if(isset($dni) && preg_match('/^[\d]{5,20}$/', $dni)) {
+		
+			## busco la persona por su dni
+			$data_persona = $this->consultar_persona_fk($dni);
+		
+			## la persona existe
+			if (count($data_persona)!=0) {
+			
+				/**
+				 *
+				 * el nombre (junto con el apellido) como debe de estar en la url ...
+				 * @var string
+				 */
+				$nombre_url = $data_persona[0]['Persona']['nombres'] . ' ' . $data_persona[0]['Persona']['apellidos'];
+				$nombre_url = str_replace($search_caract_espec, $replace_caract_espec, $nombre_url);
+				## reemplazo los espacios por guiones
+				$nombre_url = preg_replace('/\s+/', '-', $nombre_url);
+				## reemplazo dos o más guiones seguidos por uno solo
+				$nombre_url = preg_replace('/-{2,}/', '-', $nombre_url);
+				## a minúsculas toda la cadena
+				$nombre_url = strtolower($nombre_url);
+		
+				/**
+				 * si no se recibe el nombre, o el nombre es diferente a
+				 * como debería de ser para la persona, redirecciono a
+				 * esta 'action' con el nombre como debería de ser.
+				 */
+				if($nombre_url!=$nombre){
+					redirectAction(strtolower($this->_controller), $this->_action, array($dni, $nombre_url));
+				}
+				/*******************************************************************************************
+				 *************** Ya aquí empieza el código propia de la 'action' ***************************
+				 *******************************************************************************************/
+				
+				$this->set('dni', $dni);
+				$this->set('nombre_url', $nombre_url);
+				$this->set('data_persona', $data_persona);
+				
+				$tag_js = '
+				$(function() {
+											
+					$( "h2.title" ).append("Ver");
+										
+				});
+				';				
+				$this->set('make_tag_js', $tag_js);
+				
+			} else {
+				redirectAction(strtolower($this->_controller), 'index');
+			}
+		
+		} else {
+		redirectAction(strtolower($this->_controller), 'index');
+		}
+		
 	}
 	
 	function editar ($dni = null, $nombre = null) {
@@ -600,21 +663,21 @@ class PersonasController extends VanillaController{
 				$this->set('data_persona', $data_persona);
 				
 				$tag_js = '
-						$(function() {
+				$(function() {
 							
-							$( "#fecha_nac" ).datepicker({
-								regional: "es",
-								dateFormat: "yy-mm-dd",				
-								changeMonth: true,
-								changeYear: true,
-								showOtherMonths: true,
-								selectOtherMonths: false
-							});	
-							
-							$( "h2.title" ).append("Editar");
+					$( "#fecha_nac" ).datepicker({
+						regional: "es",
+						dateFormat: "yy-mm-dd",				
+						changeMonth: true,
+						changeYear: true,
+						showOtherMonths: true,
+						selectOtherMonths: false
+					});	
 						
-						});
-						';
+					$( "h2.title" ).append("Editar");
+						
+				});
+				';
 				
 				$this->set('make_tag_js', $tag_js);
 				$this->set('makejs', array('jquery.ui.datepicker-es'));
