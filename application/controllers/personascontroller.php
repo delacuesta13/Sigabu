@@ -59,7 +59,7 @@ class PersonasController extends VanillaController{
 			 * Revisar si el nivel de permiso del usuario 
 			 * es INsuficiente para interactuar con la 'action'
 			 */
-			if( (array_key_exists($this->_action, $GLOBALS['menu_project'][strtolower($this->_controller)]['actions']) && array_key_exists('nivel', $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action])) && $_SESSION['nivel'] < $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']){
+			elseif( (array_key_exists($this->_action, $GLOBALS['menu_project'][strtolower($this->_controller)]['actions']) && array_key_exists('nivel', $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action])) && $_SESSION['nivel'] < $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']){
 				redirectAction($GLOBALS['default_controller'], $GLOBALS['default_action'], array('error', '1'));
 			}			
 			
@@ -466,17 +466,178 @@ class PersonasController extends VanillaController{
 	}
 	
 	/**
-	 * 
+	 *
 	 * Consultar una persona por su DNI ...
 	 * @param int $dni
 	 */
 	function consultar_persona_fk ($dni) {
 		if(preg_match('/^[\d]{5,20}$/', $dni))
-			return $this->Persona->consultar_persona($dni);
-		else 
-			return 0;
+		return $this->Persona->consultar_persona($dni);
+		else
+		return 0;
 	}
 	
+	function editar ($dni = null, $nombre = null) {
+		
+		$editar = false;
+		## redireccionar a ver este persona, con su nuevo dni
+		$edit_dni = 0;
+		
+		## se ha enviado el formulario
+		if (isset($_POST['nombres'], $_POST['apellidos'], $_POST['tipo_dni'], $_POST['dni'], $_POST['genero'])) {
+		
+			$validar_data = array(
+				"nombres" => $_POST['nombres'],
+				"apellidos" => $_POST['apellidos'],
+				"tipo_dni" => $_POST['tipo_dni'],
+				"dni" => array(
+					"value" => $_POST['dni'],
+					"new" => false, ## verdadero si se va a crear una nueva persona
+					'last_value' => $dni,
+					"edit" => true
+				),
+				"genero" => $_POST['genero']
+			);
+			
+			## ingresó el teléfono fijo
+			if(isset($_POST['telefono_fijo']) && strlen($_POST['telefono_fijo'])!=0)
+				$validar_data['telefono_fijo'] = $_POST['telefono_fijo'];
+				
+			## ingresó el teléfono móvil
+			if(isset($_POST['telefono_movil']) && strlen($_POST['telefono_movil'])!=0)
+				$validar_data['telefono_movil'] = $_POST['telefono_movil'];
+						
+			## ingresó email
+			if(isset($_POST['email']) && strlen($_POST['email'])!=0)
+				$validar_data['email'] = $_POST['email'];
+				
+			## ingresó fecha de nacimiento
+			if(isset($_POST['fecha_nac']) && strlen($_POST['fecha_nac'])!=0)
+				$validar_data['fecha_nac'] = $_POST['fecha_nac'];
+						
+			## ingresó dirección de residencia
+			if(isset($_POST['direccion_residencia']) && strlen($_POST['direccion_residencia'])!=0)
+				$validar_data['direccion_residencia'] = $_POST['direccion_residencia'];
+						
+			## activó a la persona como monitor
+			if(isset($_POST['monitor'])){
+				$validar_data['monitor'] = 1;
+			} else {
+				$validar_data['monitor'] = 0;
+			}
+				
+			## estado activo para la persona
+			if(isset($_POST['estado'])){
+				$validar_data['estado'] = 1;
+			} else {
+				$validar_data['estado'] = 0;
+			}
+			
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_persona($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+			
+			## no se recibieron errores
+			else{				
+				## limpio la dirección de residencia, si se declaró, evitando sql injection
+				if(array_key_exists('direccion_residencia', $validar_data))
+					$validar_data = addslashes($validar_data['direccion_residencia']);
+					
+				$validar_data['dni'] = $validar_data['dni']['value'];
+				
+				if($this->Persona->editar($dni, $validar_data)){
+					$editar = true;
+					$edit_dni = $validar_data['dni'];
+				} else {
+					$this->set('rs_editar', false);
+				}			
+			} /* else */
+		
+		} /* if envío de formulario */
+		
+		$search_caract_espec = array('á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú', 'ñ', 'Ñ');
+		$replace_caract_espec = array('a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U', 'n', 'N');
+		
+		## se recibe el dni, y éste coincide con el patrón
+		if(isset($dni) && preg_match('/^[\d]{5,20}$/', $dni) && !$editar) {
+		
+			## busco la persona por su dni
+			$data_persona = $this->consultar_persona_fk($dni);
+	
+			## la persona existe
+			if (count($data_persona)!=0) {
+			
+				/**
+				 * 
+				 * el nombre (junto con el apellido) como debe de estar en la url ...
+				 * @var string
+				 */			
+				$nombre_url = $data_persona[0]['Persona']['nombres'] . ' ' . $data_persona[0]['Persona']['apellidos'];
+				$nombre_url = str_replace($search_caract_espec, $replace_caract_espec, $nombre_url);
+				## reemplazo los espacios por guiones
+				$nombre_url = preg_replace('/\s+/', '-', $nombre_url);
+				## reemplazo dos o más guiones seguidos por uno solo
+				$nombre_url = preg_replace('/-{2,}/', '-', $nombre_url);
+				## a minúsculas toda la cadena
+				$nombre_url = strtolower($nombre_url);
+				
+				/**
+				 * si no se recibe el nombre, o el nombre es diferente a
+				 * como debería de ser para la persona, redirecciono a 
+				 * esta 'action' con el nombre como debería de ser.
+				 */
+				if($nombre_url!=$nombre){
+					redirectAction(strtolower($this->_controller), $this->_action, array($dni, $nombre_url));
+				}
+				
+				/*******************************************************************************************
+				 *************** Ya aquí empieza el código propia de la 'action' *************************** 
+				 *******************************************************************************************/
+				
+				$this->set('dni', $dni);
+				$this->set('nombre_url', $nombre_url);
+				$this->set('data_persona', $data_persona);
+				
+				$tag_js = '
+						$(function() {
+							
+							$( "#fecha_nac" ).datepicker({
+								regional: "es",
+								dateFormat: "yy-mm-dd",				
+								changeMonth: true,
+								changeYear: true,
+								showOtherMonths: true,
+								selectOtherMonths: false
+							});	
+							
+							$( "h2.title" ).append("Editar");
+						
+						});
+						';
+				
+				$this->set('make_tag_js', $tag_js);
+				$this->set('makejs', array('jquery.ui.datepicker-es'));
+				
+				
+			} else {
+				redirectAction(strtolower($this->_controller), 'index');
+			}
+		
+		} 
+		
+		## se editó exitósamente
+		elseif($editar){
+			redirectAction(strtolower($this->_controller), 'ver', array($edit_dni));
+		}
+		
+		## no se recibió $dni, o no era válido éste
+		else {
+			redirectAction(strtolower($this->_controller), 'index');
+		}
+		
+	}
+		
 	/**
 	 * 
 	 * Validar los datos de las personas ...
@@ -522,6 +683,28 @@ class PersonasController extends VanillaController{
 				unset($verif_dni);
 			}			
 		} /* end dni */
+		################
+		## editar dni ##
+		################
+		elseif (array_key_exists('dni', $datos) && is_array($datos['dni']) && !$datos['dni']['new'] && $datos['dni']['edit']) {
+			## validar que se haya seleccionado un tipo de identificación
+			if(!in_array(strtolower($datos['tipo_dni']), $tipos_dni))
+				$ind_error['tipo_dni'] = 'Seleccione el Tipo de Identificación.';
+		
+			## validar identificación
+			if(!preg_match($phone_format, $datos['dni']['value']))
+				$ind_error['dni'] = 'Ingrese el número de Identificación.';
+		
+			## el número de identificación es válido, verificar que no exista ya el número en la BD
+			else{
+				$str_query = 'SELECT * FROM personas WHERE dni != \'' . $datos['dni']['last_value'] .'\' AND dni = \'' . $datos['dni']['value'] . '\'';			
+				$verif_dni = $this->Persona->query($str_query);
+				## existe una persona con mismo dni
+				if(!is_array($verif_dni) || count($verif_dni) != 0)
+				$ind_error['dni'] = 'El número de Identificación ya se ha asignado a otra persona.';
+				unset($verif_dni, $str_query);
+			}			
+		} /* end elseif */
 		
 		## validar teléfono fijo
 		if(array_key_exists('telefono_fijo', $datos) && !preg_match($phone_format, $datos['telefono_fijo']))
