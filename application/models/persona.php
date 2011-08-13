@@ -26,6 +26,17 @@ class Persona extends VanillaModel {
 		return $this->query('select * from personas where dni = \''. $dni .'\'');
 	}
 	
+	function editar($dni, $data){	
+		$sql = '
+		UPDATE personas SET ';
+		foreach ($data as $field => $value) {
+			$sql .= $field . ' = \'' . $value . '\', ';
+		}
+		$sql .= 'updated_at = NOW()';
+		$sql .= ' WHERE dni = \'' . $dni .'\'';
+		return $this->query($sql);
+	}
+	
 	/**
 	 * 
 	 * Eliminar personas ...
