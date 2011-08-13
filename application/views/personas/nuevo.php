@@ -1,16 +1,11 @@
 <?php 
 /*
  * Genero sidebar de Noticia
- * 
- * Una vez creada la persona,
- * no se podrá editar su DNI.
  */
 $make_sidebar = '
 <div class="block notice">
 	<h4>Atención!</h4>
 	<p>
-		Una vez creada la persona, no se podrá editar 
-		su Documento Nacional de Identidad (DNI).<br/><br/>
 		<sup>*</sup> Campos obligatorios.  
 	</p>
 </div>
