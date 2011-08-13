@@ -289,7 +289,7 @@ action="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . $thi
 	
 	<div class="group navform wat-cf">
 		<button class="button" type="submit">
-			<?php echo $html->includeImg('icons/tick.png', 'Guardar')?> Editar			
+			<?php echo $html->includeImg('icons/edit.png', 'Editar')?> Editar			
 		</button>
 	</div>
 
