@@ -47,6 +47,10 @@
 				<?php echo $data_persona[0]['Persona']['apellidos']?>
 			</div>
 			<div class="group">
+				<label class="label">Género</label>
+				<?php echo $multidata['genero'][$data_persona[0]['Persona']['genero']]?>
+			</div>
+			<div class="group">
 				<label class="label">Tipo de Identificación</label>
 				<?php echo $multidata['tipo_dni'][$data_persona[0]['Persona']['tipo_dni']]?>
 			</div>
@@ -54,16 +58,6 @@
 				<label class="label">Identificación</label>
 				<?php echo $data_persona[0]['Persona']['dni']?>
 			</div>
-			<div class="group">
-				<label class="label">Género</label>
-				<?php echo $multidata['genero'][$data_persona[0]['Persona']['genero']]?>
-			</div>
-			<div class="group">
-				<label class="label">Monitor</label>
-				<?php echo $multidata['flag'][$data_persona[0]['Persona']['monitor']]?>
-			</div>
-		</div>
-		<div class="column right">
 			<div class="group">
 				<label class="label">Fecha de Nacimiento</label>
 				<?php 
@@ -75,7 +69,9 @@
 				}
 				echo $edad;
 				?>
-			</div>
+			</div>			
+		</div>
+		<div class="column right">			
 			<div class="group">
 				<label class="label">Teléfono Fijo</label>
 				<?php echo (strlen($data_persona[0]['Persona']['telefono_fijo'])==0) ? 'Ninguno' : $data_persona[0]['Persona']['telefono_fijo']?>
@@ -91,6 +87,10 @@
 			<div class="group">
 				<label class="label">Dirección de Residencia</label>
 				<?php echo (strlen($data_persona[0]['Persona']['direccion_residencia'])==0) ? 'Ninguna' : $data_persona[0]['Persona']['direccion_residencia']?>
+			</div>
+			<div class="group">
+				<label class="label">Monitor</label>
+				<?php echo $multidata['flag'][$data_persona[0]['Persona']['monitor']]?>
 			</div>
 			<div class="group">
 				<label class="label">Estado</label>
