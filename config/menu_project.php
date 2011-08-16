@@ -46,7 +46,15 @@ $menu_project = array(
 		"nivel" => 2, ## nivel mínimo exigido por una acción del controlador
 		"actions" => array(
 		
-		
+			"index" => array(
+				"text" => "Actividades",
+				"nivel" => 2,
+				"showMenu" => true
+			), /* end index */
+			"eliminar" => array(
+				"nivel" => 5,
+				"showMenu" => false
+			) /* end eliminar */
 		
 		) /* end actions */	
 	), /* end actividades */
