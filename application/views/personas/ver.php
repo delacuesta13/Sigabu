@@ -16,6 +16,7 @@
 		)
 	);
 	include_once ROOT . DS . 'library/fechas.funciones.php';
+	$array_meses = array('Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic');
 ?>
 
 <div class="form">
@@ -62,10 +63,13 @@
 				<label class="label">Fecha de Nacimiento</label>
 				<?php 
 				$edad = '';
+				$str_fnac = '';
 				if (strlen($data_persona[0]['Persona']['fecha_nac'])==0) $edad = 'Ninguna';
 				else{
+					$str_fnac = explode('-', $data_persona[0]['Persona']['fecha_nac']);
+					$str_fnac = $str_fnac[2] . ' ' . $array_meses[(((int)$str_fnac[1]) - 1)] . ' ' . $str_fnac[0];
 					$edad = calcular_dif_fechas($data_persona[0]['Persona']['fecha_nac'], date('Y-m-d'));
-					$edad = $data_persona[0]['Persona']['fecha_nac'] . ' (' . $edad['years'] . ')';
+					$edad = $str_fnac . ' (' . $edad['years'] . ')';
 				}
 				echo $edad;
 				?>
