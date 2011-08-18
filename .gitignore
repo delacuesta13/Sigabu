@@ -9,3 +9,7 @@ index.html
 
 # ignorar carpeta img
 /public/img
+
+# ignorar elementos del plugin chosen
+/public/css/chosen/chosen-sprite.png
+/public/js/chosen/LICENSE.md
