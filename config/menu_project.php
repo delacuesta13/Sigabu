@@ -15,12 +15,12 @@ $menu_project = array(
 	"personas" => array(		
 		"ico" => "controllers/personas.png",
 		"desc" => "Gestiona las personas de la Comunidad Universitaria y su perfiles dentro de ésta",
-		"nivel" => 3, ## nivel mínimo exigido por una acción del controlador				
+		"nivel" => 2, ## nivel mínimo exigido por una acción del controlador				
 		"actions" => array(
 					
 			"index" => array(
 				"text" => "Personas",
-				"nivel" => 3,
+				"nivel" => 2,
 				"showMenu" => true 
 			), /* end index */
 			"nuevo" => array(
@@ -54,7 +54,15 @@ $menu_project = array(
 			"eliminar" => array(
 				"nivel" => 5,
 				"showMenu" => false
-			) /* end eliminar */
+			), /* end eliminar */
+			"nuevo" => array(
+				"nivel" => 5,
+				"showMenu" => false
+			), /* end nuevo */
+			"editar" => array(
+				"nivel" => 5,
+				"showMenu" => false
+			) /* end editar */
 		
 		) /* end actions */	
 	), /* end actividades */
