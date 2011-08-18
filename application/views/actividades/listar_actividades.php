@@ -87,8 +87,8 @@ $(function() {
 			<td><?php echo $data_query[$i]['Act']['nombre']?></td>
 			<td><?php echo $data_query[$i]['Area']['nombre']?></td>
 			<td class="last">
-				<a href="#" style="text-decoration: underline;">ver</a> |
-				<a href="#" style="text-decoration: underline;">editar</a> |
+				<a onclick="loadActividad(<?php echo $data_query[$i]['Act']['id']?>);" style="text-decoration: underline; cursor: pointer;">ver</a> |
+				<a href="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . 'editar' . '/' . $data_query[$i]['Act']['id']?>" style="text-decoration: underline;">editar</a> |
 				<a onclick="dataEliminar(<?php echo $data_query[$i]['Act']['id']?>, '<?php echo $data_query[$i]['Act']['nombre']?>', '<?php echo $data_query[$i]['Area']['nombre']?>');" style="text-decoration: underline;cursor: pointer;">eliminar</a>
 			</td>
 		</tr> <!-- end cuerpo -->
@@ -167,6 +167,22 @@ $(function() {
 
 <script type="text/JavaScript">
 //<![CDATA[
+           
+   function loadActividad (id) {
+
+	   $(function() {
+			url = '<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/ver/'?>' + id;
+			var info_preload = '<div id="info_preload" class="dataTablas_preload">Cargando...</div>';
+			$( "#dynamic" ).html( info_preload );
+			$.ajax({
+				url: url,
+				success: function(data) {
+					$( "#dynamic" ).html(data);
+				}
+			});
+	   });
+		
+   }
            
    function dataEliminar(id, nombre, area) {
 		$(function() {
