@@ -99,9 +99,7 @@ class ActividadesController extends VanillaController {
 		}
 		
 		$(document).ready(function() {
-			
 			load_dataTable(1, ' . PAGINATE_LIMIT . ', col, orderDir, \'\');	
-			
 		});	
 		
 		';
@@ -391,6 +389,112 @@ class ActividadesController extends VanillaController {
 		
 		header("Content-Type: text/html; charset=iso-8859-1");
 		
+	}
+	
+	function nuevo () {
+
+		## se ha enviado el formulario
+		if (isset($_POST['nombre'], $_POST['area'])) {
+			
+			$validar_data = array(
+				'area' => $_POST['area'],
+				'nombre' => array(
+					'value' => $_POST['nombre'],
+					'new' => true,
+					'edit' => false
+				)
+			);
+			
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_actividad($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+			
+			## no se recibieron errores
+			else {
+				
+				if(strlen($_POST['comentario'])!=0) $validar_data['comentario'] = addslashes(urldecode($_POST['comentario']));
+				
+				$validar_data['nombre'] = $validar_data['nombre']['value'];
+				
+				$validar_data['area_id'] = $validar_data['area'];
+				unset($validar_data['area']);
+				
+				if ($this->Actividad->nuevo($validar_data)) {
+					$this->set('rs_crear', true);
+				} else {
+					$this->set('rs_crear', false);
+				}
+				
+			}
+		
+		} /* envío del formulario */
+		
+		$tag_js = '
+		$(function() {
+			
+			$( "#area" ).chosen();
+			
+			$("a.cancel").click(function(){
+				document.forms["formulario"].reset();
+			});
+			
+			$( "h2.title" ).append( "<a href=\"'. BASE_PATH . '/' . strtolower($this->_controller) . '\">Actividades<\/a> -> Nuevo" );
+
+			var options2 = {
+				"maxCharacterSize": 200,
+				"originalStyle": "originalDisplayInfo",
+				"displayFormat": "#left Caracteres Disponibles"
+			};
+			$("#comentario").textareaCount(options2);
+			
+		});
+		';
+		
+		$this->set('make_tag_js', $tag_js);
+
+		$this->set('lista_areas', $this->get_areas_fk());
+		
+		$this->set('makecss', array('chosen/chosen'));
+		$this->set('makejs', array('chosen/chosen.jquery.min', 'jquery.textareaCounter.plugin'));
+		
+	}
+	
+	private function validar_data_actividad ($datos) {
+		
+		$ind_error = array();
+
+		$letras_format = '/^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ&_-]{2,60}$/';
+		
+		## validar el nombre de la actividad
+		if(!preg_match($letras_format, $datos['nombre']['value']))
+			$ind_error['nombre'] = 'Ingrese sólo letras, número, ampersands (&), guiones (- y _) y espacios.';
+		
+		elseif (array_key_exists('new', $datos['nombre']) && $datos['nombre']['new']) {
+			$tmp_query = $this->Actividad->query('SELECT * FROM actividades WHERE nombre = \'' . mysql_real_escape_string($datos['nombre']['value']) . '\'');
+			if(count($tmp_query)!=0)
+				$ind_error['nombre'] = 'El nombre de la actividad ya se ha asignado.';
+			unset($tmp_query);
+		}
+		
+		## validar selección de área
+		if(!preg_match('/^[\d]{1,}$/', $datos['area']))
+			$ind_error['area'] = 'Selecciona el área a la cual pertenece la actividad.';
+		
+		return $ind_error;
+		
+	}
+	
+	##############################################################
+	## Áreas #####################################################
+	##############################################################
+	
+	/**
+	 * 
+	 * Devuelve array con las áreas de BU ...
+	 */
+	function get_areas_fk () {
+		return $this->Actividad->get_areas();
 	}
 	
 	function afterAction() {
