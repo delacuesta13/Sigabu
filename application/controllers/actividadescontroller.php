@@ -413,7 +413,7 @@ class ActividadesController extends VanillaController {
 			## no se recibieron errores
 			else {
 				
-				if(strlen($_POST['comentario'])!=0) $validar_data['comentario'] = addslashes(urldecode($_POST['comentario']));
+				if(strlen($_POST['comentario'])!=0) $validar_data['comentario'] = addslashes($_POST['comentario']);
 				
 				$validar_data['nombre'] = $validar_data['nombre']['value'];
 				
@@ -460,6 +460,142 @@ class ActividadesController extends VanillaController {
 		
 	}
 	
+	function ver ($id) {
+		
+		## se recibe un id numérico
+		if (preg_match('/^[\d]{1,}$/', $id)) {
+			
+			$data_actividad = $this->Actividad->consultar_actividad($id);
+			##la actividad existe
+			if (count($data_actividad)!=0) {
+				$this->set('data_actividad', $data_actividad);
+			} else {
+				$this->set('act_notfound', true);
+			}
+		
+		} else {
+			$this->set('act_notfound', true);
+		}
+		
+		/****************************************************/
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+		
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
+	function editar ($id = null, $nombre = null) {
+		
+		$editar = false;
+		
+		## se envió el formulario
+		if (isset($_POST['nombre'], $_POST['area'])) {
+			
+			$validar_data = array(
+				'area' => $_POST['area'],
+				'nombre' => array(
+					'value' => $_POST['nombre'],
+					'id_act' => $id,
+					'new' => false,
+					'edit' => true
+				)				
+			);
+			
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_actividad($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+			
+			## no se recibieron errores
+			else {
+				
+				$validar_data['comentario'] = addslashes($_POST['comentario']);
+				
+				$validar_data['nombre'] = $validar_data['nombre']['value'];
+				
+				$validar_data['area_id'] = $validar_data['area'];
+				unset($validar_data['area']);
+				
+				if($this->Actividad->editar($id, $validar_data)){
+					$editar = true;
+				} else {
+					$this->set('rs_editar', false);
+				}
+				
+			}
+			
+		} /* envío del formulario */
+		
+		$search_caract_espec = array('á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú', 'ñ', 'Ñ', '&', '_');
+		$replace_caract_espec = array('a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U', 'n', 'N', '', '' );
+		
+		if (isset($id) && preg_match('/^[\d]{1,}$/', $id) && !$editar) {
+			
+			$data_actividad = $this->Actividad->consultar_actividad($id);
+			## la actividad existe
+			if (count($data_actividad)!=0) {
+				
+				$nombre_url = str_replace($search_caract_espec, $replace_caract_espec, $data_actividad[0]['Act']['nombre']);
+				$nombre_url = preg_replace('/\s+/', '-', $nombre_url);
+				$nombre_url = preg_replace('/-{2,}/', '-', $nombre_url);
+				$nombre_url = strtolower($nombre_url);
+				## no se recibió nombre, o éste no está como debería
+				if (!isset($nombre) || strtolower($nombre)!=$nombre_url) {
+					redirectAction(strtolower($this->_controller), $this->_action, array($id, $nombre_url));
+				}
+				
+				/*******************************************************************************************
+				 *************** Ya aquí empieza el código propia de la 'action' ***************************
+				 *******************************************************************************************/
+				
+				$this->set('nombre_url', $nombre_url);
+				$this->set('id', $id);
+				$this->set('data_actividad', $data_actividad);
+								
+				$tag_js = '
+				$(function() {
+							
+					$( "#area" ).chosen();
+							
+					$( "h2.title" ).append( "<a href=\"'. BASE_PATH . '/' . strtolower($this->_controller) . '\">Actividades<\/a> -> Editar" );
+				
+					var options2 = {
+						"maxCharacterSize": 200,
+						"originalStyle": "originalDisplayInfo",
+						"displayFormat": "#left Caracteres Disponibles"
+					};
+					$("#comentario").textareaCount(options2);
+							
+				});
+				';
+				
+				$this->set('make_tag_js', $tag_js);
+				
+				$this->set('lista_areas', $this->get_areas_fk());
+				
+				$this->set('makecss', array('chosen/chosen'));
+				$this->set('makejs', array('chosen/chosen.jquery.min', 'jquery.textareaCounter.plugin'));
+								
+			} else {
+				redirectAction(strtolower($this->_controller), 'index');	
+			}
+			
+		}
+		
+		## se editó
+		elseif ($editar) {
+			redirectAction(strtolower($this->_controller), 'editar', array($id));
+		}
+		
+		## no se recibió nada
+		else{
+			redirectAction(strtolower($this->_controller), 'index');
+		}
+		
+	}
+	
 	private function validar_data_actividad ($datos) {
 		
 		$ind_error = array();
@@ -475,6 +611,15 @@ class ActividadesController extends VanillaController {
 			if(count($tmp_query)!=0)
 				$ind_error['nombre'] = 'El nombre de la actividad ya se ha asignado.';
 			unset($tmp_query);
+		}
+		
+		elseif (array_key_exists('edit', $datos['nombre']) && $datos['nombre']['edit']) {
+			$str_query = 'SELECT * FROM actividades WHERE id != \'' . $datos['nombre']['id_act'] . 
+			'\' AND nombre = \'' . mysql_real_escape_string($datos['nombre']['value']) . '\'';
+			$tmp_query = $this->Actividad->query($str_query);
+			if(count($tmp_query)!=0)
+				$ind_error['nombre'] = 'El nombre de la actividad ya se ha asignado.';
+			unset($str_query, $tmp_query);
 		}
 		
 		## validar selección de área
