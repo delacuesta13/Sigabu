@@ -1,6 +1,16 @@
 <?php
 
 class Actividad extends VanillaModel {
+
+	function nuevo ($data) {
+		$sql = '
+		INSERT INTO actividades SET ';
+		foreach ($data as $field => $value){
+			$sql .= $field . ' = \'' . $value . '\', ';
+		}
+		$sql = substr_replace($sql, '', -2);
+		return $this->query($sql);
+	}
 	
 	/**
 	 *
@@ -24,6 +34,10 @@ class Actividad extends VanillaModel {
 	
 		return (array('trueQuery' => $j, 'totalQuery' => count($datos)));
 			
+	}
+	
+	function get_areas () {
+		return $this->query('SELECT * FROM areas');
 	}
 	
 }
