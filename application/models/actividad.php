@@ -12,6 +12,32 @@ class Actividad extends VanillaModel {
 		return $this->query($sql);
 	}
 	
+	function consultar_actividad ($id) {
+		$sql = '
+		SELECT act.id, 
+       		   act.nombre,
+       		   area.id, 
+       		   area.nombre, 
+       		   act.comentario 
+		FROM   actividades act, 
+       		   areas area 
+		WHERE  act.area_id = area.id 
+			   AND act.id = \'' . $id . '\'
+		';
+		return $this->query($sql);
+	}
+
+	function editar($id, $data){
+		$sql = '
+		UPDATE actividades SET ';
+		foreach ($data as $field => $value) {
+			$sql .= $field . ' = \'' . $value . '\', ';
+		}
+		$sql = substr_replace($sql, '', -2);
+		$sql .= ' WHERE id = \'' . $id .'\'';
+		return $this->query($sql);
+	}
+	
 	/**
 	 *
 	 * Eliminar actividades ...
