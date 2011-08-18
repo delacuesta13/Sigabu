@@ -104,7 +104,7 @@ action="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . $thi
 					<option value="M" 
 					<?php 
 					if(isset($_POST['genero']) && (isset($ind_error) || (isset($rs_editar) && !$rs_editar)) && $_POST['genero']=="M") echo 'selected="selected"';
-					elseif(strtoupper($data_persona[0]['Persona']['genero']) == "M") echo 'selected="selected"';
+					elseif(!isset($_POST['genero']) && strtoupper($data_persona[0]['Persona']['genero']) == "M") echo 'selected="selected"';
 					?>
 					>Mujer</option>
 				</select>
@@ -126,25 +126,25 @@ action="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . $thi
 					<option value="CC" 
 					<?php 
 					if(isset($_POST['tipo_dni']) && (isset($ind_error) || (isset($rs_editar) && !$rs_editar)) && $_POST['tipo_dni'] == "CC") echo 'selected="selected"';
-					elseif(strtoupper($data_persona[0]['Persona']['tipo_dni']) == "CC") echo 'selected="selected"';
+					elseif(!isset($_POST['tipo_dni']) && strtoupper($data_persona[0]['Persona']['tipo_dni']) == "CC") echo 'selected="selected"';
 					?>
 					>Cédula de Cuidadanía</option>
 					<option value="CE" 
 					<?php 
 					if(isset($_POST['tipo_dni']) && (isset($ind_error) || (isset($rs_editar) && !$rs_editar)) && $_POST['tipo_dni']=="CE") echo 'selected="selected"';
-					elseif(strtoupper($data_persona[0]['Persona']['tipo_dni']) == "CE") echo 'selected="selected"';
+					elseif(!isset($_POST['tipo_dni']) && strtoupper($data_persona[0]['Persona']['tipo_dni']) == "CE") echo 'selected="selected"';
 					?>
 					>Cédula de Extranjería</option>
 					<option value="TI" 
 					<?php 
 					if(isset($_POST['tipo_dni']) && (isset($ind_error) || (isset($rs_editar) && !$rs_editar)) && $_POST['tipo_dni']=="TI") echo 'selected="selected"';
-					elseif(strtoupper($data_persona[0]['Persona']['tipo_dni']) == "TI") echo 'selected="selected"';
+					elseif(!isset($_POST['tipo_dni']) && strtoupper($data_persona[0]['Persona']['tipo_dni']) == "TI") echo 'selected="selected"';
 					?>
 					>Tarjeta de Identidad</option>
 					<option value="RC" 
 					<?php 
 					if(isset($_POST['tipo_dni']) && (isset($ind_error) || (isset($rs_editar) && !$rs_editar)) && $_POST['tipo_dni']=="RC") echo 'selected="selected"';
-					elseif(strtoupper($data_persona[0]['Persona']['tipo_dni']) == "RC") echo 'selected="selected"';
+					elseif(!isset($_POST['tipo_dni']) && strtoupper($data_persona[0]['Persona']['tipo_dni']) == "RC") echo 'selected="selected"';
 					?>
 					>Registro Civil</option>
 				</select>
