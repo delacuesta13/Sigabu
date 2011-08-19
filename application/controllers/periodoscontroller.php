@@ -394,6 +394,106 @@ class PeriodosController extends VanillaController {
 		
 	}
 	
+	function editar ($id = null, $periodo = null) {
+		
+		$editar = false;
+		
+		## se enviaron datos
+		if (isset($_POST['periodo'], $_POST['fecha_inic'], $_POST['fecha_fin'])) {
+			
+			$validar_data = array(
+				'periodo' => array(
+					'id_periodo' => $id,
+					'value' => $_POST['periodo'],
+					'new' => false,
+					'edit' => true
+				),
+				'fecha_inic' => $_POST['fecha_inic'],
+				'fecha_fin' => $_POST['fecha_fin']
+			);
+				
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_periodo($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+			
+			## no se recibieron errores
+			else{
+				
+				$validar_data['periodo'] = $validar_data['periodo']['value'];
+				
+				if ($this->Periodo->editar($id, $validar_data)) {
+					$editar = true;
+				} else {
+					$this->set('rs_editar', false);
+				}
+				
+			}
+			
+		} /* envío del formulario */
+		
+		if (isset($id) && preg_match('/^[\d]{1,}$/', $id) && !$editar) {
+			
+			$data_periodo = $this->Periodo->consultar_periodo($id);
+			
+			## el periodo existe
+			if (count($data_periodo)!=0) {
+				
+				$periodo_url = $data_periodo[0]['Periodo']['periodo'];
+				$periodo_url = preg_replace('/\s+/', '-', $periodo_url);
+				$periodo_url = preg_replace('/-{2,}/', '-', $periodo_url);
+				
+				## se recibió periodo o no está como debería
+				if (!isset($periodo) || $periodo_url!=$periodo) {
+					redirectAction(strtolower($this->_controller), $this->_action, array($id, $periodo_url));
+				}
+				
+				/*******************************************************************************************
+				 *************** Ya aquí empieza el código propia de la 'action' ***************************
+				 *******************************************************************************************/
+				
+				$this->set('data_periodo', $data_periodo);
+				$this->set('id', $id);
+				$this->set('periodo_url', $periodo_url);
+				
+				$tag_js = '
+				$(function() {
+									
+					$( "#fecha_inic, #fecha_fin" ).datepicker({
+						regional: "es",
+						dateFormat: "yy-mm-dd",				
+						changeMonth: true,
+						changeYear: true,
+						showOtherMonths: true,
+						selectOtherMonths: false
+					});	
+					
+					$( \'h2.title\' ).append(\'Editar\');
+								
+				});
+				';
+				
+				$this->set('make_tag_js', $tag_js);
+				$this->set('makejs', array('jquery.ui.datepicker-es'));
+				
+			} else {
+				redirectAction(strtolower($this->_controller), 'index');
+			}
+			
+		}
+		
+		## se editó exitósamente
+		elseif ($editar) {
+			redirectAction(strtolower($this->_controller), 'index');
+		}
+		
+		## no se recibió nada
+		else{
+			redirectAction(strtolower($this->_controller), 'index');
+		}
+		
+	}
+	
 	private function validar_data_periodo ($datos) {
 		
 		$ind_error = array();
