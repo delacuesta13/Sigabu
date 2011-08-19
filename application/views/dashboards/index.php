@@ -25,7 +25,7 @@ foreach ($menu_project as $controlador => $opciones){
 		?>
 		<li title="<?php echo $opciones['desc']?>">
 			<?php 
-			echo $html->link($html->includeImg($opciones['ico'], $controlador) . "\n<span>" . strtoupper($controlador) . "</span>", $controlador . '/');
+			echo $html->link($html->includeImg($opciones['ico'], $controlador) . "\n<span>" . strtoupper((array_key_exists('text', $opciones)) ? $opciones['text'] : $controladores) . "</span>", $controlador . '/');
 			?>
 		</li>
 		<?php		
