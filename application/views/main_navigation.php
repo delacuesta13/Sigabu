@@ -14,7 +14,7 @@ foreach($menu_project as $controladores => $opciones){
 		(($i==0) ? (' class="first'. ((strtolower($controlador_actual)==strtolower($controladores)) ? ' active' : '') .'"') :
 		((strtolower($controlador_actual)==strtolower($controladores)) ? ' class="active"' : ''))
 		.'>'.
-		$html->link(ucfirst($controladores), $controladores . '/')
+		$html->link(((array_key_exists('text', $opciones)) ? $opciones['text'] : ucfirst($controladores)), $controladores . '/')
 		.'</li>';	
 
 		$i++;
