@@ -12,6 +12,21 @@ class Periodo extends VanillaModel {
 		return $this->query($sql);
 	}
 	
+	function consultar_periodo ($id) {
+		return $this->query('SELECT * FROM periodos WHERE id = \'' . $id . '\'');
+	}
+
+	function editar ($id, $data) {
+		$sql = '
+		UPDATE periodos SET ';
+		foreach ($data as $field => $value) {
+			$sql .= $field . ' = \'' . $value . '\', ';
+		}
+		$sql = substr_replace($sql, '', -2);
+		$sql .= ' WHERE id = \'' . $id .'\'';
+		return $this->query($sql);
+	}
+	
 	/**
 	 *
 	 * Eliminar periodos ...
