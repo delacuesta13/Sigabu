@@ -127,6 +127,53 @@ class PeriodosController extends VanillaController {
 	
 	/**
 	 * 
+	 * Lista los periodos, agrupándolos
+	 * por año ...
+	 * ej:
+	 * 2010
+	 * 	2010-1
+	 * 	2010-2
+	 * 2011
+	 * 	2011-1
+	 * 	2011-2
+	 * ...
+	 * salida
+	 * 	año_i => array(
+	 * 		id => id_i
+	 * 		periodo => periodo_i
+	 * 	)
+	 */
+	function listar_periodos_group_fk () {
+		$lista_periodos = $this->listar_periodos_fk();
+		$ord_periodos =  array(); ## lista de periodos ordenados
+		$str_year = '';
+		$str_temp = '';
+		for ($i = 0; $i < count($lista_periodos); $i++) {
+			## recojo el valor del periodo, y tomo sólo los 4 primeros caracteres (que representan el año del periodo)
+			$str_year = substr($lista_periodos[$i]['Periodo']['periodo'], 0, 4);
+			$ord_periodos[$str_year] = array();
+			## agrupo periodos por el año $str_year
+			for($j = $i; $j < count($lista_periodos); $j++){
+				$str_temp = substr($lista_periodos[$j]['Periodo']['periodo'], 0, 4);
+				## mientras sea el mismo año, agrupo
+				if($str_temp==$str_year){
+					$ord_periodos[$str_year][] = array(
+						'id' => $lista_periodos[$j]['Periodo']['id'],
+						'periodo' => $lista_periodos[$j]['Periodo']['periodo'],
+						'fecha_inic' => $lista_periodos[$j]['Periodo']['fecha_inic'],
+						'fecha_fin' => $lista_periodos[$j]['Periodo']['fecha_fin']
+					); 
+				}/* if */
+				else break;
+			}/* for j */
+			$j--;
+			$i = $j;
+		}/* for i*/
+		return $ord_periodos;
+	}
+	
+	/**
+	 * 
 	 * consulat periodo por id ...
 	 * @param int $id
 	 */
