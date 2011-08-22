@@ -36,7 +36,12 @@ $menu_project = array(
 			"eliminar" => array(
 				"nivel" => 5,
 				"showMenu" => false
-			) /* end eliminar */			
+			), /* end eliminar */
+			## con esta definición, se trabajará con todo el controlador perfiles
+			"perfiles" => array(	
+				"nivel" => 3,
+				"showMenu" => false
+			) /* end perfiles */			
 						
 		) /* end actions */						
 	), /* end personas */
