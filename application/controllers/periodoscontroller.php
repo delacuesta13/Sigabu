@@ -117,6 +117,23 @@ class PeriodosController extends VanillaController {
 		
 	}
 	
+	/**
+	 * 
+	 * listar periodos ...
+	 */
+	function listar_periodos_fk () {
+		return $this->Periodo->listar_periodos();
+	}
+	
+	/**
+	 * 
+	 * consulat periodo por id ...
+	 * @param int $id
+	 */
+	function consultar_periodo_fk ($id) {
+		return $this->Periodo->consultar_periodo($id);
+	}
+	
 	function listar_periodos () {
 		
 		$parametros = func_get_args();

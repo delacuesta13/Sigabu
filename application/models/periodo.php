@@ -15,6 +15,10 @@ class Periodo extends VanillaModel {
 	function consultar_periodo ($id) {
 		return $this->query('SELECT * FROM periodos WHERE id = \'' . $id . '\'');
 	}
+	
+	function listar_periodos () {
+		return $this->query('SELECT * FROM periodos ORDER BY periodo desc');
+	}
 
 	function editar ($id, $data) {
 		$sql = '
