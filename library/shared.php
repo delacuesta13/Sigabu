@@ -49,8 +49,7 @@ function unregisterGlobals() {
 function performAction($controller,$action,$queryString = null,$render = 0) {
 
 	$controllerName = ucfirst($controller).'Controller';
-	$model = ucfirst(rtrim($controller, 's'));
-	$dispatch = new $controllerName($model, $controller, $action);
+	$dispatch = new $controllerName($controller, $action);
 	$dispatch->render = $render;
 	return call_user_func_array(array($dispatch,$action),$queryString);
 }
