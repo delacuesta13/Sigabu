@@ -9,5 +9,6 @@ $irregularWords = array(
 **/
 
 $irregularWords = array(
-	'actividad' => 'actividades'
+	'actividad' => 'actividades',
+	'perfil' => 'perfiles'
 );
