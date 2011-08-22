@@ -37,70 +37,91 @@
 		</button>
 	</div>
 	
-	<div class="columns wat-cf">	
-		<div class="column left">
-			<div class="group">
-				<label class="label">Nombres</label>
-				<?php echo $data_persona[0]['Persona']['nombres']?>
+	<div id="tabs">
+	
+		<ul>
+			<li><a href="#tabs-1">Información Personal</a></li>
+			<li><a href="#tabs-2">Perfiles</a></li>
+		</ul>
+		
+		<!-- info personal -->		
+		<div id="tabs-1">
+			
+			<div class="columns wat-cf">
+				<div class="column left">
+					<div class="group">
+						<label class="label">Nombres</label>
+						<?php echo $data_persona[0]['Persona']['nombres']?>
+					</div>
+					<div class="group">
+						<label class="label">Apellidos</label>
+						<?php echo $data_persona[0]['Persona']['apellidos']?>
+					</div>
+					<div class="group">
+						<label class="label">Género</label>
+						<?php echo $multidata['genero'][$data_persona[0]['Persona']['genero']]?>
+					</div>
+					<div class="group">
+						<label class="label">Tipo de Identificación</label>
+						<?php echo $multidata['tipo_dni'][$data_persona[0]['Persona']['tipo_dni']]?>
+					</div>
+					<div class="group">
+						<label class="label">Identificación</label>
+						<?php echo $data_persona[0]['Persona']['dni']?>
+					</div>
+					<div class="group">
+						<label class="label">Fecha de Nacimiento</label>
+						<?php 
+						$edad = '';
+						$str_fnac = '';
+						if (strlen($data_persona[0]['Persona']['fecha_nac'])==0) $edad = 'Ninguna';
+						else{
+							$str_fnac = explode('-', $data_persona[0]['Persona']['fecha_nac']);
+							$str_fnac = $str_fnac[2] . ' ' . $array_meses[(((int)$str_fnac[1]) - 1)] . ' ' . $str_fnac[0];
+							$edad = calcular_dif_fechas($data_persona[0]['Persona']['fecha_nac'], date('Y-m-d'));
+							$edad = $str_fnac . ' (' . $edad['years'] . ')';
+						}
+						echo $edad;
+						?>
+					</div>	
+				</div>
+				<div class="column right">
+					<div class="group">
+						<label class="label">Teléfono Fijo</label>
+						<?php echo (strlen($data_persona[0]['Persona']['telefono_fijo'])==0) ? 'Ninguno' : $data_persona[0]['Persona']['telefono_fijo']?>
+					</div>
+					<div class="group">
+						<label class="label">Teléfono Móvil</label>
+						<?php echo (strlen($data_persona[0]['Persona']['telefono_movil'])==0) ? 'Ninguno' : $data_persona[0]['Persona']['telefono_movil']?>
+					</div>
+					<div class="group">
+						<label class="label">Email</label>
+						<?php echo (strlen($data_persona[0]['Persona']['email'])==0) ? 'Ninguno' : $data_persona[0]['Persona']['email']?>
+					</div>
+					<div class="group">
+						<label class="label">Dirección de Residencia</label>
+						<?php echo (strlen($data_persona[0]['Persona']['direccion_residencia'])==0) ? 'Ninguna' : $data_persona[0]['Persona']['direccion_residencia']?>
+					</div>
+					<div class="group">
+						<label class="label">Monitor</label>
+						<?php echo $multidata['flag'][$data_persona[0]['Persona']['monitor']]?>
+					</div>
+					<div class="group">
+						<label class="label">Estado</label>
+						<?php echo $multidata['flag'][$data_persona[0]['Persona']['estado']]?>
+					</div>
+				</div>
 			</div>
-			<div class="group">
-				<label class="label">Apellidos</label>
-				<?php echo $data_persona[0]['Persona']['apellidos']?>
-			</div>
-			<div class="group">
-				<label class="label">Género</label>
-				<?php echo $multidata['genero'][$data_persona[0]['Persona']['genero']]?>
-			</div>
-			<div class="group">
-				<label class="label">Tipo de Identificación</label>
-				<?php echo $multidata['tipo_dni'][$data_persona[0]['Persona']['tipo_dni']]?>
-			</div>
-			<div class="group">
-				<label class="label">Identificación</label>
-				<?php echo $data_persona[0]['Persona']['dni']?>
-			</div>
-			<div class="group">
-				<label class="label">Fecha de Nacimiento</label>
-				<?php 
-				$edad = '';
-				$str_fnac = '';
-				if (strlen($data_persona[0]['Persona']['fecha_nac'])==0) $edad = 'Ninguna';
-				else{
-					$str_fnac = explode('-', $data_persona[0]['Persona']['fecha_nac']);
-					$str_fnac = $str_fnac[2] . ' ' . $array_meses[(((int)$str_fnac[1]) - 1)] . ' ' . $str_fnac[0];
-					$edad = calcular_dif_fechas($data_persona[0]['Persona']['fecha_nac'], date('Y-m-d'));
-					$edad = $str_fnac . ' (' . $edad['years'] . ')';
-				}
-				echo $edad;
-				?>
-			</div>			
+		
 		</div>
-		<div class="column right">			
-			<div class="group">
-				<label class="label">Teléfono Fijo</label>
-				<?php echo (strlen($data_persona[0]['Persona']['telefono_fijo'])==0) ? 'Ninguno' : $data_persona[0]['Persona']['telefono_fijo']?>
-			</div>
-			<div class="group">
-				<label class="label">Teléfono Móvil</label>
-				<?php echo (strlen($data_persona[0]['Persona']['telefono_movil'])==0) ? 'Ninguno' : $data_persona[0]['Persona']['telefono_movil']?>
-			</div>
-			<div class="group">
-				<label class="label">Email</label>
-				<?php echo (strlen($data_persona[0]['Persona']['email'])==0) ? 'Ninguno' : $data_persona[0]['Persona']['email']?>
-			</div>
-			<div class="group">
-				<label class="label">Dirección de Residencia</label>
-				<?php echo (strlen($data_persona[0]['Persona']['direccion_residencia'])==0) ? 'Ninguna' : $data_persona[0]['Persona']['direccion_residencia']?>
-			</div>
-			<div class="group">
-				<label class="label">Monitor</label>
-				<?php echo $multidata['flag'][$data_persona[0]['Persona']['monitor']]?>
-			</div>
-			<div class="group">
-				<label class="label">Estado</label>
-				<?php echo $multidata['flag'][$data_persona[0]['Persona']['estado']]?>
-			</div>
+		
+		<!-- perfiles -->
+		<div id="tabs-2">
+		
+
+		
 		</div>
+	
 	</div>
 
 </div>
