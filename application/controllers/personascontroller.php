@@ -322,8 +322,6 @@ class PersonasController extends VanillaController{
 		
 		/****************************************************/
 		
-		$this->set('campos_tabla', $campos_tabla);
-		
 		## función de respuesta ajax
 		$this->doNotRenderHeader = 1;
 
@@ -522,9 +520,62 @@ class PersonasController extends VanillaController{
 				$this->set('data_persona', $data_persona);
 				
 				$tag_js = '
+				
+				function closeDialog(id_msj){
+					$(function() {
+						$("#dialog-nuevo").dialog("close");  
+						return false; 						
+					});
+					customDialog(id_msj);	
+				}
+				
+				function customDialog(id_msj){
+					
+					var mensajes = new Array();
+					mensajes[0] = "La persona a la cual se asignará el perfil, parece no existir.";					
+					mensajes[1] = "La persona a la cual se asignará el perfil, debe de estar <i>activa</i>.";					
+					mensajes[2] = " Vaya! No tienes el permiso necesario para interactuar con la página solicitada.";					
+					
+					var msj_dialog = "<div class=\"message notice\"><p>" + mensajes[id_msj] + "</p></div>"; 					
+					
+					$(function() {
+						$( "#showMensaje" ).html(msj_dialog);
+						$( "#showMensaje" ).fadeIn("slow");
+						$(".flash").click(function() {$(this).fadeOut("slow", function() { $(this).css("display", "none"); });});
+					});
+					
+					return false;					
+				}
+				
 				$(function() {
 											
 					$( "h2.title" ).append("Ver");
+					$( "#tabs" ).tabs({
+						selected: 1
+					});
+					
+					$( "#dialog-nuevo" ).dialog({
+						modal: true,
+						autoOpen: false,
+						resizable: false,
+						height: 480,
+        				width: 650,
+        				open: function() {
+        					$("#dialog-nuevo").load("' . BASE_PATH . '/' . 'perfiles' . '/' . 'nuevo' . '/' . $dni . '");
+        				},
+        				buttons: {
+        					"Guardar": function () {
+        						$( "#formulario" ).submit();
+        					},
+        					"Cancelar": function () {
+        						$( this ).dialog( "close" );
+        					}
+        				}
+					});
+					
+					$( "#btn_nuevo" ).click(function() {
+							$( "#dialog-nuevo" ).dialog( "open" );
+						});
 										
 				});
 				';				
