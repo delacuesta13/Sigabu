@@ -117,9 +117,24 @@
 		
 		<!-- perfiles -->
 		<div id="tabs-2">
-		
-
-		
+			
+			<div style="display: table-row;"> <!-- toolbar -->
+				<div style="display: table-cell;vertical-align:middle;">
+					<strong>Perfiles de la Persona</strong>
+				</div>
+				<div style="display: table-cell;padding-left:5px;vertical-align:middle;">
+					<button class="button" id="btn_nuevo">
+						<?php echo $html->includeImg('icons/add.png', 'Nuevo')?> Nuevo
+					</button>
+				</div>
+			</div> <!-- end toolbar -->
+			
+			<div id="showMensaje" class="flash" style="display:none;margin-top:15px"></div>
+			
+			<div id="dynamic" style="padding-top:15px;"> <!-- div donde cargo el ajax -->
+	
+			</div> <!-- end dynamic -->
+						
 		</div>
 	
 	</div>
@@ -127,6 +142,7 @@
 </div>
 
 <div id="dialog-confirm" title="Eliminar persona" style="display: none;"></div>
+<div id="dialog-nuevo" title="Nuevo perfil" style="display: none;"></div>
 
 <script type="text/JavaScript">
 //<![CDATA[
