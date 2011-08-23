@@ -521,6 +521,28 @@ class PersonasController extends VanillaController{
 				
 				$tag_js = '
 				
+				var info_preload = \'<div id="info_preload" class="dataTablas_preload">Cargando...</div>\';
+				var col = "periodo.periodo";
+				var orderDir = "desc";
+				
+				function load_dataTable (pag, record, sort, order, search) {
+					$(function() {
+						$( "#dynamic" ).html( info_preload );
+						var url = "'. BASE_PATH . '/'. 'perfiles' . '/' . 'listar_perfiles' . '/' . $dni .'";
+						if(pag.length!=0) url += "/pag=" + pag;
+						if(record.length!=0) url += "/record=" + record;
+						if(sort.length!=0) url += "/sort=" + sort;
+						if(order.length!=0) url += "/order=" + order;
+						if(search.length!=0) url += "/q=" + encodeURIComponent(search);
+						$.ajax({
+							url: url,
+							success: function(data) {
+								$( "#dynamic" ).html(data);
+							}
+						});
+					});
+				}
+				
 				function closeDialog(id_msj){
 					$(function() {
 						$("#dialog-nuevo").dialog("close");  
@@ -534,7 +556,7 @@ class PersonasController extends VanillaController{
 					var mensajes = new Array();
 					mensajes[0] = "La persona a la cual se asignará el perfil, parece no existir.";					
 					mensajes[1] = "La persona a la cual se asignará el perfil, debe de estar <i>activa</i>.";					
-					mensajes[2] = " Vaya! No tienes el permiso necesario para interactuar con la página solicitada.";					
+					mensajes[2] = "Vaya! No tienes el permiso necesario para interactuar con la página solicitada.";					
 					
 					var msj_dialog = "<div class=\"message notice\"><p>" + mensajes[id_msj] + "</p></div>"; 					
 					
@@ -547,7 +569,9 @@ class PersonasController extends VanillaController{
 					return false;					
 				}
 				
-				$(function() {
+				$(document).ready(function() {
+				
+					load_dataTable(1, ' . PAGINATE_LIMIT . ', col, orderDir, \'\');	
 											
 					$( "h2.title" ).append("Ver");
 					$( "#tabs" ).tabs({
@@ -562,6 +586,9 @@ class PersonasController extends VanillaController{
         				width: 650,
         				open: function() {
         					$("#dialog-nuevo").load("' . BASE_PATH . '/' . 'perfiles' . '/' . 'nuevo' . '/' . $dni . '");
+        				},
+        				close: function () {
+        					load_dataTable(1, ' . PAGINATE_LIMIT . ', col, orderDir, \'\');
         				},
         				buttons: {
         					"Guardar": function () {
