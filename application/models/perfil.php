@@ -36,6 +36,21 @@ class Perfil extends VanillaModel {
 			
 	}
 	
+	function consultar_perfil ($id, $dni) {
+		$sql = '
+		SELECT periodo.periodo, 
+       		   multientidad.nombre 
+		FROM   perfiles perfil, 
+       		   periodos periodo, 
+       		   multientidad multientidad 
+		WHERE  perfil.id = \'' .$id . '\'
+			   AND perfil.persona_dni = \'' . $dni . '\' 
+       		   AND perfil.periodo_id = periodo.id 
+       		   AND perfil.perfil_multientidad = multientidad.id 
+		';
+		return $this->query($sql);
+	}
+	
 	function get_multientidad ($entidad, $id = null) {
 		$sql = 'SELECT * FROM multientidad WHERE entidad = \'' . $entidad . '\'';
 		if(isset($id))
