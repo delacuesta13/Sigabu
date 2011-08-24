@@ -551,12 +551,41 @@ class PersonasController extends VanillaController{
 					customDialog(id_msj);	
 				}
 				
+				function showPerfil (id, dni) {
+					$(function() {
+						$( "#dialog-show-perfil" ).dialog({
+							modal: true,
+							autoOpen: true, 
+							resizable: false,
+							height: 430,
+        					width: 520,
+        					open: function() {
+        						$("#dialog-show-perfil").load("' . BASE_PATH . '/' . 'perfiles' . '/' . 'ver' . '/" + id + "/" + dni);
+        					},
+        					buttons: {
+        						"Cerrar": function () {
+        							$( this ).dialog( "close" );
+        						}
+        					}
+						});
+					});
+				}
+				
+				function closeDialog_2(id_msj){
+					$(function() {
+						$("#dialog-show-perfil").dialog("close");  
+						return false; 						
+					});
+					customDialog(id_msj);	
+				}
+				
 				function customDialog(id_msj){
 					
 					var mensajes = new Array();
 					mensajes[0] = "La persona a la cual se asignará el perfil, parece no existir.";					
 					mensajes[1] = "La persona a la cual se asignará el perfil, debe de estar <i>activa</i>.";					
 					mensajes[2] = "Vaya! No tienes el permiso necesario para interactuar con la página solicitada.";					
+					mensajes[3] = "Existe un error al cargar los datos del perfil solicitado.";					
 					
 					var msj_dialog = "<div class=\"message notice\"><p>" + mensajes[id_msj] + "</p></div>"; 					
 					
@@ -602,7 +631,7 @@ class PersonasController extends VanillaController{
 					
 					$( "#btn_nuevo" ).click(function() {
 							$( "#dialog-nuevo" ).dialog( "open" );
-						});
+					});
 										
 				});
 				';				
