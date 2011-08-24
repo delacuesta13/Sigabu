@@ -6,9 +6,21 @@ class Perfil extends VanillaModel {
 		$sql = '
 		INSERT INTO perfiles SET ';
 		foreach ($data as $field => $value){
-			$sql .= $field . ' = ' . ((strlen($value)==0) ? ' NULL' : ' \'' . $value . '\'') . ', ';
+			$sql .= $field . ' = ' . ((strlen($value)==0) ? 'NULL' : ' \'' . $value . '\'') . ', ';
 		}
 		$sql .= 'created_at = NOW()';
+		return $this->query($sql);
+	}
+	
+	function editar($id, $dni, $data){
+		$sql = '
+		UPDATE perfiles SET ';
+		foreach ($data as $field => $value) {
+			$sql .= $field . ' = ' . ((strlen($value)==0) ? 'NULL' : ' \'' . $value . '\'') . ', ';
+		}
+		$sql = substr_replace($sql, '', -2);
+		$sql .= ' WHERE id = \'' . $id .'\'';
+		$sql .= ' AND persona_dni = \'' . $dni .'\'';
 		return $this->query($sql);
 	}
 	
