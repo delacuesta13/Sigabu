@@ -87,7 +87,7 @@ $(function() {
 			<td><?php echo $data_query[$i]['Periodo']['periodo']?></td>
 			<td><?php echo $data_query[$i]['Multientidad']['nombre']?></td>
 			<td class="last">
-				<a href="#" style="text-decoration: underline; cursor: pointer;">ver</a> |
+				<a onclick="showPerfil(<?php echo $data_query[$i]['Perfil']['id']?>, <?php echo $dni?>);" style="text-decoration: underline; cursor: pointer;">ver</a> |
 				<a href="#" style="text-decoration: underline;">editar</a> |
 				<a onclick="dataEliminar(<?php echo $data_query[$i]['Perfil']['id']?>, '<?php echo $data_query[$i]['Multientidad']['nombre']?>', '<?php echo $data_query[$i]['Periodo']['periodo']?>');" style="text-decoration: underline;cursor: pointer;">eliminar</a>
 			</td>
