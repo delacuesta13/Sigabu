@@ -579,6 +579,40 @@ class PersonasController extends VanillaController{
 					customDialog(id_msj);	
 				}
 				
+				function editPerfil (id, dni) {
+					$(function() {
+						$( "#dialog-edit-perfil" ).dialog({
+							modal: true,
+							autoOpen: true, 
+							resizable: false,
+							height: 480,
+        					width: 650,
+        					open: function() {
+        						$("#dialog-edit-perfil").load("' . BASE_PATH . '/' . 'perfiles' . '/' . 'editar' . '/" + id + "/" + dni);
+        					},
+        					close: function () {
+        						load_dataTable(1, ' . PAGINATE_LIMIT . ', col, orderDir, \'\');
+        					},
+        					buttons: {
+        						"Guardar": function () {
+        							$( "#formulario_editar" ).submit();
+        						},
+        						"Cancelar": function () {
+        							$( this ).dialog( "close" );
+        						}
+        					}
+						});
+					});
+				}
+				
+				function closeDialog_3(id_msj){
+					$(function() {
+						$("#dialog-edit-perfil").dialog("close");  
+						return false; 						
+					});
+					customDialog(id_msj);	
+				}
+				
 				function customDialog(id_msj){
 					
 					var mensajes = new Array();
@@ -586,6 +620,7 @@ class PersonasController extends VanillaController{
 					mensajes[1] = "La persona a la cual se asignará el perfil, debe de estar <i>activa</i>.";					
 					mensajes[2] = "Vaya! No tienes el permiso necesario para interactuar con la página solicitada.";					
 					mensajes[3] = "Existe un error al cargar los datos del perfil solicitado.";					
+					mensajes[4] = "Se ha editado exitósamente el perfil.";					
 					
 					var msj_dialog = "<div class=\"message notice\"><p>" + mensajes[id_msj] + "</p></div>"; 					
 					
