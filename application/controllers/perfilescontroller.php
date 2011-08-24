@@ -478,7 +478,7 @@ class PerfilesController extends VanillaController {
 					 */
 					if (strlen($tmp_data[0]['Perfil']['programa_id'])!=0) {
 						$this->set('administrativo', false);
-						$sql_query = 'SELECT programa.nombre, facultad.nombre FROM programas programa, facultad facultad, perfiles perfil';
+						$sql_query = 'SELECT programa.nombre, facultad.nombre FROM programas programa, facultad facultad, perfiles perfil ';
 						$sql_query .= 'WHERE perfil.id = \'' . $id . '\' AND perfil.persona_dni = \'' . $dni . '\' AND (';
 						$sql_query .= 'perfil.programa_id = programa.id AND programa.facultad_id = facultad.id';
 						$sql_query .= ')';
@@ -734,6 +734,147 @@ class PerfilesController extends VanillaController {
 		
 	}
 	
+	function editar ($id = null, $dni = null) {
+		
+		/**
+		 * código que ejecuta javascript del documento que contiene esta vista,
+		 * que ha sido cargada vía ajax.
+		 * Para saber qué parámetro debe de pasarse, revisar la función js customDialog()
+		 * de la vista ver, controlador personas.
+		 */
+		$tag_js = '<script type="text/JavaScript">window.parent.closeDialog_3(3);</script>';
+		
+		if (isset($id, $dni) && preg_match('/^[\d]{1,}$/', $id) && preg_match('/^[\d]{5,20}$/', $dni)) {
+			
+			$data_perfil = $this->Perfil->consultar_perfil($id, $dni);
+			
+			## verificar que la persona tenga un perfil con id recibido
+			if (count($data_perfil)!=0) {
+				
+				$this->set('id', $id);
+				$this->set('dni', $dni);
+				
+				$this->set('data_perfil', $data_perfil);
+				
+				$tipo_perfil = strtolower($data_perfil[0]['Multientidad']['nombre']);
+				$this->set('tipo_perfil', $tipo_perfil);
+				
+				$lista_periodos = performAction('periodos', 'listar_periodos_group_fk', array());
+				$this->set('lista_periodos', $lista_periodos);
+				
+				$lista_perfiles = $this->Perfil->get_multientidad('comunidad_universitaria');
+				$this->set('lista_perfiles', $lista_perfiles);
+				
+			} else {
+				echo $tag_js;
+			}
+			
+		} else {
+			echo $tag_js;
+		}
+		
+		/****************************************************/
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+		
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
+	function editar_perfil () {
+		
+		/**
+		 * código que ejecuta javascript del documento que contiene esta vista,
+		 * que ha sido cargada vía ajax.
+		 * Para saber qué parámetro debe de pasarse, revisar la función js customDialog()
+		 * de la vista ver, controlador personas.
+		 */
+		$tag_js = '<script type="text/JavaScript">window.parent.closeDialog_3(4);</script>';
+		
+		if (isset($_POST['id'], $_POST['dni'])) {
+			
+			$validar_data = array(
+				'perfil' => $_POST['fields'][0]['perfil']
+			);
+			
+			$id = $_POST['id'];
+			$dni = $_POST['dni'];
+			
+			unset ($_POST['id'], $_POST['dni'], $_POST['fields'][0]);
+			
+			$_POST['fields'] = array_values($_POST['fields']);
+			
+			## recorro los campos restantes y los asigno a validar_data
+			for ($i = 0; $i < count($_POST['fields']); $i++) {
+				foreach ($_POST['fields'][$i] as $field => $value) {
+					$validar_data[$field] = $value;
+				} /* foreach */
+				unset ($field, $value);
+			} /* for */
+			
+			$fields_to_bd = array(
+				"perfil" => "perfil_multientidad",
+				"jornada" => "jornada_multientidad",
+				"programa" => "programa_id",
+				"contrato" => "contrato_multientidad",
+				"parentesco" => "parentesco_multientidad",
+				"apoderado" => "apoderado_dni",
+				"semestre" => "semestre"
+			);
+			$this->set('fields_to_bd', $fields_to_bd);
+			
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_perfil($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+			
+			## no se encontraron errores
+			else {
+				
+				## tipo de perfil en texto
+				$tipo_perfil = $this->Perfil->get_multientidad('comunidad_universitaria', $validar_data['perfil']);
+				$tipo_perfil = strtolower($tipo_perfil[0]['Multientidad']['nombre']);
+				
+				## cambio los nombres de los campos que recibo, a como deberán estar para interactuar con la bd
+				foreach ($fields_to_bd as $field_form => $field_db) {
+					if (array_key_exists($field_form, $validar_data) && $field_form!=$field_db) {
+						$validar_data[$field_db] = $validar_data[$field_form];
+						unset($validar_data[$field_form]);
+					} elseif(!array_key_exists($field_form, $validar_data)) {
+						$validar_data[$field_db] = '';
+					}
+				} /* foreach */
+				unset($field_form, $field_db);
+				
+				/*
+				 * el perfil a asignar es de funcionario,
+				 * y no se selecciona programa académico,
+				 * porque el funcionario es administrativo...
+				 */
+				if ($tipo_perfil=='funcionario' && !preg_match('/^[\d]{1,}$/', $validar_data['programa_id'])) {
+					$validar_data['programa_id'] = '';
+				}
+				
+				if ($this->Perfil->editar($id, $dni, $validar_data)) {
+					echo $tag_js;
+				} else {
+					$this->set('rs_editar', false);
+				}
+				
+			}
+						
+		}
+		
+		/****************************************************/
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+		
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
 	private function validar_data_perfil ($datos) {
 		
 		$ind_error = array();
@@ -744,7 +885,7 @@ class PerfilesController extends VanillaController {
 		$dni_format = '/^[\d]{5,20}$/';
 		
 		## se está creando un nuevo periodo
-		if (array_key_exists('new', $datos['periodo']) && $datos['periodo']['new']) {
+		if (array_key_exists('periodo', $datos) && array_key_exists('new', $datos['periodo']) && $datos['periodo']['new']) {
 			## validar que se haya seleccionado un periodo
 			if (preg_match($select_format, $datos['periodo']['value'])) {
 				## revisar que no existe ya, un perfil en el periodo a crear
