@@ -144,6 +144,7 @@
 <div id="dialog-confirm" title="Eliminar persona" style="display: none;"></div>
 <div id="dialog-nuevo" title="Nuevo perfil" style="display: none;"></div>
 <div id="dialog-show-perfil" title="Perfil" style="display: none;"></div>
+<div id="dialog-edit-perfil" title="Editar perfil" style="display: none;"></div>
 
 <script type="text/JavaScript">
 //<![CDATA[
