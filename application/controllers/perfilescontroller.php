@@ -308,6 +308,208 @@ class PerfilesController extends VanillaController {
 		
 	}
 	
+	function ver ($id = null, $dni = null) {
+		
+		/**
+		 * código que ejecuta javascript del documento que contiene esta vista,
+		 * que ha sido cargada vía ajax.
+		 * Para saber qué parámetro debe de pasarse, revisar la función js customDialog()
+		 * de la vista ver, controlador personas.
+		 */
+		$tag_js = '<script type="text/JavaScript">window.parent.closeDialog_2(3);</script>';
+		
+		if (isset($id, $dni) && preg_match('/^[\d]{1,}$/', $id) && preg_match('/^[\d]{5,20}$/', $dni)) {
+			
+			$data_perfil = $this->Perfil->consultar_perfil($id, $dni);
+			
+			## verificar que la persona tenga un perfil con id recibido
+			if (count($data_perfil)!=0) {
+				
+				$this->set('data_perfil', $data_perfil);
+				
+				$tipo_perfil = strtolower($data_perfil[0]['Multientidad']['nombre']);
+				$this->set('tipo_perfil', $tipo_perfil);
+				
+				## campos a mostrar según el tipo de perfil
+				$fields_tipo = array(
+					'estudiante' => array(
+						'multientidad' => array (
+							'alias' => 'multientidad',
+							'fields' => array(
+								'nombre' ## jornada
+							) /* fields */
+						), /* end multientidad */
+						'programas' => array (
+							'alias' => 'programa',
+							'fields' => array(
+								'nombre'
+							) /* end fields */
+						), /* end programas */
+						'facultad' => array(
+							'alias' => 'facultad',
+							'fields' => array (
+								'nombre'
+							) /* end fields */
+						), /* end facultad */
+						'joins' => array (
+							0 => 'perfil.jornada_multientidad = multientidad.id',
+							1 => 'perfil.programa_id = programa.id',
+							2 => 'programa.facultad_id = facultad.id'
+						)
+					), /* end estudiante */
+					'docente' => array(
+						'multientidad' => array (
+							'alias' => 'multientidad',
+							'fields' => array(
+								'nombre' ## tipo de contrato
+							) /* fields */
+						), /* end multientidad */
+						'programas' => array (
+							'alias' => 'programa',
+							'fields' => array(
+								'nombre'
+							) /* end fields */
+						), /* end programas */
+						'facultad' => array(
+							'alias' => 'facultad',
+							'fields' => array (
+								'nombre'
+							) /* end fields */
+						), /* end facultad */
+						'joins' => array (
+							0 => 'perfil.contrato_multientidad = multientidad.id',
+							1 => 'perfil.programa_id = programa.id',
+							2 => 'programa.facultad_id = facultad.id'
+						)
+					), /* end docente */
+					'egresado' => array(
+						'programas' => array (
+							'alias' => 'programa',
+							'fields' => array(
+								'nombre'
+							) /* end fields */
+						), /* end programas */
+						'facultad' => array(
+							'alias' => 'facultad',
+							'fields' => array (
+								'nombre'
+							) /* end fields */
+						), /* end facultad */
+						'joins' => array (
+							0 => 'perfil.programa_id = programa.id',
+							1 => 'programa.facultad_id = facultad.id'
+						)
+					), /* end egresado */
+					'familiar' => array (
+						'multientidad' => array (
+							'alias' => 'multientidad',
+							'fields' => array(
+								'nombre' ## parentesco
+							) /* fields */
+						), /* end multientidad */
+						'personas' => array (
+							'alias' => 'persona',
+							'fields' => array(
+								'nombres',
+								'apellidos',
+								'tipo_dni',
+								'dni'
+							) /* end fields */
+						), /* personas */
+						'joins' => array (
+							0 => 'perfil.parentesco_multientidad = multientidad.id',
+							1 => 'perfil.apoderado_dni = persona.dni'
+						)
+					) /* end familiar */
+				);
+				
+				## el tipo de perfil existe en $fields_tipo, si no es así, es perfil de funcionario
+				if (array_key_exists($tipo_perfil, $fields_tipo)) {
+					/**
+					 * inicializo el query
+					 */
+					$sql_query = 'SELECT ';
+					## si el perfil es de estudiante, agrego el semestre
+					if ($tipo_perfil == 'estudiante') {
+						$sql_query .= 'perfil.semestre, ';
+					}
+					$tmp_fields = $fields_tipo[$tipo_perfil];
+					$sql_tablas = ''; ## tablas de la consulta
+					/**
+					 * agrego los campos que recogeré en la consulta
+					 */					
+					foreach ($fields_tipo[$tipo_perfil] as $tabla => $def) {
+						if ($tabla!='joins') {
+							$sql_tablas .= $tabla . ' ' . $def['alias'] . ', ';
+							foreach ($def['fields'] as $campo) {
+								$sql_query .= $def['alias'] . '.' . $campo . ', ';
+							}
+							unset($campo);
+						}
+					}					
+					$sql_query = substr_replace($sql_query, '', -2) . ' FROM ' . substr_replace($sql_tablas, '', -2) . ', perfiles perfil';
+					unset($sql_tablas, $tabla, $def);
+					$sql_query .= ' WHERE ';
+					/**
+					 * agrego al where el id del perfil y el dni de la persona
+					 */
+					$sql_query .= 'perfil.id = \'' . $id . '\' AND ';
+					$sql_query .= 'perfil.persona_dni = \'' . $dni . '\'';
+					/**
+					 * agrego los joins a la consulta
+					 */
+					if (array_key_exists('joins', $tmp_fields) && count($tmp_fields['joins'])!=0) {
+						$sql_query .= ' AND (';
+						for ($i = 0; $i < count($tmp_fields['joins']); $i++) {
+							$sql_query .= $tmp_fields['joins'][$i] . ' AND ';
+						} /* for */
+						$sql_query = substr_replace($sql_query, '', -5);
+						$sql_query .= ')';
+					}
+					$data_query = $this->Perfil->query($sql_query);
+					$this->set('data_query', $data_query);
+					unset($tmp_fields, $sql_query);
+				} elseif ($tipo_perfil == 'funcionario') {
+					## el perfil es de funcionario, y requiere un tratamiento especial
+					$tmp_data = $this->Perfil->query('SELECT programa_id FROM perfiles WHERE id = \'' . $id . '\'');
+					/**
+					 * si programa_id es NULL, el funcionario es administrativo.
+					 * Caso contrario, el funcionario pertenece a un programa.
+					 */
+					if (strlen($tmp_data[0]['Perfil']['programa_id'])!=0) {
+						$this->set('administrativo', false);
+						$sql_query = 'SELECT programa.nombre, facultad.nombre FROM programas programa, facultad facultad, perfiles perfil';
+						$sql_query .= 'WHERE perfil.id = \'' . $id . '\' AND perfil.persona_dni = \'' . $dni . '\' AND (';
+						$sql_query .= 'perfil.programa_id = programa.id AND programa.facultad_id = facultad.id';
+						$sql_query .= ')';
+						$data_query = $this->Perfil->query($sql_query);
+						$this->set('data_query', $data_query);
+						unset($sql_query);
+					} else {
+						$this->set('administrativo', true);
+					}
+					unset($tmp_data);
+				}
+				
+				/*********************************************************************/
+				
+			} else {
+				echo $tag_js;
+			}
+			
+		} else {
+			echo $tag_js;
+		}
+		
+		/****************************************************/
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+		
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	} 
+	
 	function eliminar ($id = null) {
 		
 		if (array_key_exists('logueado', $_SESSION) && $_SESSION['logueado'] && $_SESSION['nivel'] >= $GLOBALS['menu_project']['personas']['actions']['perfiles']['nivel']) {
