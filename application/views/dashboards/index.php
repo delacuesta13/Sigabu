@@ -21,7 +21,12 @@ $menu_project = $GLOBALS['menu_project'];
 
 foreach ($menu_project as $controlador => $opciones){
 	
-	if($_SESSION['nivel'] >= $opciones['nivel']){		
+	/**
+	 * mostrar el controlador si el usuario tiene el permiso suficiente
+	 * para interactuar con éste, y si se ha definido el controlador para
+	 * que sea mostrado en la dashboard
+	 */
+	if($_SESSION['nivel'] >= $opciones['nivel'] && ((array_key_exists('show', $opciones) && $opciones['show']) || !array_key_exists('show', $opciones))){		
 		?>
 		<li title="<?php echo $opciones['desc']?>">
 			<?php 

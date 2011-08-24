@@ -13,6 +13,7 @@
 $menu_project = array(
 
 	"personas" => array(
+		"show" => true, ## mostrar controlador en menú y dashboard
 		"text" => "Personas",		
 		"ico" => "controllers/personas.png",
 		"desc" => "Gestiona las personas de la Comunidad Universitaria y su perfiles dentro de ésta",
@@ -47,6 +48,7 @@ $menu_project = array(
 	), /* end personas */
 
 	"actividades" => array(
+		"show" => true,
 		"text" => "Actividades",
 		"ico" => "controllers/actividades.png",
 		"desc" => "Gestiona las actividades de Bienestar U",
@@ -75,6 +77,7 @@ $menu_project = array(
 	), /* end actividades */
 	
 	"periodos" => array(
+		"show" => true,
 		"text" => "Períodos",
 		"ico" => "controllers/periodos.png",
 		"desc" => "Gestiona los períodos académicos de la Universidad",
@@ -104,6 +107,7 @@ $menu_project = array(
 	), /* end periodos */
 	
 	"lugares" => array(
+		"show" => true,
 		"text" => "Lugares",
 		"ico" => "controllers/lugares.png",
 		"desc" => "Gestiona los lugares o espacios deportivos/culturales utilizados por Bienestar U",
@@ -116,6 +120,7 @@ $menu_project = array(
 	), /* end lugares */
 	
 	"usuarios" => array(
+		"show" => true,
 		"text" => "Usuarios",
 		"ico" => "controllers/usuarios.png",
 		"desc" => "Gestiona las cuentas de usuarios",

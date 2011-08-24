@@ -8,7 +8,12 @@ $accion_actual = $this->_action;
 $i = 0;
 foreach($menu_project as $controladores => $opciones){
 	
-	if($_SESSION['nivel'] >= $opciones['nivel']){		
+	/**
+	 * mostrar el controlador si el usuario tiene el permiso suficiente
+	 * para interactuar con éste, y si se ha definido el controlador para
+	 * que sea mostrado en el menú 
+	 */
+	if($_SESSION['nivel'] >= $opciones['nivel'] && ((array_key_exists('show', $opciones) && $opciones['show']) || !array_key_exists('show', $opciones))){		
 		echo '
 		<li'.
 		(($i==0) ? (' class="first'. ((strtolower($controlador_actual)==strtolower($controladores)) ? ' active' : '') .'"') :
