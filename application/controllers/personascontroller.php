@@ -639,7 +639,7 @@ class PersonasController extends VanillaController{
 											
 					$( "h2.title" ).append("Ver");
 					$( "#tabs" ).tabs({
-						selected: 1
+						selected: 0
 					});
 					
 					$( "#dialog-nuevo" ).dialog({
