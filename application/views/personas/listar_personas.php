@@ -1,4 +1,17 @@
-<?php include_once ROOT . DS . 'library/fechas.funciones.php';?>
+<?php 
+
+/*
+ * Copyright (c) 2011 Jhon Adrián Cerón <jadrian.ceron@gmail.com>
+ *
+ * This file is part of the Sigabu project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+include_once ROOT . DS . 'library/fechas.funciones.php';
+
+?>
 <form method="post" name="formulario" id="formulario" action="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . 'eliminar';?>" class="form">
 	<table class="table">
 		<tr> <!-- cabecera -->
