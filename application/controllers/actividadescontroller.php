@@ -642,6 +642,14 @@ class ActividadesController extends VanillaController {
 		return $this->Actividad->get_areas();
 	}
 	
+	##############################################################
+	## Redirecciones #############################################
+	##############################################################
+	
+	function periodos () {
+		redirectAction('periodos', 'index');
+	}
+	
 	function afterAction() {
 	
 	}
