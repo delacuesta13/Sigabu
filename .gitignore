@@ -1,15 +1,2 @@
 /doc
-/db
 /tmp
-index.html
-
-# ignorar archivos (a excepción del .css) del tema Aristo
-/public/css/jquery-ui/Aristo/images
-/public/css/jquery-ui/Aristo/README.rdoc
-
-# ignorar carpeta img
-/public/img
-
-# ignorar elementos del plugin chosen
-/public/css/chosen/chosen-sprite.png
-/public/js/chosen/LICENSE.md
