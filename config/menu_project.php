@@ -71,13 +71,20 @@ $menu_project = array(
 			"editar" => array(
 				"nivel" => 5,
 				"showMenu" => false
-			) /* end editar */
-		
+			), /* end editar */
+			
+			## accesos directos a otros controladores
+			'periodos' => array(
+				"text" => "Períodos",
+				"nivel" => 3,
+				"showMenu" => true
+			)/* end periodos */
+			
 		) /* end actions */	
 	), /* end actividades */
 	
 	"periodos" => array(
-		"show" => true,
+		"show" => false,
 		"text" => "Períodos",
 		"ico" => "controllers/periodos.png",
 		"desc" => "Gestiona los períodos académicos de la Universidad",
