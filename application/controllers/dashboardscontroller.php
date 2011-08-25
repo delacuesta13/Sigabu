@@ -72,8 +72,8 @@ class DashboardsController extends VanillaController {
 		
 		session_start();
 		
-		$_SESSION['persona_dni'] = 1107064826;
-		$_SESSION['username'] = 'De_la_Cuesta_13';
+		$_SESSION['persona_dni'] = 1234567;
+		$_SESSION['username'] = 'admin';
 		$_SESSION['nivel'] = 5;
 		$_SESSION['ultima_visita'] = date('Y-m-d H:i');
 		$_SESSION['logueado'] = true;
