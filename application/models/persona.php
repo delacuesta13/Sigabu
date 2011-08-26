@@ -39,7 +39,7 @@ class Persona extends VanillaModel {
 		$sql = '
 		UPDATE personas SET ';
 		foreach ($data as $field => $value) {
-			$sql .= $field . ' = \'' . $value . '\', ';
+			$sql .= $field . ' = ' . ((strlen($value)==0) ? 'NULL' : ' \'' . $value . '\'') . ', ';
 		}
 		$sql .= 'updated_at = NOW()';
 		$sql .= ' WHERE dni = \'' . $dni .'\'';

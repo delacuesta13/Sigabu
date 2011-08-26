@@ -40,7 +40,7 @@ class Actividad extends VanillaModel {
 		$sql = '
 		UPDATE actividades SET ';
 		foreach ($data as $field => $value) {
-			$sql .= $field . ' = \'' . $value . '\', ';
+			$sql .= $field . ' = ' . ((strlen($value)==0) ? 'NULL' : ' \'' . $value . '\'') . ', ';
 		}
 		$sql = substr_replace($sql, '', -2);
 		$sql .= ' WHERE id = \'' . $id .'\'';
