@@ -748,10 +748,30 @@ class PersonasController extends VanillaController{
 				$this->set('ind_error', $ind_error);
 			
 			## no se recibieron errores
-			else{				
+			else{
+				
+				## no ingresó email
+				if(!array_key_exists('email', $validar_data))
+					$validar_data['email'] = '';
+				
+				## no ingresó teléfono fijo
+				if(!array_key_exists('telefono_fijo', $validar_data))
+					$validar_data['telefono_fijo'] = '';
+				
+				## no ingresó teléfono móvil
+				if(!array_key_exists('telefono_movil', $validar_data))
+					$validar_data['telefono_movil'] = '';
+			
+				## no ingresó fecha de nacimiento
+				if(!array_key_exists('fecha_nac', $validar_data))
+					$validar_data['fecha_nac'] = '';
+								
 				## limpio la dirección de residencia, si se declaró, evitando sql injection
-				if(array_key_exists('direccion_residencia', $validar_data))
-					$validar_data = addslashes($validar_data['direccion_residencia']);
+				if (array_key_exists('direccion_residencia', $validar_data)) {
+					$validar_data['direccion_residencia'] = addslashes($validar_data['direccion_residencia']);
+				} else {
+					$validar_data['direccion_residencia'] = '';
+				}
 					
 				$validar_data['dni'] = $validar_data['dni']['value'];
 				
@@ -760,7 +780,8 @@ class PersonasController extends VanillaController{
 					$edit_dni = $validar_data['dni'];
 				} else {
 					$this->set('rs_editar', false);
-				}			
+				}
+							
 			} /* else */
 		
 		} /* if envío de formulario */

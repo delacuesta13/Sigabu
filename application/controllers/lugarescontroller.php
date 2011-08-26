@@ -505,8 +505,27 @@ class LugaresController extends VanillaController {
 			else {
 				
 				## ingresó comentario
-				if (isset($_POST['comentario']) && strlen($_POST['comentario'])!=0)
+				if (isset($_POST['comentario']) && strlen($_POST['comentario'])!=0) {
 					$validar_data['comentario'] = addslashes($_POST['comentario']);
+				} else {
+					$validar_data['comentario'] = '';
+				}
+				
+				## no ingresó administrador
+				if(!array_key_exists('administrador', $validar_data))
+					$validar_data['administrador'] = '';
+				
+				## no ingresó email
+				if(!array_key_exists('email', $validar_data))
+					$validar_data['email'] = '';
+				
+				## no ingresó teléfono fijo
+				if(!array_key_exists('telefono_fijo', $validar_data))
+					$validar_data['telefono_fijo'] = '';
+				
+				## no ingresó teléfono móvil
+				if(!array_key_exists('telefono_movil', $validar_data))
+					$validar_data['telefono_movil'] = '';
 		
 				$validar_data['nombre'] = $validar_data['nombre']['value'];
 				
