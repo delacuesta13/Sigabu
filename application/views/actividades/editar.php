@@ -104,7 +104,7 @@ action="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . $thi
 			
 			<div class="group">
 				<label class="label" for="comentario">Comentario</label>
-				<textarea class="text_area" name="comentario" id="comentario" rows="4" cols="80"><?php if(isset($_POST['comentario']) && (isset($ind_error) || (isset($rs_crear) && !$rs_crear))) echo $_POST['comentario']; else echo $data_actividad[0]['Act']['comentario'];?></textarea>
+				<textarea class="text_area" name="comentario" id="comentario" rows="4" cols="80"><?php if(isset($_POST['comentario']) && (isset($ind_error) || (isset($rs_editar) && !$rs_editar))) echo $_POST['comentario']; else echo $data_actividad[0]['Act']['comentario'];?></textarea>
 			</div>
 		
 		</div>		
