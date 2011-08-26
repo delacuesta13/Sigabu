@@ -861,6 +861,7 @@ class PersonasController extends VanillaController{
 		$phone_format = '/^[\d]{5,20}$/';
 		$tipos_dni = array("cc", "ce", "ti", "rc");
 		$generos = array("h", "m");
+		$direccion_format = '/^[a-zA-Z0-9 áéíóúñÁÉÍÓÚÑ\.\(\)#\/&-_]{5,60}$/';
 		
 		## validar nombres
 		if(array_key_exists('nombres', $datos) && !preg_match($letras_format, $datos['nombres']))
@@ -936,8 +937,8 @@ class PersonasController extends VanillaController{
 			$ind_error['genero'] = 'Seleccione el género de la persona.';
 		
 		## validar dirección de residencia
-		if(array_key_exists('direccion_residencia', $datos) && !preg_match('/^[\w]{5,60}$/', $datos['direccion_residencia']))
-			$ind_error['direccion_residencia'] = 'Ingrese una dirección válida.';
+		if(array_key_exists('direccion_residencia', $datos) && !preg_match($direccion_format, $datos['direccion_residencia']))
+			$ind_error['direccion_residencia'] = 'Ingrese sólo letras, números, guiones (- y _), puntos (.), ampersands (&), paréntesis, numerales (#), barras (/) y espacios.';
 		
 		return $ind_error;
 		
