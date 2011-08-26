@@ -21,4 +21,23 @@ class Lugar extends VanillaModel {
 		return $this->query($sql);
 	}
 	
+	function eliminar($datos){
+	
+		$j = 0; ## número de querys exitosos
+	
+		## construyo las sentencias de eliminación
+		for($i = 0; $i < count($datos); $i++){
+			## valido que id sea número
+			if(preg_match('/^[\d]{1,}$/', $datos[$i])){
+				## query exitoso
+				if($this->query('DELETE FROM lugares WHERE id = \'' . $datos[$i] . '\'')){
+					$j++;
+				}
+			}
+		}
+	
+		return (array('trueQuery' => $j, 'totalQuery' => count($datos)));
+			
+	}
+	
 }
