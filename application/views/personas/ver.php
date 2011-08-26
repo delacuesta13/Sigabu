@@ -84,7 +84,7 @@
 						<?php 
 						$edad = '';
 						$str_fnac = '';
-						if (strlen($data_persona[0]['Persona']['fecha_nac'])==0) $edad = 'Ninguna';
+						if (strlen($data_persona[0]['Persona']['fecha_nac'])==0 || $data_persona[0]['Persona']['fecha_nac']=='0000-00-00') $edad = 'Ninguna';
 						else{
 							$str_fnac = explode('-', $data_persona[0]['Persona']['fecha_nac']);
 							$str_fnac = $str_fnac[2] . ' ' . $array_meses[(((int)$str_fnac[1]) - 1)] . ' ' . $str_fnac[0];

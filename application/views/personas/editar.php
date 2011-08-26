@@ -194,7 +194,8 @@ action="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . $thi
 				<input type="text" name="fecha_nac" id="fecha_nac" maxlength="10" class="text_field"
 				<?php 
 				if(isset($_POST['fecha_nac']) && (isset($ind_error) || (isset($rs_editar) && !$rs_editar))) echo 'value="' . $_POST['fecha_nac'] . '"';
-				else echo 'value="' . $data_persona[0]['Persona']['fecha_nac'] . '"';
+				elseif(strlen($data_persona[0]['Persona']['fecha_nac'])!=0 && $data_persona[0]['Persona']['fecha_nac']!='0000-00-00') 
+					echo 'value="' . $data_persona[0]['Persona']['fecha_nac'] . '"';
 				?>
 				/>
 				<span class="description">Ej: <?php echo date('Y-m-d');?></span>
