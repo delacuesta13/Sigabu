@@ -40,4 +40,8 @@ class Lugar extends VanillaModel {
 			
 	}
 	
+	function consultar_lugar ($id) {
+		return $this->query('SELECT * FROM lugares WHERE id = \'' . $id . '\'');
+	}
+	
 }

@@ -338,60 +338,110 @@ class LugaresController extends VanillaController {
 		
 	}
 	
-	function nuevo () {
+	function ver ($id = null, $nombre = null) {
 		
-	if (isset($_POST['nombre'], $_POST['direccion'])) {
+		$search_array = array('á', 'é', 'í', 'ó', 'ú', 'ñ', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ', '.', '(', ')', '&', '-', '_');
+		$replace_array = array('a', 'e', 'i', 'o', 'u', 'n', 'a', 'e', 'i', 'o', 'u', 'n', '', '-', '-', '', '-', '-');
 		
-		$validar_data = array(
-			'nombre' => array(
-				'value' => $_POST['nombre'],
-				'new' => true,
-				'edit' => false
-			),
-			'direccion' => $_POST['direccion']
-		);
+		## validar que se reciba un id numérico
+		if (isset($id) && preg_match('/^[\d]{1,}$/', $id)) {
 		
-		## ingresó administrador
-		if (isset($_POST['administrador']) && strlen($_POST['administrador']))
-			$validar_data['administrador'] = $_POST['administrador'];
-		
-		## ingresó email
-		if (isset($_POST['email']) && strlen($_POST['email']))
-			$validar_data['email'] = $_POST['email'];
-		
-		## ingresó teléfono fijo
-		if (isset($_POST['telefono_fijo']) && strlen($_POST['telefono_fijo']))
-			$validar_data['telefono_fijo'] = $_POST['telefono_fijo'];
-		
-		## ingresó teléfono movil
-		if (isset($_POST['telefono_movil']) && strlen($_POST['telefono_movil']))
-			$validar_data['telefono_movil'] = $_POST['telefono_movil'];
-		
-		## envío los datos a revisión, y recibo los (posibles) errores
-		$ind_error = $this->validar_data_lugar($validar_data);
-		if(is_array($ind_error) && count($ind_error)!=0)
-			$this->set('ind_error', $ind_error);
-		
-		## no se recibieron errores
-		else {
-			
-			## ingresó comentario
-			if (isset($_POST['comentario']) && strlen($_POST['comentario'])!=0)
-				$validar_data['comentario'] = addslashes($_POST['comentario']);
-		
-			$validar_data['nombre'] = $validar_data['nombre']['value'];
-			
-			if ($this->Lugar->nuevo($validar_data)) {
-				$this->set('rs_crear', true);
+			$data_lugar = $this->Lugar->consultar_lugar($id);
+
+			## verificar que existe un lugar con el id recibido
+			if (count($data_lugar)!=0) {
+				
+				$nombre_url = strtolower($data_lugar[0]['Lugar']['nombre']);
+				$nombre_url = str_replace($search_array, $replace_array, $nombre_url);
+				
+				$nombre_url = preg_replace('/\s+/', '-', $nombre_url);
+				$nombre_url = preg_replace('/-{2,}/', '-', $nombre_url);
+				
+				## validar que el nombre recibido está como debería de estar en una URL
+				if (!isset($nombre) || $nombre!=$nombre_url) {
+					redirectAction(strtolower($this->_controller), $this->_action, array($id, $nombre_url));
+				} 
+					
+				/*******************************************************************************************
+				 *************** Ya aquí empieza el código propia de la 'action' ***************************
+				 *******************************************************************************************/
+					
+				$this->set('id', $id);
+				$this->set('nombre_url', $nombre_url);
+				$this->set('data_lugar', $data_lugar);
+				
+				$tag_js = '
+				$(function () {
+					$("h2.title").append("Ver");
+				});
+				';
+				
+				$this->set('make_tag_js', $tag_js);
+				
 			} else {
-				$this->set('rs_crear', false);
+				redirectAction(strtolower($this->_controller), 'index');
 			}
 			
+		} else {
+			redirectAction(strtolower($this->_controller), 'index');
 		}
 		
-	} /* envío del formulario */
+	}
+	
+	function nuevo () {
 		
-	$tag_js = '
+		if (isset($_POST['nombre'], $_POST['direccion'])) {
+		
+			$validar_data = array(
+				'nombre' => array(
+					'value' => $_POST['nombre'],
+					'new' => true,
+					'edit' => false
+				),
+				'direccion' => $_POST['direccion']
+			);
+		
+			## ingresó administrador
+			if (isset($_POST['administrador']) && strlen($_POST['administrador']))
+				$validar_data['administrador'] = $_POST['administrador'];
+		
+			## ingresó email
+			if (isset($_POST['email']) && strlen($_POST['email']))
+				$validar_data['email'] = $_POST['email'];
+		
+			## ingresó teléfono fijo
+			if (isset($_POST['telefono_fijo']) && strlen($_POST['telefono_fijo']))
+				$validar_data['telefono_fijo'] = $_POST['telefono_fijo'];
+		
+			## ingresó teléfono movil
+			if (isset($_POST['telefono_movil']) && strlen($_POST['telefono_movil']))
+				$validar_data['telefono_movil'] = $_POST['telefono_movil'];
+		
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_lugar($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+		
+			## no se recibieron errores
+			else {
+			
+				## ingresó comentario
+				if (isset($_POST['comentario']) && strlen($_POST['comentario'])!=0)
+					$validar_data['comentario'] = addslashes($_POST['comentario']);
+		
+				$validar_data['nombre'] = $validar_data['nombre']['value'];
+			
+				if ($this->Lugar->nuevo($validar_data)) {
+					$this->set('rs_crear', true);
+				} else {
+					$this->set('rs_crear', false);
+				}
+			
+			}
+		
+		} /* envío del formulario */
+		
+		$tag_js = '
 		$(function() {
 			
 			$("a.cancel").click(function(){
