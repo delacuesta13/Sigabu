@@ -19,5 +19,6 @@ $irregularWords = array(
 
 $irregularWords = array(
 	'actividad' => 'actividades',
-	'perfil' => 'perfiles'
+	'perfil' => 'perfiles',
+	'lugar' => 'lugares' 
 );

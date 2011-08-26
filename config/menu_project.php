@@ -127,10 +127,27 @@ $menu_project = array(
 		"text" => "Lugares",
 		"ico" => "controllers/lugares.png",
 		"desc" => "Gestiona los lugares o espacios deportivos/culturales utilizados por Bienestar U",
-		"nivel" => 3, ## nivel mínimo exigido por una acción del controlador
+		"nivel" => 2, ## nivel mínimo exigido por una acción del controlador
 		"actions" => array(
 		
-		
+			"index" => array(
+				"text" => "Lugares",
+				"nivel" => 2,
+				"showMenu" => true
+			), /*end index */
+			"nuevo" => array(
+				"text" => "Nuevo",
+				"nivel" => 3,
+				"showMenu" => true
+			), /* end nuevo */
+			"editar" => array(
+				"nivel" => 3,
+				"showMenu" => false
+			), /* end editar */
+			"eliminar" => array(
+				"nivel" => 3,
+				"showMenu" => false
+			) /* end eliminar */
 		
 		) /* end actions */
 	), /* end lugares */
