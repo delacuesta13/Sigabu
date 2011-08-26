@@ -44,4 +44,15 @@ class Lugar extends VanillaModel {
 		return $this->query('SELECT * FROM lugares WHERE id = \'' . $id . '\'');
 	}
 	
+	function editar($id, $data){	
+		$sql = '
+		UPDATE lugares SET ';
+		foreach ($data as $field => $value) {
+			$sql .= $field . ' = \'' . $value . '\', ';
+		}
+		$sql = substr_replace($sql, '', -2);
+		$sql .= ' WHERE id = \'' . $id .'\'';
+		return $this->query($sql);
+	}
+	
 }
