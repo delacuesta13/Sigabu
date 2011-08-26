@@ -402,19 +402,19 @@ class LugaresController extends VanillaController {
 			);
 		
 			## ingresó administrador
-			if (isset($_POST['administrador']) && strlen($_POST['administrador']))
+			if (isset($_POST['administrador']) && strlen($_POST['administrador'])!=0)
 				$validar_data['administrador'] = $_POST['administrador'];
 		
 			## ingresó email
-			if (isset($_POST['email']) && strlen($_POST['email']))
+			if (isset($_POST['email']) && strlen($_POST['email'])!=0)
 				$validar_data['email'] = $_POST['email'];
 		
 			## ingresó teléfono fijo
-			if (isset($_POST['telefono_fijo']) && strlen($_POST['telefono_fijo']))
+			if (isset($_POST['telefono_fijo']) && strlen($_POST['telefono_fijo'])!=0)
 				$validar_data['telefono_fijo'] = $_POST['telefono_fijo'];
 		
 			## ingresó teléfono movil
-			if (isset($_POST['telefono_movil']) && strlen($_POST['telefono_movil']))
+			if (isset($_POST['telefono_movil']) && strlen($_POST['telefono_movil'])!=0)
 				$validar_data['telefono_movil'] = $_POST['telefono_movil'];
 		
 			## envío los datos a revisión, y recibo los (posibles) errores
@@ -461,6 +461,125 @@ class LugaresController extends VanillaController {
 		$this->set('make_tag_js', $tag_js);
 		
 		$this->set('makejs', array('jquery.textareaCounter.plugin'));
+		
+	}
+	
+	function editar ($id = null, $nombre = null) {
+		
+		$editar = false;
+		
+		if (isset($_POST['nombre'], $_POST['direccion'])) {
+			
+			$validar_data = array(
+				'nombre' => array(
+					'id_lugar' => $id,
+					'value' => $_POST['nombre'],
+					'new' => false,
+					'edit' => true
+				),
+				'direccion' => $_POST['direccion']
+			);
+			
+			## ingresó administrador
+			if (isset($_POST['administrador']) && strlen($_POST['administrador'])!=0)
+				$validar_data['administrador'] = $_POST['administrador'];
+		
+			## ingresó email
+			if (isset($_POST['email']) && strlen($_POST['email'])!=0)
+				$validar_data['email'] = $_POST['email'];
+		
+			## ingresó teléfono fijo
+			if (isset($_POST['telefono_fijo']) && strlen($_POST['telefono_fijo'])!=0)
+				$validar_data['telefono_fijo'] = $_POST['telefono_fijo'];
+		
+			## ingresó teléfono movil
+			if (isset($_POST['telefono_movil']) && strlen($_POST['telefono_movil'])!=0)
+				$validar_data['telefono_movil'] = $_POST['telefono_movil'];
+		
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_lugar($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+			
+			## no se recibieron errores
+			else {
+				
+				## ingresó comentario
+				if (isset($_POST['comentario']) && strlen($_POST['comentario'])!=0)
+					$validar_data['comentario'] = addslashes($_POST['comentario']);
+		
+				$validar_data['nombre'] = $validar_data['nombre']['value'];
+				
+				if ($this->Lugar->editar($id, $validar_data)) {
+					$editar = true;
+				} else {
+					$this->set('rs_editar', false);
+				}
+				
+			} /* else */
+			
+		} /* envío del formulario */
+		
+		$search_array = array('á', 'é', 'í', 'ó', 'ú', 'ñ', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ', '.', '(', ')', '&', '-', '_');
+		$replace_array = array('a', 'e', 'i', 'o', 'u', 'n', 'a', 'e', 'i', 'o', 'u', 'n', '', '-', '-', '', '-', '-');
+		
+		if (isset($id) && preg_match('/^[\d]{1,}$/', $id) && !$editar) {
+			
+			$data_lugar = $this->Lugar->consultar_lugar($id);
+			
+			## verificar que existe un lugar con el id recibido
+			if (count($data_lugar)!=0) {
+				
+				$nombre_url = strtolower($data_lugar[0]['Lugar']['nombre']);
+				$nombre_url = str_replace($search_array, $replace_array, $nombre_url);
+				
+				$nombre_url = preg_replace('/\s+/', '-', $nombre_url);
+				$nombre_url = preg_replace('/-{2,}/', '-', $nombre_url);
+				
+				## validar que el nombre recibido está como debería de estar en una URL
+				if (!isset($nombre) || $nombre!=$nombre_url) {
+					redirectAction(strtolower($this->_controller), $this->_action, array($id, $nombre_url));
+				}
+				
+				/*******************************************************************************************
+				 *************** Ya aquí empieza el código propia de la 'action' ***************************
+				 *******************************************************************************************/
+				
+				$this->set('id', $id);
+				$this->set('nombre_url', $nombre_url);
+				$this->set('data_lugar', $data_lugar);
+				
+				$tag_js = '
+				$(function () {
+					$("h2.title").append("Editar");
+					var options2 = {
+						"maxCharacterSize": 200,
+						"originalStyle": "originalDisplayInfo",
+						"displayFormat": "#left Caracteres Disponibles"
+					};
+					$("#comentario").textareaCount(options2);
+				});
+				';
+				
+				$this->set('make_tag_js', $tag_js);
+				
+				$this->set('makejs', array('jquery.textareaCounter.plugin'));
+				
+			} else {
+				redirectAction(strtolower($this->_controller), 'index');
+			}
+			
+		}
+		
+		## se editó exitósamente
+		elseif ($editar) {
+			redirectAction(strtolower($this->_controller), 'ver', array($id));
+		}
+		
+		## no se recibió id
+		else {
+			redirectAction(strtolower($this->_controller), 'index');
+		}
 		
 	}
 	
