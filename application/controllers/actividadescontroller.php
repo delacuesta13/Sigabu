@@ -437,8 +437,6 @@ class ActividadesController extends VanillaController {
 		$tag_js = '
 		$(function() {
 			
-			$( "#area" ).chosen();
-			
 			$("a.cancel").click(function(){
 				document.forms["formulario"].reset();
 			});
@@ -459,8 +457,7 @@ class ActividadesController extends VanillaController {
 
 		$this->set('lista_areas', $this->get_areas_fk());
 		
-		$this->set('makecss', array('chosen/chosen'));
-		$this->set('makejs', array('chosen/chosen.jquery.min', 'jquery.textareaCounter.plugin'));
+		$this->set('makejs', array('jquery.textareaCounter.plugin'));
 		
 	}
 	
@@ -561,8 +558,6 @@ class ActividadesController extends VanillaController {
 				$tag_js = '
 				$(function() {
 							
-					$( "#area" ).chosen();
-							
 					$( "h2.title" ).append( "<a href=\"'. BASE_PATH . '/' . strtolower($this->_controller) . '\">Actividades<\/a> -> Editar" );
 				
 					var options2 = {
@@ -579,8 +574,7 @@ class ActividadesController extends VanillaController {
 				
 				$this->set('lista_areas', $this->get_areas_fk());
 				
-				$this->set('makecss', array('chosen/chosen'));
-				$this->set('makejs', array('chosen/chosen.jquery.min', 'jquery.textareaCounter.plugin'));
+				$this->set('makejs', array('jquery.textareaCounter.plugin'));
 								
 			} else {
 				redirectAction(strtolower($this->_controller), 'index');	
