@@ -120,6 +120,7 @@ class LugaresController extends VanillaController {
 		$this->set('make_tag_js', $tag_js);
 		
 		$this->set('makecss', array('jquery.qtip.min'));
+		$this->set('makejs', array('jquery.qtip.min'));
 	
 	}
 
