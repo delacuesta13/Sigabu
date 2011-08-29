@@ -654,6 +654,10 @@ class ActividadesController extends VanillaController {
 		redirectAction('periodos', 'index');
 	}
 	
+	function programacion () {
+		redirectAction('programacion', 'index');
+	}
+	
 	function afterAction() {
 	
 	}
