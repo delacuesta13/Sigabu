@@ -360,6 +360,41 @@ class ActividadesController extends VanillaController {
 		
 	}
 
+	/*
+	 * retorna array de actividades agrupadas por áreas
+	 * area_i => array(
+	 * 		[0] => array(
+	 * 			[id] => actividad id,
+	 * 			[nombre] => actividad nombre
+	 * 		)
+	 * 		...
+	 * )
+	 * ...
+	 */	
+	function listar_actividades_group_fk () {
+		$lista_actividades = $this->Actividad->listar_actividades();
+		$ord_actividades = array();
+		$str_temp = '';
+		for ($i = 0; $i < count($lista_actividades); $i++) {
+			## agrupo actividades por áreas
+			$str_temp = $lista_actividades[$i]['Area']['nombre'];
+			$ord_actividades[$str_temp] = array();
+			for ($j = $i; $j < count($lista_actividades); $j++) {
+				## agrupo mientras siga siendo la misma área
+				if ($str_temp == $lista_actividades[$j]['Area']['nombre']) {
+					$ord_actividades[$str_temp][] = array(	
+						"id" => $lista_actividades[$j]['Actividad']['id'],
+						"nombre" => $lista_actividades[$j]['Actividad']['nombre']
+					);
+				} /* if */
+				else break;
+			} /* for j */
+			$j--;
+			$i = $j;
+		} /* for i */
+		return $ord_actividades;
+	}
+	
 	function eliminar ($id = null) {
 		
 		## el usuario tiene permiso para eliminar
