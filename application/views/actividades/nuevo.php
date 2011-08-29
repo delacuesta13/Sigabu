@@ -91,7 +91,7 @@ elseif (isset($rs_crear)) {
 					} 
 					?>	
 				</div>
-				<select name="area" id="area" style="width:350px;">
+				<select name="area" id="area">
 					<option>Seleccione</option>
 					<?php 
 					for($i = 0; $i < count($lista_areas); $i++){
