@@ -83,14 +83,46 @@ $menu_project = array(
 			), /* end editar */
 			
 			## accesos directos a otros controladores
-			'periodos' => array(
+			"programacion" => array(
+				"text" => "Programación",
+				"nivel" => 2,
+				"showMenu" => true
+			),
+			"periodos" => array(
 				"text" => "Períodos",
 				"nivel" => 3,
 				"showMenu" => true
-			)/* end periodos */
+			) /* end periodos */
 			
 		) /* end actions */	
 	), /* end actividades */
+	
+	"programacion" => array(
+		"show" => false,
+		"nivel" => 2,
+		"actions" => array(
+		
+			"index" => array(
+				"text" => "Programación",
+				"nivel" => 2,
+				"showMenu" => true
+			), /* end index */
+			"nuevo" => array(
+				"text" => "Nuevo",
+				"nivel" => 4,
+				"showMenu" => true
+			), /* end nuevo */
+			"editar" => array(
+				"nivel" => 4,
+				"showMenu" => false
+			), /* end editar */
+			"eliminar" => array(
+				"nivel" => 4,
+				"showMenu" => false
+			) /* end eliminar */
+		
+		) /* end actions */
+	), /* end programacion */
 	
 	"periodos" => array(
 		"show" => false,
