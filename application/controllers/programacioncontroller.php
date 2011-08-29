@@ -9,6 +9,13 @@
  * file that was distributed with this source code.
  */
 
+/**
+ * 
+ * La tabla (en la BD) de este controlador se llama 'cursos' ...
+ * @author Jhon Adrián Cerón
+ *
+ */
+
 class ProgramacionController extends VanillaController {
 	
 	function beforeAction () {
@@ -77,6 +84,186 @@ class ProgramacionController extends VanillaController {
 	}
 	
 	function index () {
+		
+	}
+	
+	function nuevo () {
+		
+		if (isset($_POST['actividad'], $_POST['periodo'])) {
+			
+			$validar_data = array(
+				'actividad' => $_POST['actividad'],
+				'periodo' => $_POST['periodo']
+			);
+			
+			## ingresó monitor
+			if (isset($_POST['monitor']) && strlen($_POST['monitor'])!=0)
+				$validar_data['monitor'] = $_POST['monitor'];
+			
+			## ingresó fecha de inicio
+			if (isset($_POST['fecha_inic']) && strlen($_POST['fecha_inic'])!=0)
+				$validar_data['fecha_inic'] = $_POST['fecha_inic'];
+			
+			## ingresó fecha de finalización
+			if (isset($_POST['fecha_fin']) && strlen($_POST['fecha_fin'])!=0)
+				$validar_data['fecha_fin'] = $_POST['fecha_fin'];
+			
+			## la programación es abierta
+			if (isset($_POST['abierto'])) {	
+				$validar_data['abierto'] = 1;
+			} else {
+				$validar_data['abierto'] = 0;
+			}
+			
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_programacion($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+			
+			## no se recibieron errores
+			else {
+				
+				## ingresó comentario
+				if(strlen($_POST['comentario'])!=0) 
+					$validar_data['comentario'] = addslashes($_POST['comentario']);
+			
+				$validar_data['actividad_id'] = $validar_data['actividad'];
+				$validar_data['periodo_id'] = $validar_data['periodo'];
+				unset($validar_data['actividad'], $validar_data['periodo']);
+				
+				if (array_key_exists('monitor', $validar_data)) {
+					$validar_data['monitor_dni'] = $validar_data['monitor'];
+					unset ($validar_data['monitor']);
+				}
+				
+				if ($this->Programacion->nuevo($validar_data)) {
+					$this->set('rs_crear', true);
+				} else {
+					$this->set('rs_crear', false);
+				}
+				
+			} /* else */
+			
+		} /* envío del formulario */
+		
+		$lista_periodos = performAction('periodos', 'listar_periodos_group_fk', array());
+		$this->set('lista_periodos', $lista_periodos);
+		
+		$lista_actividades = performAction('actividades', 'listar_actividades_group_fk', array());
+		$this->set('lista_actividades', $lista_actividades);
+		
+		$tag_js = '
+		
+		function showInfo () {
+			$(function() {
+				$("#info_programacion_abierta").dialog({
+					modal: true,
+					autoOpen: true,
+					resizable: false,
+					width: 600
+				});
+			});
+		}
+		
+		$(function() {
+		
+			$("a.cancel").click(function(){
+				document.forms["formulario"].reset();
+			}); 
+			
+			$( "#fecha_inic, #fecha_fin" ).datepicker({
+				regional: "es",
+				dateFormat: "yy-mm-dd",				
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				selectOtherMonths: false
+			});
+
+			var options2 = {
+				"maxCharacterSize": 200,
+				"originalStyle": "originalDisplayInfo",
+				"displayFormat": "#left Caracteres Disponibles"
+			};
+			$("#comentario").textareaCount(options2);
+		
+		});
+		';
+		
+		$this->set('make_tag_js', $tag_js);
+		
+		$this->set('makejs', array('jquery.ui.datepicker-es', 'jquery.textareaCounter.plugin'));
+		
+	}
+
+	private function validar_data_programacion ($datos) {
+		
+		$ind_error = array();
+		
+		$fecha_format = '/^[\d]{4}-((0[1-9])|(1[0-2]))-((0[1-9])|([1-2]\d)|(3[0-1]))$/';
+		$dni_format = '/^[\d]{5,20}$/';
+		$select_format = '/^[\d]{1,}$/';
+		
+		## validar la selección de una actividad
+		if (!preg_match($select_format, $datos['actividad']))
+			$ind_error['actividad'] = 'Seleccione una actividad.';
+		
+		## validar la selección de un periodo
+		if (!preg_match($select_format, $datos['periodo']))
+			$ind_error['periodo'] = 'Seleccione un periodo.';
+		
+		## validar monitor
+		if (array_key_exists('monitor', $datos)) {
+			## validar que se haya ingresado un número de identificación válido
+			if (!preg_match($dni_format, $datos['monitor'])) {
+				$ind_error['monitor'] = 'Ingrese un número de identificación válido';
+			} else {
+				## validar que el número de identifación exista en la BD
+				$data_persona = performAction('personas', 'consultar_persona_fk', array($datos['monitor']));
+				if (count($data_persona)==0) {
+					$ind_error['monitor'] = 'El número de identificación ingresado no corresponde a una persona del sistema.';
+				} else {
+					## validar que la persona esté activa
+					if ($data_persona[0]['Persona']['estado']!=1) {
+						$ind_error['monitor'] = 'El número de identificación corresponde a una persona que no está activa.';
+					} else {
+						## validar que la persona sea monitor
+						if ($data_persona[0]['Persona']['monitor']!=1)
+							$ind_error['monitor'] = 'El número de identificación corresponde a una persona que no es monitor.';
+					} /* else */
+				} /* else */
+				unset ($data_persona);
+			}
+		} /* validación del monitor */
+		
+		## validar fecha de inicio de la programación
+		if (array_key_exists('fecha_inic', $datos) && !preg_match($fecha_format, $datos['fecha_inic']))
+			$ind_error['fecha_inic'] = '(AAAA-MM-DD) El formato de la fecha es incorrecto.';
+		
+		## validar fecha de finalización
+		if (array_key_exists('fecha_fin', $datos) && !preg_match($fecha_format, $datos['fecha_fin']))
+			$ind_error['fecha_fin'] = '(AAAA-MM-DD) El formato de la fecha es incorrecto.';
+		
+		## se ingresaron fechas y éstas son correctas
+		if (array_key_exists('fecha_inic', $datos) && array_key_exists('fecha_fin', $datos) && preg_match($fecha_format, $datos['fecha_inic']) && preg_match($fecha_format, $datos['fecha_fin'])) {
+			## validar que la fecha inicial sea menor que la fecha final
+			if (strtotime($datos['fecha_inic']) >= strtotime($datos['fecha_fin'])) {
+				$ind_error['fecha_inic'] = 'La fecha inicial debe ser menor que la fecha de finalización.';
+			} else {
+				## verificar que las fechas pertenezcan a un determinado periodo
+				$sql_temp = 'SELECT * FROM periodos WHERE (';
+				$sql_temp .= '(\'' . $datos['fecha_inic'] . '\' BETWEEN fecha_inic AND fecha_fin) AND'; 
+				$sql_temp .= '(\'' . $datos['fecha_fin'] . '\' BETWEEN fecha_inic AND fecha_fin)';
+				$sql_temp .= ')'; 
+				$tmp_query = $this->Programacion->query($sql_temp);
+				## las fechas ingresadas no pertenecen a ningún periodo
+				if (count($tmp_query)==0)
+					$ind_error['fecha_inic'] = 'Las fechas de la programación deben de pertenecer a un determinado periodo.';
+				unset($sql_temp, $tmp_query);
+			} /* else */
+		}
+		
+		return $ind_error;
 		
 	}
 	
