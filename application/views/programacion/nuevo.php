@@ -78,7 +78,7 @@ elseif (isset($rs_crear)) {
 					?>
 				</div>
 				<select name="actividad" id="actividad">
-					<option>Seleccione un Área</option>
+					<option>Seleccione una Actividad</option>
 					<?php 
 					if (count($lista_actividades)) {
 						$str_select = '';
