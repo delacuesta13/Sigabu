@@ -36,6 +36,21 @@ class Actividad extends VanillaModel {
 		return $this->query($sql);
 	}
 
+	function listar_actividades () {
+		$sql = '
+		SELECT area.id, 
+       		   area.nombre, 
+       		   actividad.id, 
+       		   actividad.nombre 
+		FROM   areas area, 
+       		   actividades actividad 
+		WHERE  area.id = actividad.area_id 
+		ORDER  BY area.nombre ASC, 
+          	   actividad.nombre ASC 
+		';
+		return $this->query($sql);
+	}
+	
 	function editar($id, $data){
 		$sql = '
 		UPDATE actividades SET ';
