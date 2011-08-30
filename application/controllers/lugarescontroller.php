@@ -301,6 +301,10 @@ class LugaresController extends VanillaController {
 		
 	}
 	
+	function listar_lugares_fk () {
+		return $this->Lugar->get_lugares();
+	}
+	
 	function eliminar ($id = null) {
 		
 		## el usuario tiene permiso para eliminar
