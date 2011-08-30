@@ -20,6 +20,42 @@ class Programacion extends VanillaModel {
 		$sql .= 'created_at = NOW()';
 		return $this->query($sql);
 	}	
+
+	function consultar_programacion ($id) {
+		$sql = '
+		SELECT actividad.nombre, 
+       		   curso.actividad_id,
+       		   area.id,
+       		   area.nombre, 
+       		   periodo.periodo, 
+       		   curso.periodo_id, 
+       		   curso.monitor_dni, 
+       		   curso.fecha_inic, 
+       		   curso.fecha_fin, 
+       		   curso.abierto, 
+       		   curso.comentario 
+		FROM   cursos curso, 
+       		   actividades actividad,
+       		   areas area, 
+       		   periodos periodo 
+		WHERE  curso.id = \'' . $id . '\' 
+			   AND curso.actividad_id = actividad.id
+			   AND curso.periodo_id = periodo.id
+			   AND actividad.area_id = area.id
+		';
+		return $this->query($sql);
+	}
+
+	function editar($id, $data){
+		$sql = '
+		UPDATE cursos SET ';
+		foreach ($data as $field => $value) {
+			$sql .= $field . ' = ' . ((strlen($value)==0) ? 'NULL' : ' \'' . $value . '\'') . ', ';
+		}
+		$sql .= 'updated_at = NOW()';
+		$sql .= ' WHERE id = \'' . $id .'\'';
+		return $this->query($sql);
+	}
 	
 	function eliminar($datos){
 	
