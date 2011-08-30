@@ -228,7 +228,7 @@ class ProgramacionController extends VanillaController {
 					'monitor_dni' => array(
 						'text' => 'Monitor',
 						'showTable' => true,
-						'sort' => true,
+						'sort' => false,
 						'where' => true
 					), /* end monitor_dni */
 					'abierto' => array(
@@ -514,7 +514,6 @@ class ProgramacionController extends VanillaController {
 		$this->set('lista_actividades', $lista_actividades);
 		
 		$tag_js = '
-		
 		function showInfo () {
 			$(function() {
 				$("#info_programacion_abierta").dialog({
@@ -552,11 +551,180 @@ class ProgramacionController extends VanillaController {
 		';
 		
 		$this->set('make_tag_js', $tag_js);
-		
 		$this->set('makejs', array('jquery.ui.datepicker-es', 'jquery.textareaCounter.plugin'));
 		
 	}
+	
+	/**
+	 * 
+	 * Editar la programación de una actividad ...
+	 * @param int $id
+	 * @param string $actividad
+	 */
+	function editar ($id = null, $actividad = null) {
+		
+		$editar = false;
+		
+		## se envió el formulario
+		if (isset($_POST['actividad'], $_POST['periodo'])) {
+			
+			$validar_data = array(
+				'actividad' => $_POST['actividad'],
+				'periodo' => $_POST['periodo']
+			);
+			
+			## ingresó monitor
+			if (isset($_POST['monitor']) && strlen($_POST['monitor'])!=0)
+				$validar_data['monitor'] = $_POST['monitor'];
+			
+			## ingresó fecha de inicio
+			if (isset($_POST['fecha_inic']) && strlen($_POST['fecha_inic'])!=0)
+				$validar_data['fecha_inic'] = $_POST['fecha_inic'];
+			
+			## ingresó fecha de finalización
+			if (isset($_POST['fecha_fin']) && strlen($_POST['fecha_fin'])!=0)
+				$validar_data['fecha_fin'] = $_POST['fecha_fin'];
+			
+			## la programación es abierta
+			if (isset($_POST['abierto'])) {	
+				$validar_data['abierto'] = 1;
+			} else {
+				$validar_data['abierto'] = 0;
+			}
+			
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_programacion($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+			
+			## no se recibieron errores
+			else {
+				
+				## ingresó comentario
+				if(strlen($_POST['comentario'])!=0) { 
+					$validar_data['comentario'] = addslashes($_POST['comentario']);
+				} else {
+					$validar_data['comentario'] = '';
+				}
+			
+				$validar_data['actividad_id'] = $validar_data['actividad'];
+				$validar_data['periodo_id'] = $validar_data['periodo'];
+				unset($validar_data['actividad'], $validar_data['periodo']);
+				
+				## ingresó monitor
+				if (array_key_exists('monitor', $validar_data)) {
+					$validar_data['monitor_dni'] = $validar_data['monitor'];
+					unset($validar_data['monitor']);
+				} else {
+					$validar_data['monitor_dni'] = '';
+				}
+				
+				## NO ingresó fecha de inicio
+				if (!array_key_exists('fecha_inic', $validar_data))
+					$validar_data['fecha_inic'] = ''; 
+				
+				## NO ingresó fecha de finalización
+				if (!array_key_exists('fecha_fin', $validar_data))
+					$validar_data['fecha_fin'] = '';
 
+				if($this->Programacion->editar($id, $validar_data)){
+					$editar = true;
+				} else {
+					$this->set('rs_editar', false);
+				}
+				
+			} /* else */
+			
+		} /* envío del formulario */
+		
+		$search_caract_espec = array('á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú', 'ñ', 'Ñ', '&', '_');
+		$replace_caract_espec = array('a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U', 'n', 'N', '', '' );
+		
+		## se recibe un id de una programación
+		if (isset($id) && preg_match('/^[\d]{1,}$/', $id) && !$editar) {
+			
+			$data_programacion = $this->Programacion->consultar_programacion($id);
+			
+			## la programación existe
+			if (count($data_programacion)!=0) {
+				
+				$actividad_url = strtolower($data_programacion[0]['Actividad']['nombre']);
+				$actividad_url = str_replace($search_caract_espec, $replace_caract_espec, $actividad_url); ## reemplazo de caracteres
+				$actividad_url = preg_replace('/\s+/', '-', $actividad_url); ## reemplazar espacios por guiones
+				$actividad_url = preg_replace('/-{2,}/', '-', $actividad_url); ## reemplazar dos o más guiones seguidos, por uno solo
+				
+				## NO se recibe el nombre de la actividad o NO está como debería aparecer en la URL
+				if (!isset($actividad) || $actividad!=$actividad_url) {
+					redirectAction(strtolower($this->_controller), 'editar', array($id, $actividad_url));
+				}
+				
+				/*******************************************************************************************
+				 *************** Ya aquí empieza el código propio de la 'action' ***************************
+				 *******************************************************************************************/
+				
+				$this->set('id', $id);
+				$this->set('actividad_url', $actividad_url);
+				$this->set('data_programacion', $data_programacion);
+				
+				$lista_periodos = performAction('periodos', 'listar_periodos_group_fk', array());
+				$this->set('lista_periodos', $lista_periodos);
+				
+				$tag_js = '
+				function showInfo () {
+					$(function() {
+						$("#info_programacion_abierta").dialog({
+							modal: true,
+							autoOpen: true,
+							resizable: false,
+							width: 600
+						});
+					});
+				}
+				
+				$(function() {
+			
+					$( "#fecha_inic, #fecha_fin" ).datepicker({
+						regional: "es",
+						dateFormat: "yy-mm-dd",				
+						changeMonth: true,
+						changeYear: true,
+						showOtherMonths: true,
+						selectOtherMonths: false
+					});
+
+					var options2 = {
+						"maxCharacterSize": 200,
+						"originalStyle": "originalDisplayInfo",
+						"displayFormat": "#left Caracteres Disponibles"
+					};
+					$("#comentario").textareaCount(options2);
+					
+					$("h2.title").append( "Programación -> Editar" );
+		
+				});
+				';
+				
+				$this->set('make_tag_js', $tag_js);
+				$this->set('makejs', array('jquery.ui.datepicker-es', 'jquery.textareaCounter.plugin'));
+				
+			} else {
+				redirectAction(strtolower($this->_controller), 'index');
+			} /* else */
+			
+		}
+		
+		## editó exitósamente
+		elseif ($editar) {
+			redirectAction(strtolower($this->_controller), 'ver', array($id));
+		}
+		
+		## no se recibieron datos
+		else {
+			redirectAction(strtolower($this->_controller), 'index');
+		}
+		
+	}
+	
 	private function validar_data_programacion ($datos) {
 		
 		$ind_error = array();
