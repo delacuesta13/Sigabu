@@ -46,6 +46,19 @@ class Programacion extends VanillaModel {
 		return $this->query($sql);
 	}
 
+	function total_inscritos ($id) {
+		$sql = '
+		SELECT persona.genero, 
+       		   COUNT(persona.genero) AS inscritos
+		FROM   personas persona, 
+       		   inscripciones inscripcion 
+		WHERE  inscripcion.curso_id = \'' . $id . '\' 
+       		   AND inscripcion.persona_dni = persona.dni 
+		GROUP  BY persona.genero 
+		';
+		return $this->query($sql);
+	}
+	
 	function editar($id, $data){
 		$sql = '
 		UPDATE cursos SET ';
