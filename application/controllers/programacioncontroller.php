@@ -411,6 +411,87 @@ class ProgramacionController extends VanillaController {
 		
 	}
 	
+	function ver ($id = null, $actividad = null) {
+		
+		$search_caract_espec = array('á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú', 'ñ', 'Ñ', '&', '_');
+		$replace_caract_espec = array('a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U', 'n', 'N', '', '' );
+
+		## se recibe un id de una programación
+		if (isset($id) && preg_match('/^[\d]{1,}$/', $id)) {
+			
+			$data_programacion = $this->Programacion->consultar_programacion($id);
+			
+			## la programación existe
+			if (count($data_programacion)!=0) {
+				
+				$actividad_url = strtolower($data_programacion[0]['Actividad']['nombre']);
+				$actividad_url = str_replace($search_caract_espec, $replace_caract_espec, $actividad_url); ## reemplazo de caracteres
+				$actividad_url = preg_replace('/\s+/', '-', $actividad_url); ## reemplazar espacios por guiones
+				$actividad_url = preg_replace('/-{2,}/', '-', $actividad_url); ## reemplazar dos o más guiones seguidos, por uno solo
+				
+				## NO se recibe el nombre de la actividad o NO está como debería aparecer en la URL
+				if (!isset($actividad) || $actividad!=$actividad_url) {
+					redirectAction(strtolower($this->_controller), 'ver', array($id, $actividad_url));
+				}
+				
+				/*******************************************************************************************
+				 *************** Ya aquí empieza el código propio de la 'action' ***************************
+				 *******************************************************************************************/
+				
+				$this->set('id', $id);
+				$this->set('actividad_url', $actividad_url);
+				$this->set('data_programacion', $data_programacion);
+				$this->set('total_inscritos', $this->Programacion->total_inscritos($id));
+				
+				$tag_js = '
+				function closeDialog(dialog, id_msj, div){
+					$(function() {
+						$("#dialog-" + dialog).dialog("close");  
+						return false; 						
+					});
+					customDialog(id_msj, div);	
+				}
+				
+				function customMensaje (id_msj, div) {
+				
+					var mensajes = new Array();
+					mensajes[0] = "Vaya! No tienes el permiso necesario para interactuar con la página solicitada.";
+
+					var msj_dialog = "<div class=\"message notice\"><p>" + mensajes[id_msj] + "</p></div>"; 
+					
+					$(function() {
+						$( "#showMensaje-" + div ).html(msj_dialog);
+						$( "#showMensaje-" + div ).fadeIn("slow");
+						$(".flash").click(function() {$(this).fadeOut("slow", function() { $(this).css("display", "none"); });});
+					});
+					
+					return false;
+				
+				}
+				
+				$(document).ready(function() {
+				
+					$( "h2.title" ).append("Ver");
+					
+					$( "#tabs" ).tabs({
+						selected: 0
+					});
+					
+				});
+				';
+				
+				$this->set('make_tag_js', $tag_js);
+				
+			} else {
+				redirectAction(strtolower($this->_controller), 'index');
+			}
+			
+		} else {
+			redirectAction(strtolower($this->_controller), 'index');
+		}
+		
+	}
+	
 	function eliminar ($id = null) {
 		
 		## el usuario tiene permiso para eliminar
