@@ -16,9 +16,9 @@ $make_sidebar = '
 <div class="block notice">
 	<h4>Atención!</h4>
 	<p>
-		<sup>1</sup> La persona a la cual se asignará como monitor, deberá
-		de estar activa en sus campos de <i>Estado</i> y <i>Monitor</i>.<br/>
-		<sup>2</sup> Las fechas (de inicio y finalización) deberán de estar
+		<sup>1</sup> La persona a la cual se asignará como monitor, debe
+		estar activa en sus campos de <i>Estado</i> y <i>Monitor</i>.<br/>
+		<sup>2</sup> Las fechas (de inicio y finalización) deben estar
 		dentro del rango de fechas de un determinado periodo.<br/><br/>
 		<sup>*</sup> Campos obligatorios.  
 	</p>
