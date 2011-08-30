@@ -124,6 +124,32 @@ $menu_project = array(
 		) /* end actions */
 	), /* end programacion */
 	
+	"horarios" => array(
+		"show" => false,
+		"nivel" => 2,
+		"actions" => array(
+			
+			"nuevo" => array(
+				"text" => "Nuevo",
+				"nivel" => 4,
+				"showMenu" => true
+			), /* end nuevo */
+			"ver" => array(
+				"nivel" => 2,
+				"showMenu" => false
+			), /* end ver */
+			"editar" => array(	
+				"nivel" => 4,
+				"showMenu" => false
+			), /* end editar */
+			"eliminar" => array(
+				"nivel" => 4,
+				"showMenu" => false
+			) /* end eliminar */
+			
+		) /* end actions */
+	), /* end horarios */
+	
 	"periodos" => array(
 		"show" => false,
 		"text" => "Períodos",
