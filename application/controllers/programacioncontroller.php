@@ -529,6 +529,10 @@ class ProgramacionController extends VanillaController {
 		
 	}
 	
+	function consultar_programacion_fk ($id) {
+		return $this->Programacion->consultar_programacion($id);
+	}
+	
 	function nuevo () {
 		
 		if (isset($_POST['actividad'], $_POST['periodo'])) {
