@@ -411,6 +411,43 @@ class ProgramacionController extends VanillaController {
 		
 	}
 	
+	function eliminar ($id = null) {
+		
+		## el usuario tiene permiso para eliminar
+		if ($_SESSION['nivel'] >= $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']) {
+		
+			## se recibe un id para eliminar
+			if(isset($id) && preg_match('/^[\d]{1,}$/', $id)){
+				$rs = $this->Programacion->eliminar(array($id));
+				echo '<div class="message notice"><p>
+				Se ha ejecutado exitósamente ' . $rs['trueQuery'] . ' petición (es), de ' .  $rs['totalQuery'] . ' solicitada (s).
+				</p></div>';
+			}
+			## se recibe (n) mediante post, id (s) para eliminar
+			elseif (isset($_POST['id']) && is_array($_POST['id']) && count($_POST['id'])!=0) {
+				$rs = $this->Programacion->eliminar($_POST['id']);
+				echo '<div class="message notice"><p>
+				Se ha ejecutado exitósamente ' . $rs['trueQuery'] . ' petición (es), de ' .  $rs['totalQuery'] . ' solicitada (s).
+				</p></div>';
+			}
+			## no se recibe nada
+			else{
+				echo '<div class="message notice"><p>No se ha recibido peticiones.</p></div>';
+			}
+			
+		} else {
+			echo '<div class="message warning"><p>Vaya! No tienes el permiso necesario para interactuar con la página solicitada.</p></div>';
+		}
+		
+		/****************************************************/
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+		
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
 	function nuevo () {
 		
 		if (isset($_POST['actividad'], $_POST['periodo'])) {
