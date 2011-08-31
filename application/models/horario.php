@@ -77,4 +77,15 @@ class Horario extends VanillaModel {
 		return $this->query($sql);
 	}
 	
+	function editar($id, $data){
+		$sql = '
+		UPDATE horarios SET ';
+		foreach ($data as $field => $value) {
+			$sql .= $field . ' = ' . ((strlen($value)==0) ? 'NULL' : ' \'' . $value . '\'') . ', ';
+		}
+		$sql = substr_replace($sql, '', -2);
+		$sql .= ' WHERE id = \'' . $id .'\'';
+		return $this->query($sql);
+	}
+	
 }
