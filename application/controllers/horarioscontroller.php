@@ -491,6 +491,60 @@ class HorariosController extends VanillaController {
 		
 	}
 	
+	function ver ($id = null, $id_curso = null, $actividad = null) {
+		
+		$search_caract_espec = array('á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú', 'ñ', 'Ñ', '&', '_');
+		$replace_caract_espec = array('a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U', 'n', 'N', '', '' );
+		
+		## se recibieron el id ($id) del horario y el id ($id_curso) del curso
+		if (isset($id, $id_curso) && preg_match('/^\d+h$/', $id) && preg_match('/^\d+c$/', $id_curso)) {
+		
+			$id = preg_replace('/h$/', '', $id);
+			$id_curso = preg_replace('/c$/', '', $id_curso);
+			
+			$data_horario = $this->Horario->consultar_horario($id);
+			
+			## el horario existe y pertenece al id del curso recibido
+			if (count($data_horario)!=0 && $data_horario[0]['Curso']['id']) {
+				
+				$actividad_url = strtolower($data_horario[0]['Actividad']['nombre']);
+				$actividad_url = str_replace($search_caract_espec, $replace_caract_espec, $actividad_url);
+				$actividad_url = preg_replace('/\s+/', '-', $actividad_url);
+				$actividad_url = preg_replace('/-{2,}/', '-', $actividad_url);
+				
+				## no se recibe nombre de actividad o éste no está como debería de estar
+				if (!isset($actividad) || $actividad!=$actividad_url) {
+					redirectAction(strtolower($this->_controller), $this->_action, array($id .'h', $id_curso . 'c', $actividad_url));
+				}
+				
+				/*******************************************************************************************
+				 *************** Ya aquí empieza el código propio de la 'action' ***************************
+				 *******************************************************************************************/
+				
+				$this->set('id', $id);
+				$this->set('id_curso', $id_curso);
+				$this->set('actividad_url', $actividad_url);
+				$this->set('data_horario', $data_horario);
+				
+				$tag_js = '
+				$(function () {
+					var url = "' . BASE_PATH . '/programacion/ver/' . $id_curso . '/' . $actividad . '";
+					$("h2.title").append("<a href=\"" + url + "\">Programación</a> -> Horarios -> Ver");
+				});
+				';
+				
+				$this->set('make_tag_js', $tag_js);
+				
+			} else {
+				redirectAction('programacion', 'index', array());
+			}
+		
+		} else {
+			redirectAction('programacion', 'index', array());
+		}
+		
+	}
+	
 	function eliminar ($id = null) {
 		
 	if ($_SESSION['nivel'] >= $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']) {
