@@ -201,6 +201,332 @@ class HorariosController extends VanillaController {
 		
 	}
 	
+	function listar_horarios ($id_curso = null) {
+	    /*
+		 * si no se recibe nada, y como ésta es una
+		 * 'action' cargada vía ajax, no renderizo
+		 * $this->render = 0;
+		 */
+		
+		## se recibe un id de un curso y éste es válido
+		if (isset($id_curso) && preg_match('/^\d+$/', $id_curso)) {
+		
+			## consultar si el curso existe
+			$data_curso = performAction('programacion', 'consultar_programacion_fk', array($id_curso));
+	
+			## el curso existe
+			if (count($data_curso)!=0) {
+		
+				$parametros = func_get_args();
+				
+				/**
+				 *
+				 * empezar a ordenar por este campo ...
+				 * 	<alias>tabla.campo
+				 * @var string
+				 */
+				$campo_dft = 'horario.dia';
+				$dir_dft = 'asc'; ## dirección de ordenamiento default
+				$pag_dft = 1;
+				$record_dft = PAGINATE_LIMIT;
+				
+				## variables que pueden pasarse por medio de parámetros
+				$var_data = array(
+					## número de página
+					'/^pag=/' => array(
+						'name' => 'pag',
+						'default' => $pag_dft,
+						'regex' => '/^[\d]+$/'
+					),
+					## número de registros por página
+					'/^record=/' => array(
+						'name' => 'record',
+						'default' => $record_dft,
+						'regex' => '/^[\d]+$/'
+					),
+					## columna por la cual ordenar
+					'/^sort=/' => array(
+						'name' => 'sort',
+						'default' => $campo_dft,
+						'regex' => '/^[a-zA-Z0-9_\.]+$/'
+					),
+					## dirección del ordenamiento
+					'/^order=/' => array(	
+						'name' => 'order',
+						'default' => $dir_dft,
+						'regex' => '/^(asc|desc)$/'
+					),
+					## cadena de búsqueda
+					'/^q=/' => array(
+						'name' => 'search',
+						'regex' => '/^[a-zA-Z 0-9-:]{1,45}$/'
+					)
+				);
+				
+				$campos_tabla = array(
+					'horarios' => array(
+						'table' => true, ## es una tabla el nodo padre de este árbol
+						'alias' => 'horario',
+						'fields' => array(
+							'id' => array(
+								'showTable' => false, ## mostrar como columna en la tabla			
+								'sort' => true, ## puede ordenarse la tabla por este campo
+								'where' => true ## buscar por esta columna
+							), /* end id */
+							'dia' => array(
+								'text' => 'Día',
+								'showTable' => true,
+								'sort' => true,
+								'where' => true
+							), /* end dia */
+							'hora_inic' => array(
+								'text' => 'Hora Inicio',
+								'showTable' => true,
+								'sort' => true,
+								'where' => true
+							), /* end hora_inic */
+							'hora_fin' => array(
+								'text' => 'Hora Finalización',
+								'showTable' => true,
+								'sort' => true,
+								'where' => true
+							) /* end hora_fin */
+						) /* end fields */
+					), /* end horarios */
+					'lugares' => array(
+						'table' => true,
+						'alias' => 'lugar',
+						'fields' => array(
+							'nombre' => array(
+								'text' => 'Lugar',
+								'showTable' => true,
+								'sort' => true,
+								'where' => true
+							), /* end nombre */
+							'direccion' => array(
+								'showTable' => false,
+								'sort' => false,
+								'where' => false
+							) /* end direccion */
+						) /* end fields */
+					), /* end lugares */
+					## realizar los joins entre las tablas
+					'join' => array(
+						0 => 'horario.lugar_id = lugar.id',
+					)
+				);
+				
+				/**
+				 * recorro los parámetros recibidos,
+				 * y si cumplen el respectivo patrón
+				 * definido los agrego al SQL de consulta.
+				 */
+				$str_temp = '';
+				for($i = 0; $i < count($parametros); $i++){
+					foreach($var_data as $patron => $atributos){
+						## el parámetros es un patrón para el SQL
+						if(preg_match($patron, $parametros[$i])){
+							## valido el valor de la variable que se recibió por parámetro
+							$str_temp = preg_replace($patron, '', $parametros[$i]);
+							if(preg_match($atributos['regex'], $str_temp)){
+								$opciones_data[$atributos['name']] = $str_temp;
+							} /* if */
+							## como lo que se recibió no coincide con el patrón, asigno valor default
+							elseif (array_key_exists('default', $atributos)){
+								$opciones_data[$atributos['name']] = $atributos['default'];
+							} /* elseif */
+						} /* if */
+					} /* foreach */
+				} /* for */
+				unset($str_temp);
+				if(isset($patron)) unset($patron);
+				if(isset($atributos)) unset($atributos);
+				
+				/**
+				 * inicializo el query de consulta
+				 */
+				$str_query = 'SELECT SQL_CALC_FOUND_ROWS ';
+				
+				/**
+				 * agrego las columnas al query
+				 */
+				$str_tablas_sql = 'FROM '; ## tablas de la consulta y sus aliases
+				foreach ($campos_tabla as $tabla => $def) {
+					## $tabla es una tabla
+					if(array_key_exists('table', $def) && $def['table']) {
+						$str_tablas_sql .= $tabla . ' ' . $def['alias'] . ', ';
+						## recorro los campos de la tabla
+						foreach($def['fields'] as $field => $attr){
+							$str_query .= $def['alias'] . '.' . $field . ', ';
+						} /* foreach */
+						unset($field, $attr);
+					} /* if */
+				} /* foreach */
+				$str_query = substr_replace($str_query, '', -2) . ' ' . substr_replace($str_tablas_sql, '', -2);
+				unset($str_tablas_sql, $tabla, $def);
+				
+				/**
+				 * agrego los joins al query
+				 */
+				$str_temp = 'WHERE horario.curso_id = \'' . $id_curso . '\' AND (';
+				if (array_key_exists('join', $campos_tabla) && is_array($campos_tabla['join']) && count($campos_tabla['join'])!=0) {
+					for ($i = 0; $i < count($campos_tabla['join']); $i++) {
+						$str_temp .= $campos_tabla['join'][$i] . ' AND ';
+					}
+				}
+				$str_query .= ' ' . substr_replace($str_temp, '', -5) . ')';
+				unset($str_temp);
+				
+				/**
+				 * agrego el where a cada una de las columnas
+				 */
+				if (array_key_exists('search', $opciones_data)) {
+					$str_query .= ' AND (';
+					foreach ($campos_tabla as $tabla => $def) {
+						if (array_key_exists('table', $def) && $def['table']) {
+							## recorro los campos de la tabla
+							foreach ($def['fields'] as $field => $attr) {
+								## se puede buscar por el campo
+								if ($attr['where']) {
+									$str_query .= $def['alias'] . '.' . $field . ' LIKE \'%' . mysql_real_escape_string($opciones_data['search']) . '%\' OR ';
+								} /* if */
+							} /* foreach */
+							unset($field, $attr);
+						} /* if */
+					} /* foreach */
+					$str_query = substr_replace($str_query, "", -3);
+					$str_query .= ')';
+					unset($tabla, $def);
+				} /* if where */
+				
+				/**
+				 * agrego la columna y la dirección del ordenamiento
+				 */
+				$j = 0;
+				if (array_key_exists('sort', $opciones_data) && array_key_exists('order', $opciones_data)) {
+					/**
+					 *
+					 * 0 -> alias tabla
+					 * 1 -> campo ...
+					 * @var array
+					 */
+					$str_temp = explode('.', $opciones_data['sort']);
+					foreach ($campos_tabla as $tabla => $def) {
+						if (array_key_exists('table', $def) && $def['table'] && strtolower($def['alias'])==strtolower($str_temp[0])) {
+							## el campo por el cual ordenar existe en la tabla
+							if (array_key_exists(strtolower($str_temp[1]), $def['fields']) && $def['fields'][strtolower($str_temp[1])]['sort']) {
+								$str_query .= ' ORDER BY ' . mysql_real_escape_string($opciones_data['sort']) . ' ' . strtoupper(mysql_real_escape_string($opciones_data['order']));
+								$j = 1;
+							} /* if */
+						} /* if */
+						if($j == 1) break;
+					} /* foreach */
+					unset($str_temp, $tabla, $def);
+				}
+				
+				## ordernar y direccionar por default
+				if ($j==0) {
+					$str_query .= ' ORDER BY ' . $campo_dft . ' ' . strtoupper($dir_dft);
+				}
+				unset($j);
+				
+				/**
+				 * agrego el limit
+				 */
+				if (!array_key_exists('pag', $opciones_data)) $opciones_data['pag'] = $pag_dft;
+				if (!array_key_exists('record', $opciones_data)) $opciones_data['record'] = $record_dft;
+				$offset = $opciones_data['record'] * ($opciones_data['pag'] - 1);
+				$str_query .= ' LIMIT '. $offset . ', ' . $opciones_data['record'];
+				
+				## ejecuto la consulta y recibo las tuplas
+				$data_query = $this->Horario->query($str_query);
+				
+				## total de tuplas sin LIMIT
+				$str_totalquery = 'SELECT FOUND_ROWS() as total';
+				$totalreg_query = $this->Horario->query($str_totalquery); 
+				$totalreg_query = $totalreg_query[0]['']['total'];
+				
+				/**
+				 * envío variables a la vista
+				 */
+				$this->set('id_curso', $id_curso);
+				$this->set('campos_tabla', $campos_tabla);
+				$this->set('data_query', $data_query);
+				$this->set('totalreg_query', $totalreg_query);
+				$this->set('pagina', $opciones_data['pag']);
+				$this->set('record', $opciones_data['record']);
+				
+				if (array_key_exists('sort', $opciones_data) && array_key_exists('order', $opciones_data)) {
+					$this->set('sort', $opciones_data['sort']);
+					$this->set('order', $opciones_data['order']);
+				} else {
+					$this->set('sort', $campo_dft);
+					$this->set('order', $dir_dft);
+				}
+				
+				if (array_key_exists('search', $opciones_data)) {
+					$this->set('search', $opciones_data['search']);
+				} else {
+					$this->set('search', '');
+				}
+				
+				unset ($data_query, $totalreg_query, $offset);
+				
+				/****************************************************/
+		
+			} else {
+				$this->render = 0;
+			} /* else */
+			
+		} else {
+			$this->render = 0;
+		}
+		
+		/****************************************************/
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+		
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
+	function eliminar ($id = null) {
+		
+	if ($_SESSION['nivel'] >= $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']) {
+			
+			## se recibe un id para eliminar
+			if (isset($id) && preg_match('/^[\d]{1,}$/', $id)) {
+				$rs = $this->Horario->eliminar(array($id));
+				echo '<div class="message notice"><p>
+				Se ha ejecutado exitósamente ' . $rs['trueQuery'] . ' petición (es), de ' .  $rs['totalQuery'] . ' solicitada (s).
+				</p></div>';
+			}
+			## se recibe (n) mediante post, id (s) para eliminar
+			elseif (isset($_POST['id']) && is_array($_POST['id']) && count($_POST['id'])!=0) {
+				$rs = $this->Horario->eliminar($_POST['id']);
+				echo '<div class="message notice"><p>
+				Se ha ejecutado exitósamente ' . $rs['trueQuery'] . ' petición (es), de ' .  $rs['totalQuery'] . ' solicitada (s).
+				</p></div>';
+			}
+			## no se recibe nada
+			else{
+				echo '<div class="message notice"><p>No se ha recibido peticiones.</p></div>';
+			}
+			
+		} else {
+			echo '<div class="message warning"><p>Vaya! No tienes el permiso necesario para interactuar con la página solicitada.</p></div>';
+		}
+		
+		/****************************************************/
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+		
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
 	private function validar_data_horario ($datos) {
 		
 		$ind_error = array();
