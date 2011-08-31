@@ -444,12 +444,40 @@ class ProgramacionController extends VanillaController {
 				$this->set('total_inscritos', $this->Programacion->total_inscritos($id));
 				
 				$tag_js = '
+				
+				var info_preload = \'<div id="info_preload" class="dataTablas_preload">Cargando...</div>\';
+				
+				function load_dataTable (controlador, pag, record, sort, order, search) {
+					
+					$(function() {
+						
+						$( "#dynamic-" + controlador ).html( info_preload );
+						var url = "'. BASE_PATH . '/" + controlador + "/listar_" + controlador + "/' . $id .'";
+						if(pag.length!=0) url += "/pag=" + pag;
+						if(record.length!=0) url += "/record=" + record;
+						if(sort.length!=0) url += "/sort=" + sort;
+						if(order.length!=0) url += "/order=" + order;
+						if(search.length!=0) url += "/q=" + encodeURIComponent(search);
+						$.ajax({
+							url: url,
+							success: function(data) {
+								$( "#dynamic-" + controlador ).html(data);
+							}
+						});
+						
+					});
+					
+				}
+				
 				function closeDialog(dialog, id_msj, div){
+					
 					$(function() {
 						$("#dialog-" + dialog).dialog("close");  
 						return false; 						
 					});
-					customDialog(id_msj, div);	
+					
+					customDialog(id_msj, div);
+						
 				}
 				
 				function customMensaje (id_msj, div) {
@@ -471,16 +499,22 @@ class ProgramacionController extends VanillaController {
 				
 				$(document).ready(function() {
 				
+					load_dataTable("horarios", 1, ' . PAGINATE_LIMIT . ', "", "", "");
+				
 					$( "h2.title" ).append("Ver");
 					
 					$( "#tabs" ).tabs({
-						selected: 0
+						selected: 2
 					});
 					
 				});
+				
 				';
 				
 				$this->set('make_tag_js', $tag_js);
+				
+				$this->set('makecss', array('jquery.qtip.min'));
+				$this->set('makejs', array('jquery.qtip.min'));
 				
 			} else {
 				redirectAction(strtolower($this->_controller), 'index');
