@@ -45,4 +45,36 @@ class Horario extends VanillaModel {
 			
 	}
 	
+	function consultar_horario ($id) {
+		$sql = '
+		SELECT actividad.nombre, 
+       		   actividad.id, 
+       		   area.nombre, 
+       		   area.id, 
+       		   periodo.periodo, 
+       		   periodo.id, 
+       		   curso.id, 
+       		   horario.dia, 
+       		   horario.hora_inic, 
+       		   horario.hora_fin, 
+       		   lugar.nombre, 
+       		   lugar.direccion, 
+       		   lugar.id, 
+       		   horario.comentario 
+		FROM   actividades actividad, 
+       		   areas area, 
+       		   periodos periodo, 
+       		   cursos curso, 
+       		   horarios horario, 
+       		   lugares lugar 
+		WHERE  horario.id = \''. $id . '\' 
+       		   AND horario.lugar_id = lugar.id 
+       		   AND horario.curso_id = curso.id 
+       		   AND curso.actividad_id = actividad.id 
+       		   AND actividad.area_id = area.id 
+       		   AND curso.periodo_id = periodo.id 
+		';
+		return $this->query($sql);
+	}
+	
 }
