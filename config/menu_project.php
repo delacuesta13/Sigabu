@@ -132,7 +132,7 @@ $menu_project = array(
 			"nuevo" => array(
 				"text" => "Nuevo",
 				"nivel" => 4,
-				"showMenu" => true
+				"showMenu" => false
 			), /* end nuevo */
 			"ver" => array(
 				"nivel" => 2,
