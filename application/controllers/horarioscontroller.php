@@ -536,18 +536,18 @@ class HorariosController extends VanillaController {
 				$this->set('make_tag_js', $tag_js);
 				
 			} else {
-				redirectAction('programacion', 'index', array());
+				redirectAction('programacion', 'index');
 			}
 		
 		} else {
-			redirectAction('programacion', 'index', array());
+			redirectAction('programacion', 'index');
 		}
 		
 	}
 	
 	function eliminar ($id = null) {
 		
-	if ($_SESSION['nivel'] >= $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']) {
+		if ($_SESSION['nivel'] >= $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']) {
 			
 			## se recibe un id para eliminar
 			if (isset($id) && preg_match('/^[\d]{1,}$/', $id)) {
@@ -578,6 +578,140 @@ class HorariosController extends VanillaController {
 		$this->doNotRenderHeader = 1;
 		
 		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
+	function editar ($id = null, $id_curso = null, $actividad = null) {
+		
+		$editar = false;
+		
+		if (isset($_POST['dia'], $_POST['lugar'], $_POST['hora_inic'], $_POST['hora_fin'])) {
+			
+			$validar_data = array(
+				'curso_id' => preg_replace('/c$/', '', $id_curso),	
+				'dia' => $_POST['dia'],
+				'lugar' => $_POST['lugar'],
+				'horario' => array(
+					'new' => false,
+					'edit' => true,
+					'hora_inic' => $_POST['hora_inic'],
+					'hora_fin' => $_POST['hora_fin'],
+					'id' => $id ## id del horario a editar
+				)
+			);
+			
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_horario($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+			
+			## no se recibieron errores
+			else {
+				
+				/**
+				 * asigno valores a key, las cuales
+				 * tienen el mismo nombre de los 
+				 * campos de la tabla horarios
+				 */ 
+				
+				$validar_data['lugar_id'] = $validar_data['lugar'];
+				$validar_data['hora_inic'] = $validar_data['horario']['hora_inic'];
+				$validar_data['hora_fin'] = $validar_data['horario']['hora_fin'];
+				
+				unset($validar_data['curso_id'], $validar_data['lugar'], $validar_data['horario']);
+				
+				if (strlen($_POST['comentario'])!=0) {
+					$validar_data['comentario'] = addslashes($_POST['comentario']);
+				} else {
+					$validar_data['comentario'] = '';
+				}
+				
+				if ($this->Horario->editar($id, $validar_data)) {
+					$editar = true;
+				} else {
+					$this->set('rs_editar', false);
+				}
+								
+			} /* else */
+			
+		} /* envío del formulario */
+		
+		$search_caract_espec = array('á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú', 'ñ', 'Ñ', '&', '_');
+		$replace_caract_espec = array('a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U', 'n', 'N', '', '' );
+		
+		## se recibieron el id ($id) del horario y el id ($id_curso) del curso
+		if (isset($id, $id_curso) && preg_match('/^\d+h$/', $id) && preg_match('/^\d+c$/', $id_curso) && !$editar) {
+			
+			$id = preg_replace('/h$/', '', $id);
+			$id_curso = preg_replace('/c$/', '', $id_curso);
+				
+			$data_horario = $this->Horario->consultar_horario($id);
+				
+			## el horario existe y pertenece al id del curso recibido
+			if (count($data_horario)!=0 && $data_horario[0]['Curso']['id']) {
+				
+				$actividad_url = strtolower($data_horario[0]['Actividad']['nombre']);
+				$actividad_url = str_replace($search_caract_espec, $replace_caract_espec, $actividad_url);
+				$actividad_url = preg_replace('/\s+/', '-', $actividad_url);
+				$actividad_url = preg_replace('/-{2,}/', '-', $actividad_url);
+				
+				## no se recibe nombre de actividad o éste no está como debería de estar
+				if (!isset($actividad) || $actividad!=$actividad_url) {
+					redirectAction(strtolower($this->_controller), $this->_action, array($id .'h', $id_curso . 'c', $actividad_url));
+				}
+				
+				/*******************************************************************************************
+				 *************** Ya aquí empieza el código propio de la 'action' ***************************
+				 *******************************************************************************************/
+				
+				$this->set('id', $id);
+				$this->set('id_curso', $id_curso);
+				$this->set('actividad_url', $actividad_url);
+				$this->set('data_horario', $data_horario);
+				
+				$lista_lugares = performAction('lugares', 'listar_lugares_fk', array());
+				$this->set('lista_lugares', $lista_lugares);
+				
+				$tag_js = '
+				$(function() {
+				
+					$("a.cancel").click(function(){
+						document.forms["formulario"].reset();
+					}); 
+				
+					var url = "' . BASE_PATH . '/programacion/ver/' . $id_curso . '/' . $actividad_url . '";
+					
+					$("h2.title").append("<a href=\"" + url + "\">Programación</a> -> Horarios -> Editar");
+				
+					var options2 = {
+						"maxCharacterSize": 200,
+						"originalStyle": "originalDisplayInfo",
+						"displayFormat": "#left Caracteres Disponibles"
+					};
+					
+					$("#comentario").textareaCount(options2);
+				
+				});
+				';
+				
+				$this->set('make_tag_js', $tag_js);
+				$this->set('makejs', array('jquery.textareaCounter.plugin'));
+				
+			} else{ 
+				redirectAction('programacion', 'index');
+			}
+			
+		}
+		
+		## se editó exitósamente
+		elseif ($editar) {
+			redirectAction(strtolower($this->_controller), 'ver', array($id, $id_curso, $actividad));
+		}
+		
+		## no se recibieron datos
+		else{
+			redirectAction('programacion', 'index');
+		}
 		
 	}
 	
