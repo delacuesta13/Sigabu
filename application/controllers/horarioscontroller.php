@@ -237,6 +237,7 @@ class HorariosController extends VanillaController {
 				if (array_key_exists('edit', $datos['horario']) && $datos['horario']['edit']) {
 					$sql_temp .= ' AND id != \'' . $datos['horario']['id'] . '\'';
 				} /* if */
+				$sql_temp .= ' ORDER BY hora_inic';
 				$rs_temp = $this->Horario->query($sql_temp);
 				for ($i = 0; $i < count($rs_temp); $i++) {
 					if (strtotime($rs_temp[$i]['Horario']['hora_inic']) <= strtotime($datos['horario']['hora_inic']) && strtotime($datos['horario']['hora_inic']) <= strtotime($rs_temp[$i]['Horario']['hora_fin'])) {
