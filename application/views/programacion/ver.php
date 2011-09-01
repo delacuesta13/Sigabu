@@ -214,4 +214,3 @@
 <div id="dialog-confirm-asistencia" title="Eliminar asistencia" style="display: none;"></div>
 <div id="dialog-confirm-horario" title="Eliminar horario" style="display: none;"></div>
 <div id="dialog-nuevo-inscripcion" title="Nueva inscripción" style="display: none;"></div>
-<div id="dialog-nuevo-asistencia" title="Nueva asistencia" style="display: none;"></div>
