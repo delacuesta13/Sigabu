@@ -150,6 +150,23 @@ $menu_project = array(
 		) /* end actions */
 	), /* end horarios */
 	
+	"inscripciones" => array(
+		"show" => false,
+		"nivel" => 2,
+		"actions" => array(
+			
+			"nuevo" => array(
+				"nivel" => 2,
+				"showMenu" => false
+			), /* end nuevo */
+			"eliminar" => array(
+				"nivel" => 2,
+				"showMenu" => false
+			) /* end eliminar */
+		
+		) /* end actions */
+	), /* end inscripciones */
+	
 	"periodos" => array(
 		"show" => false,
 		"text" => "Períodos",
