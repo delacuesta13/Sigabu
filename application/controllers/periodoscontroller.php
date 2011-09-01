@@ -185,6 +185,14 @@ class PeriodosController extends VanillaController {
 		return $this->Periodo->consultar_periodo($id);
 	}
 	
+	/**
+	 * devuelve el ÚNICO periodo que se ha 
+	 * definido como actual ...
+	 */
+	function periodo_actual (){
+		return $this->Periodo->periodo_actual();
+	}
+	
 	function listar_periodos () {
 		
 		$parametros = func_get_args();
@@ -426,13 +434,40 @@ class PeriodosController extends VanillaController {
 			## no se recibieron errores
 			else{
 				
+				## existe un periodo actual y el nuevo reemplazará al existente
+				$actual = false;
+				
+				## consultar si el nuevo periodo será definido como actual
+				if (isset($_POST['actual'])) {
+					$validar_data['actual'] = 1;
+					## consulto el hasta ahora periodo actual
+					$periodo_actual = $this->periodo_actual();
+					if (count($periodo_actual)!=0) {
+						$periodo_actual = $periodo_actual[0]['Periodo']['id'];
+						$actual = true;
+						## (actualizo) defino el periodo como NO actual
+						$this->Periodo->query('UPDATE periodos SET actual = \'0\' WHERE id = \'' . $periodo_actual . '\'');
+					} /* if */
+				} else {
+					$validar_data['actual'] = 0;
+				} /* else */
+				
 				$validar_data['periodo'] = $validar_data['periodo']['value'];
 				
 				if ($this->Periodo->nuevo($validar_data)) {
 					$this->set('rs_crear', true);
 				} else {
 					$this->set('rs_crear', false);
-				}
+					/**
+					 * como no se creo el nuevo periodo, 
+					 * y se definió el último periodo que
+					 * era actual a NO actual, revierto 
+					 * la actualización 
+					 */
+					if ($actual) {
+						$this->Periodo->query('UPDATE periodos SET actual = \'1\' WHERE id = \'' . $periodo_actual . '\'');
+					} /* if */
+				} /* else */
 				
 			}
 		
@@ -488,12 +523,40 @@ class PeriodosController extends VanillaController {
 			## no se recibieron errores
 			else{
 				
+				## existe un periodo actual y el nuevo reemplazará al existente
+				$actual = false;
+				
+				## consultar si el nuevo periodo será definido como actual
+				if (isset($_POST['actual'])) {
+					$validar_data['actual'] = 1;
+					## consulto el hasta ahora periodo actual
+					$periodo_actual = $this->periodo_actual();
+					## continuar sólo si el hasta ahora periodo actual no es el mismo periodo que se está editando
+					if (count($periodo_actual)!=0 && $id!=$periodo_actual[0]['Periodo']['id']) {
+						$periodo_actual = $periodo_actual[0]['Periodo']['id'];
+						$actual = true;
+						## (actualizo) defino el periodo como NO actual
+						$this->Periodo->query('UPDATE periodos SET actual = \'0\' WHERE id = \'' . $periodo_actual . '\'');
+					} /* if */
+				} else {
+					$validar_data['actual'] = 0;
+				} /* else */
+				
 				$validar_data['periodo'] = $validar_data['periodo']['value'];
 				
 				if ($this->Periodo->editar($id, $validar_data)) {
 					$editar = true;
 				} else {
 					$this->set('rs_editar', false);
+					/**
+					 * como no se creo el nuevo periodo, 
+					 * y se definió el último periodo que
+					 * era actual a NO actual, revierto 
+					 * la actualización 
+					 */
+					if ($actual) {
+						$this->Periodo->query('UPDATE periodos SET actual = \'1\' WHERE id = \'' . $periodo_actual . '\'');
+					} /* if */
 				}
 				
 			}
