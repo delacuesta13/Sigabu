@@ -25,6 +25,10 @@ class Periodo extends VanillaModel {
 		return $this->query('SELECT * FROM periodos WHERE id = \'' . $id . '\'');
 	}
 	
+	function periodo_actual () {
+		return $this->query('SELECT * FROM periodos where actual = \'1\'');
+	}
+	
 	function listar_periodos () {
 		return $this->query('SELECT * FROM periodos ORDER BY periodo desc');
 	}
