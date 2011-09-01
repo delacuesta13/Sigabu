@@ -41,6 +41,12 @@
 			<td><?php echo $data_query[$i]['Periodo']['periodo']?></td>
 			<td><?php echo $data_query[$i]['Periodo']['fecha_inic']?></td>
 			<td><?php echo $data_query[$i]['Periodo']['fecha_fin']?></td>
+			<td style="width: auto !important">
+				<?php 
+				if ($data_query[$i]['Periodo']['actual']=='1')  
+					echo $html->includeImg('icons/tick.png', 'Actual');
+				?>
+			</td>
 			<td class="last">
 				<a href="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . 'editar' . '/' . $data_query[$i]['Periodo']['id']?>" style="text-decoration: underline;">editar</a> |
 				<a onclick="dataEliminar(<?php echo $data_query[$i]['Periodo']['id']?>, '<?php echo $data_query[$i]['Periodo']['periodo']?>');" style="text-decoration: underline;cursor: pointer;">eliminar</a>
