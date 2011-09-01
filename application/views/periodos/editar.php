@@ -17,7 +17,8 @@ $make_sidebar = '
 		<h4>Atención!</h4>
 		<p>	
 			<sup>1</sup> El periodo debe de ser único.<br/>
-			<sup>2</sup> Todos los campos son obligatorios.
+			<sup>2</sup> Sólo un periodo podrá definirse como actual.<br/>
+			<sup>3</sup> Todos los campos son obligatorios.
 		</p>
 	</div>
 ';
@@ -113,7 +114,19 @@ action="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . $thi
 				?>
 				/>
 				<span class="description">Ej: <?php echo date('Y-m-d');?></span>
-			</div>	
+			</div>
+			
+			<div class="group">
+				<input type="checkbox" name="actual" id="actual" class="checkbox"
+				<?php 
+				if (isset($_POST['actual']) && (isset($ind_error) || (isset($rs_editar) && !$rs_editar))) 
+					echo 'checked="checked"';
+				elseif ($data_periodo[0]['Periodo']['actual']=='1')
+					echo 'checked="checked"';
+				?>
+				/> <label for="actual" class="checkbox">Actual</label><br/>	
+				<span class="description">Activar si el periodo será definido como actual.</span>
+			</div>		
 		
 		</div>
 	</div>
