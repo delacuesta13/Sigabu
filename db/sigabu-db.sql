@@ -35,6 +35,7 @@ CREATE  TABLE IF NOT EXISTS `sigabu`.`periodos` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `periodo` VARCHAR(8) NOT NULL COMMENT 'Periodo (académico) de un año. Por ej.:\n2011-1, 2011-2, etc.' ,
   `fecha_inic` DATE NOT NULL COMMENT 'Fecha de inicio del periodo.' ,
+  `actual` TINYINT NOT NULL DEFAULT 0 COMMENT 'Sólo un periodo será definido como actual, para cuyo valor en este campo será 1. En caso contrario, deberá tener valor 0.' ,
   `fecha_fin` DATE NOT NULL COMMENT 'Fecha de finalización del periodo.' ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `periodo_UNIQUE` (`periodo` ASC) )
