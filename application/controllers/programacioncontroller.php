@@ -484,6 +484,7 @@ class ProgramacionController extends VanillaController {
 				
 					var mensajes = new Array();
 					mensajes[0] = "Vaya! No tienes el permiso necesario para interactuar con la página solicitada.";
+					mensajes[1] = "Existe un error al cargar la página solicitada.";	
 
 					var msj_dialog = "<div class=\"message notice\"><p>" + mensajes[id_msj] + "</p></div>"; 
 					
@@ -500,11 +501,38 @@ class ProgramacionController extends VanillaController {
 				$(document).ready(function() {
 				
 					load_dataTable("horarios", 1, ' . PAGINATE_LIMIT . ', "", "", "");
+					load_dataTable("inscripciones", 1, ' . PAGINATE_LIMIT . ', "", "", "");
 				
 					$( "h2.title" ).append("Ver");
 					
 					$( "#tabs" ).tabs({
-						selected: 2
+						selected: 1
+					});
+					
+					$( "#dialog-nuevo-inscripcion" ).dialog({
+						modal: true,
+						autoOpen: false,
+						resizable: false,
+						height: 300,
+        				width: 650,
+        				open: function() {
+        					$("#dialog-nuevo-inscripcion").load("' . BASE_PATH . '/' . 'inscripciones' . '/' . 'nuevo' . '/' . $id . '");
+        				},
+        				close: function () {
+        					load_dataTable(\'inscripciones\', 1, ' . PAGINATE_LIMIT . ', "", "", "");
+        				},
+        				buttons: {
+        					"Guardar": function () {
+        						$( "#formulario-inscripcion" ).submit();
+        					},
+        					"Cancelar": function () {
+        						$( this ).dialog( "close" );
+        					}
+        				}
+					});
+					
+					$( "#btn_nuevo_inscripcion" ).click(function() {
+							$( "#dialog-nuevo-inscripcion" ).dialog( "open" );
 					});
 					
 				});
