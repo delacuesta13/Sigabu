@@ -259,6 +259,12 @@ class PeriodosController extends VanillaController {
 				'showTable' => true,
 				'sort' => true,
 				'where' => true
+			),
+			'actual' => array(
+				'text' => 'Actual',
+				'showTable' => true,
+				'sort' => true,
+				'where' => false
 			)
 		);
 		
