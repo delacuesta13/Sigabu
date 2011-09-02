@@ -340,27 +340,25 @@ class InscripcionesController extends VanillaController {
 			## se recibe el id del curso y éste coincide con el patrón
 			if (isset($id_curso) && preg_match('/^[\d]{1,}$/', $id_curso)) {
 				
+				$persona_dni = $_SESSION['persona_dni'];
 				$data_curso = performAction('programacion', 'consultar_programacion_fk', array($id_curso));
 				
 				## el curso existe
 				if (count($data_curso)!=0) {
 					
 					## si el usuario es monitor, sólo podrá interactuar con la 'action' si se le asignó el curso a él
-					if ($_SESSION['nivel']=='2') {
-						$monitor_dni = $_SESSION['persona_dni'];
-						if ($monitor_dni!=$data_curso[0]['Curso']['monitor_dni']) {
+					if ($_SESSION['nivel']=='2' && $persona_dni!=$data_curso[0]['Curso']['monitor_dni']) {
 							echo $tag_js;
-						} /* if */
-					} /* if */
-					
-					/*******************************************************************************************
-				 	 *************** Ya aquí empieza el código propia de la 'action' ***************************
-				 	 *******************************************************************************************/
-					
-					$this->set('id_curso', $id_curso);
-					$this->set('data_curso', $data_curso);
-					
-					/*******************************************************************************************/
+					} else {
+						/*******************************************************************************************
+						 *************** Ya aquí empieza el código propia de la 'action' ***************************
+						 *******************************************************************************************/
+						
+						$this->set('id_curso', $id_curso);
+						$this->set('data_curso', $data_curso);
+						
+						/*******************************************************************************************/
+					}
 					
 				} else {
 					$tag_js = '<script type="text/JavaScript">window.parent.closeDialog(\'nuevo-inscripcion\', 1, \'inscripciones\');</script>';
@@ -441,34 +439,32 @@ class InscripcionesController extends VanillaController {
 			## se recibe el id del curso y éste coincide con el patrón
 			if (isset($id_curso) && preg_match('/^[\d]{1,}$/', $id_curso)) {
 			
+				$persona_dni = $_SESSION['persona_dni'];
 				$data_curso = performAction('programacion', 'consultar_programacion_fk', array($id_curso));
 				
 				## el curso existe
 				if (count($data_curso)!=0) {
 					
 					## si el usuario es monitor, sólo podrá interactuar con la 'action' si se le asignó el curso a él
-					if ($_SESSION['nivel']=='2') {
-						$monitor_dni = $_SESSION['persona_dni'];
-						if ($monitor_dni!=$data_curso[0]['Curso']['monitor_dni']) {
-							echo '<div class="message warning"><p>Vaya! No tienes el permiso necesario para interactuar con la página solicitada.</p></div>';
-						} /* if */
-					} /* if */
+					if ($_SESSION['nivel']=='2' && $persona_dni!=$data_curso[0]['Curso']['monitor_dni']) {
+						echo '<div class="message warning"><p>Vaya! No tienes el permiso necesario para interactuar con la página solicitada.</p></div>';
+					} else {
+						/*******************************************************************************************
+				 	 	 *************** Ya aquí empieza el código propia de la 'action' ***************************
+				 	 	 *******************************************************************************************/
 					
-					/*******************************************************************************************
-				 	 *************** Ya aquí empieza el código propia de la 'action' ***************************
-				 	 *******************************************************************************************/
+						## se recibe (n) mediante post, id (s) para eliminar
+						if (isset($_POST['id']) && is_array($_POST['id']) && count($_POST['id'])!=0) {
+							$rs = $this->Inscripcion->eliminar($_POST['id']);
+							echo '<div class="message notice"><p>
+							Se ha ejecutado exitósamente ' . $rs['trueQuery'] . ' petición (es), de ' .  $rs['totalQuery'] . ' solicitada (s).
+							</p></div>';
+						} else{
+							echo '<div class="message notice"><p>No se ha recibido peticiones.</p></div>';
+						} /* else */
 					
-					## se recibe (n) mediante post, id (s) para eliminar
-					if (isset($_POST['id']) && is_array($_POST['id']) && count($_POST['id'])!=0) {
-						$rs = $this->Inscripcion->eliminar($_POST['id']);
-						echo '<div class="message notice"><p>
-						Se ha ejecutado exitósamente ' . $rs['trueQuery'] . ' petición (es), de ' .  $rs['totalQuery'] . ' solicitada (s).
-						</p></div>';
-					} else{
-						echo '<div class="message notice"><p>No se ha recibido peticiones.</p></div>';
-					}
-					
-					/*******************************************************************************************/
+						/*******************************************************************************************/
+					} 
 					
 				} else {
 					echo '<div class="message warning"><p>Existe un error al cargar la página solicitada.</p></div>';
