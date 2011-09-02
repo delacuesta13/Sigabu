@@ -476,7 +476,7 @@ class ProgramacionController extends VanillaController {
 						return false; 						
 					});
 					
-					customDialog(id_msj, div);
+					customMensaje(id_msj, div);
 						
 				}
 				
