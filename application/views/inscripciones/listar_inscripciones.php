@@ -87,7 +87,6 @@ $(function() {
 			} /* foreach */
 			unset($tabla, $def);
 			?>
-			<th class="last">&nbsp;</th>
 		</tr> <!-- end cabecera -->
 		<?php 
 		for ($i = 0; $i < count($data_query); $i++) {
@@ -99,12 +98,6 @@ $(function() {
 			<td><?php echo $data_query[$i]['Persona']['apellidos']?></td>
 			<td><?php echo $data_query[$i]['Multientidad']['nombre']?></td>
 			<td><?php echo substr($data_query[$i]['Inscripcion']['fecha_inscripcion'], 0, 16)?></td>
-			<td class="last">
-				<a href="JavaScript:void(0);" style="text-decoration: underline;"
-				onclick="dataEliminar_isncripcion(<?php echo $data_query[$i]['Inscripcion']['id'] . ', \'' . $data_query[$i]['Persona']['dni'] . '\', \'' . $data_query[$i]['Persona']['tipo_dni'] . '\', \'' . $data_query[$i]['Persona']['nombres'] . '\', \'' . $data_query[$i]['Persona']['apellidos'] . '\''?>);">
-				eliminar
-				</a>
-			</td>
 		</tr>
 		<?php	
 		} /* for */
@@ -177,40 +170,6 @@ $(function() {
 
 <script type="text/JavaScript">
 //<![CDATA[
-           
-function dataEliminar_isncripcion(id, dni, tipo_dni, nombres, apellidos) {
-	$(function () {
-		var msj_confirm = '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 10px 0;"></span>' + 
-		'¿Está seguro que desea eliminar permanentemente esta inscripción?</p>' + 
-		'<p style="margin-left:40px">' + 
-			nombres + ' ' + apellidos + '<br/>' + 
-			tipo_dni + ' ' + dni +
-		'</p>';
-		$( "#dialog-confirm-inscripcion" ).html(msj_confirm);
-		$( "#dialog-confirm-inscripcion" ).dialog({
-			resizable: false,
-			width: 500,
-			height: 200,
-			buttons: {
-				"Sí": function() {
-					url = '<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/eliminar/'?>' + id;
-					$.ajax({
-						url: url,
-						success: function(data) {
-							$( "#showMensaje-inscripciones" ).html(data);
-							$( "#showMensaje-inscripciones" ).fadeIn("slow");
-							load_dataTable ('inscripciones', 1, $( "#regpag_inscripciones" ).val(), '<?php echo $sort?>', '<?php echo $order?>', $( "#search_inscripciones" ).val());
-						}
-					});
-					$( this ).dialog( "close" );
-				},
-				"No": function() {
-					$( this ).dialog( "close" );
-				}
-			}
-		});
-	});	
-}
 
 $(function (){
 
@@ -267,7 +226,7 @@ $(function (){
 						$("input:checkbox[id=id_inscripcion]:checked").each(function(){
 							data_id.push($(this).val());	   
 						});
-						url = '<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/eliminar'?>';
+						url = '<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/eliminar/' . $id_curso?>';
 						$.post(url, {'id[]': data_id}, function(data){
 							$( "#showMensaje-inscripciones" ).html(data);
 							$( "#showMensaje-inscripciones" ).fadeIn("slow");
