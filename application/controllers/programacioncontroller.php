@@ -471,11 +471,12 @@ class ProgramacionController extends VanillaController {
 				
 				function closeDialog(dialog, id_msj, div){
 					
-					$(function() {
-						$("#dialog-" + dialog).dialog("close");  
-						return false; 						
-					});
-					
+					if (dialog.length!=0) {
+						$(function() {
+							$("#dialog-" + dialog).dialog("close");  
+							return false; 						
+						});
+					}
 					customMensaje(id_msj, div);
 						
 				}
