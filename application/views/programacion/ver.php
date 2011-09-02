@@ -210,7 +210,7 @@
 
 </div>
 
-<div id="dialog-confirm-inscripcion" title="Eliminar inscripcion" style="display: none;"></div>
+<div id="dialog-confirm-inscripcion" title="Eliminar inscripción" style="display: none;"></div>
 <div id="dialog-confirm-asistencia" title="Eliminar asistencia" style="display: none;"></div>
 <div id="dialog-confirm-horario" title="Eliminar horario" style="display: none;"></div>
 <div id="dialog-nuevo-inscripcion" title="Nueva inscripción" style="display: none;"></div>
