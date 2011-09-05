@@ -519,7 +519,7 @@ class InscripcionesController extends VanillaController {
 						  AND persona_dni = \'' . $datos['persona'] . '\' 
 					';
 					$rs_temp = $this->Inscripcion->query($sql);
-					## la persona no tiene un periodo
+					## la persona no tiene un perfil
 					if (count($rs_temp)==0) {
 						$ind_error['persona'] = 'La persona no tiene perfil en el periodo de la programaci&oacute;n de la actividad.';
 					} else {
@@ -529,7 +529,7 @@ class InscripcionesController extends VanillaController {
 						## la persona ya se inscribió al curso
 						if (count($rs_temp_2)!=0) {
 							$ind_error['persona'] = 'La persona ya est&aacute; inscrita en la programaci&oacute;n de la actividad.';
-						} else {
+						} elseif(INSCRIPCIONES_CRUCEHRS) {
 							
 							## horarios del curso en el que la persona se inscribe
 							$sql = '
