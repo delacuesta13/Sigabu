@@ -195,9 +195,11 @@
 				<strong>Asistencia de la Programación</strong>
 			</div>
 			<div style="display: table-cell; padding-left: 5px; vertical-align: middle;">
-				<button class="button" id="btn_nuevo_asistencia">
-					<?php echo $html->includeImg('icons/add.png', 'Nuevo')?> Nuevo
-				</button>
+				<a href="<?php echo BASE_PATH . '/asistencia/nuevo/' . $id . '/' . $actividad_url?>">	
+					<button class="button" id="btn_nuevo_asistencia">
+						<?php echo $html->includeImg('icons/add.png', 'Nuevo')?> Nuevo
+					</button>
+				</a>
 			</div>
 		</div> <!-- end toolbar -->
 		
