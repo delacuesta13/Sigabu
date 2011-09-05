@@ -39,19 +39,58 @@ class Perfil extends VanillaModel {
 	 * @param array $datos
 	 */
 	function eliminar($datos){
-	
+
+		/**
+		 * NOTA: Dado que, para la inscripción de una persona
+		 * en una programación de una actividad, es necesario
+		 * tener un perfil en el periodo de dicha programación,
+		 * al eliminar un perfil (que corresponde a un determinado
+		 * periodo) se eliminarán las inscripciones de la persona
+		 * en el periodo del perfil. 
+		 */
+		
 		$j = 0; ## número de querys exitosos
-	
+			
 		## construyo las sentencias de eliminación
 		for($i = 0; $i < count($datos); $i++){
 			## valido que id sea número
 			if(preg_match('/^[\d]{1,}$/', $datos[$i])){
+				
+				/*
+				 * obtengo el id del periodo al cual
+				 * pertenece el perfil, y la identificación
+				 * de la persona a la que se le asignó.
+				 */
+				$sql = '
+				SELECT periodo.id, perfil.persona_dni 
+				FROM perfiles perfil, periodos periodo
+				WHERE perfil.id = \'' . $datos[$i] . '\' AND perfil.periodo_id = periodo.id';
+				$data_perfil = $this->query($sql);
+				$id_periodo = $data_perfil[0]['Periodo']['id'];
+				$dni_persona = $data_perfil[0]['Perfil']['persona_dni'];
+				
+				/*
+				 * obtengo las inscripciones de los cursos (o programación de actividades)
+				 * en los cuales se inscribió la persona en el periodo del perfil.
+				 */
+				$sql = '
+				SELECT inscripcion.id 
+				FROM cursos curso, inscripciones inscripcion
+				WHERE curso.periodo_id = \'' . $id_periodo . '\' AND curso.id = inscripcion.curso_id
+				AND inscripcion.persona_dni = \'' . $dni_persona . '\'';
+				$inscripciones = $this->query($sql);
+				
 				## query exitoso
 				if($this->query('DELETE FROM perfiles WHERE id = \'' . $datos[$i] . '\'')){
-					$j++;
-				}
-			}
-		}
+					$j++;					
+					## elimino las inscripciones de la persona en el periodo del perfil
+					for ($k = 0; $k < count($inscripciones); $k++) {
+						$this->query('DELETE FROM inscripciones WHERE id = \'' . $inscripciones[$k]['Inscripcion']['id'] . '\'');
+					} /* for */					
+				} /* if query exitoso */
+				
+			} /* if preg_match */
+		} /* for */
 	
 		return (array('trueQuery' => $j, 'totalQuery' => count($datos)));
 			
