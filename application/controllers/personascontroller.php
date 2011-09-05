@@ -640,10 +640,11 @@ class PersonasController extends VanillaController{
 				$(document).ready(function() {
 				
 					load_dataTable(1, ' . PAGINATE_LIMIT . ', col, orderDir, \'\');	
+					load_dataTable_insc("inscripciones", ' . $dni . ', 1, ' . PAGINATE_LIMIT . ', "", "", "");
 											
 					$( "h2.title" ).append("Ver");
 					$( "#tabs" ).tabs({
-						selected: 0
+						selected: 2
 					});
 					
 					$( "#dialog-nuevo" ).dialog({
@@ -673,8 +674,10 @@ class PersonasController extends VanillaController{
 					});
 										
 				});
-				';				
+				';	
+							
 				$this->set('make_tag_js', $tag_js);
+				$this->set('makejs', array('personas_inscripciones'));
 				
 			} else {
 				redirectAction(strtolower($this->_controller), 'index');
