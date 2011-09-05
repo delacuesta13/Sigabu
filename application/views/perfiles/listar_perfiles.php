@@ -198,6 +198,8 @@ $(function() {
 								$( "#showMensaje" ).html(data);
 								$( "#showMensaje" ).fadeIn("slow");
 								load_dataTable (1, $( "#reg_pag" ).val(), '<?php echo $sort?>', '<?php echo $order?>', $( "#search" ).val());
+								/* cargo (de nuevo) el div que lista las inscripciones */
+								load_dataTable_insc ('inscripciones', <?php echo $dni?>, 1, '', '', '', '');
 							}
 						});
 						$( this ).dialog( "close" );
@@ -260,6 +262,8 @@ $(function() {
 								$( "#showMensaje" ).html(data);
 								$( "#showMensaje" ).fadeIn("slow");
 								load_dataTable (1, $( "#reg_pag" ).val(), '<?php echo $sort?>', '<?php echo $order?>', $( "#search" ).val());
+								/* cargo (de nuevo) el div que lista las inscripciones */
+								load_dataTable_insc ('inscripciones', <?php echo $dni?>, 1, '', '', '', '');
 							});	
 							$( this ).dialog( "close" );
 						},
