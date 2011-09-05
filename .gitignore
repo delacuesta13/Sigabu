@@ -1,2 +1,5 @@
 /doc
 /tmp
+/.settings
+.buildpath
+.project
