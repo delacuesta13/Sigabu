@@ -52,6 +52,7 @@
 		<ul>
 			<li><a href="#tabs-1">Información Personal</a></li>
 			<li><a href="#tabs-2">Perfiles</a></li>
+			<li><a href="#tabs-3">Inscripciones</a></li>
 		</ul>
 		
 		<!-- info personal -->		
@@ -146,6 +147,15 @@
 			</div> <!-- end dynamic -->
 						
 		</div>
+		
+		<!-- inscripciones -->
+		<div id="tabs-3">
+		
+			<div id="showMensaje-inscripciones" class="flash" style="display:none; margin-top:15px"></div>
+			
+			<div id="dynamic-inscripciones" style="padding-top: 15px;"> <!-- div donde cargo el ajax -->
+		
+		</div>
 	
 	</div>
 
@@ -155,6 +165,7 @@
 <div id="dialog-nuevo" title="Nuevo perfil" style="display: none;"></div>
 <div id="dialog-show-perfil" title="Perfil" style="display: none;"></div>
 <div id="dialog-edit-perfil" title="Editar perfil" style="display: none;"></div>
+<div id="dialog-confirm-inscripcion" title="Eliminar inscripción" style="display: none;"></div>
 
 <script type="text/JavaScript">
 //<![CDATA[
