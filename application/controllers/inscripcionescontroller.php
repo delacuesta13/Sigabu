@@ -777,7 +777,6 @@ class InscripcionesController extends VanillaController {
 					
 				} else {
 					echo '<div class="message warning"><p>Existe un error al cargar la página solicitada.</p></div>';
-					echo $tag_js;
 				}
 			
 			} 
