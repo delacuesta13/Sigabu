@@ -201,6 +201,10 @@ class HorariosController extends VanillaController {
 		
 	}
 	
+	function consultar_horario ($id) {
+		return $this->Horario->consultar_horario($id);
+	}
+	
 	function listar_horarios ($id_curso = null) {
 	    /*
 		 * si no se recibe nada, y como ésta es una
