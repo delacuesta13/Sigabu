@@ -376,6 +376,15 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
+-- Data for table `sigabu`.`personas`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `sigabu`;
+INSERT INTO `sigabu`.`personas` (`dni`, `tipo_dni`, `nombres`, `apellidos`, `telefono_fijo`, `telefono_movil`, `email`, `fecha_nac`, `genero`, `direccion_residencia`, `monitor`, `estado`, `created_at`, `updated_at`) VALUES (1234567, 'CC', 'John', 'Doe', NULL, NULL, 'john@demo.com', NULL, 'H', 'NULL', 0, 1, '2011-09-06 19:00:00', NULL);
+
+COMMIT;
+
+-- -----------------------------------------------------
 -- Data for table `sigabu`.`facultad`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -436,6 +445,15 @@ INSERT INTO `sigabu`.`roles` (`id`, `nombre`, `permiso`) VALUES (1, 'Jefe de Bie
 INSERT INTO `sigabu`.`roles` (`id`, `nombre`, `permiso`) VALUES (2, 'Coordinador de Cultura y Deporte', 4);
 INSERT INTO `sigabu`.`roles` (`id`, `nombre`, `permiso`) VALUES (3, 'Secretaria', 3);
 INSERT INTO `sigabu`.`roles` (`id`, `nombre`, `permiso`) VALUES (4, 'Monitor', 2);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `sigabu`.`usuarios`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `sigabu`;
+INSERT INTO `sigabu`.`usuarios` (`persona_dni`, `username`, `password`, `email`, `rol_id`, `estado`, `fecha_activacion`, `ultima_visita`, `created_at`) VALUES (1234567, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'john@demo.com', 1, 1, NULL, NULL, '2011-09-06 19:00:00');
 
 COMMIT;
 
