@@ -624,6 +624,15 @@ class InscripcionesController extends VanillaController {
 		
 	}
 	
+	/**
+	 * 
+	 * retorna las personas inscritas a un curso ...
+	 * @param int $id_curso
+	 */
+	function inscripciones_curso ($id_curso) {
+		return $this->Inscripcion->inscripciones_curso($id_curso);
+	}
+	
 	function nuevo ($id_curso = null) {
 		
 		/**
