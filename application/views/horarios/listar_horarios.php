@@ -255,14 +255,6 @@ $(function (){
 
 	$( "#dialog:ui-dialog" ).dialog( "destroy" );		
 
-	$( ".table :checkbox.toggle" ).each(function(i, toggle) {
-		$(toggle).change(function(e) {
-			$(toggle).parents("table:first").find(":checkbox:not(.toggle)").each(function(j, checkbox) {
-				checkbox.checked = !checkbox.checked;
-			});
-		});
-	});
-
 	$( "#formulario_eliminar_horario" ).submit(function() {
 
 		// no seleccionó ningún perfil
