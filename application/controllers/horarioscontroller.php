@@ -491,6 +491,47 @@ class HorariosController extends VanillaController {
 		
 	}
 	
+	/**
+	 * 
+	 * retorna los horarios de un curso, 
+	 * agrupándolos por día ...
+	 * @param int $id_curso
+	 */
+	function horarios_curso ($id_curso = null) {
+		
+		## array donde agrupar los horarios de un curso por día
+		$horarios = array();
+		
+		if (isset($id_curso) && preg_match('/^[\d]{1,}$/', $id_curso)) {
+			## recojo los horarios del curso
+			$tmp_horarios = $this->Horario->horarios_curso($id_curso);
+			$lista_dias = array ('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'); 
+			$str_dia = '';
+			for ($i = 0; $i < count($tmp_horarios); $i++) {
+				$str_dia = $lista_dias[intval($tmp_horarios[$i]['Horario']['dia']) - 1];
+				$horarios[$str_dia] = array();
+				for ($j = $i; $j < count($tmp_horarios); $j++) {
+					## mientras siga siendo el mismo día agrupo
+					if ($tmp_horarios[$i]['Horario']['dia'] == $tmp_horarios[$j]['Horario']['dia']) {
+						$horarios[$str_dia][] = array(
+							'id' => $tmp_horarios[$j]['Horario']['id'],
+							'lugar' => $tmp_horarios[$j]['Lugar']['nombre'],
+							'hora_inic' => $tmp_horarios[$j]['Horario']['hora_inic'],
+							'hora_fin' => $tmp_horarios[$j]['Horario']['hora_fin']
+						);
+					} else {
+						break;
+					} /* else */
+				} /* for j */
+				$j--;
+				$i = $j;
+			} /* for i */
+		} /* if */
+	
+		return $horarios;
+		
+	}
+	
 	function ver ($id = null, $id_curso = null, $actividad = null) {
 		
 		$search_caract_espec = array('á', 'Á', 'é', 'É', 'í', 'Í', 'ó', 'Ó', 'ú', 'Ú', 'ñ', 'Ñ', '&', '_');
