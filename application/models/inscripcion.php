@@ -21,7 +21,21 @@ class Inscripcion extends VanillaModel {
 		$sql .= 'created_at = NOW()';
 		return $this->query($sql);
 	}
-
+	
+	function inscripciones_curso ($id_curso) {
+		$sql = '
+		SELECT     persona.dni,
+				   persona.nombres,
+				   persona.apellidos
+		FROM 	   personas persona,
+				   inscripciones inscripcion
+		WHERE      inscripcion.curso_id = \'' . $id_curso . '\'
+				   AND inscripcion.persona_dni = persona.dni
+		ORDER BY   persona.nombres ASC, persona.apellidos ASC				   
+		';
+		return $this->query($sql);
+	}
+	
 	function eliminar($datos){
 	
 		$j = 0; ## número de querys exitosos
