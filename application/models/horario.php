@@ -77,6 +77,28 @@ class Horario extends VanillaModel {
 		return $this->query($sql);
 	}
 	
+	/**
+	 * 
+	 * retorna los horarios de un curso ...
+	 * @param int $id_curso
+	 */
+	function horarios_curso ($id_curso) {
+		$sql = '
+		SELECT     horario.id,
+				   horario.dia,
+				   horario.hora_inic,
+				   horario.hora_fin,
+				   lugar.nombre
+		FROM       horarios horario,
+			       lugares lugar
+		WHERE      horario.curso_id = \'' . $id_curso . '\'
+				   AND horario.lugar_id = lugar.id
+		ORDER BY   horario.dia ASC,
+				   horario.hora_inic ASC
+		';
+		return $this->query($sql);
+	}
+	
 	function editar($id, $data){
 		$sql = '
 		UPDATE horarios SET ';
