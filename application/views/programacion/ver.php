@@ -203,9 +203,9 @@
 			</div>
 		</div> <!-- end toolbar -->
 		
-		<div id="showMensaje-asistencias" class="flash" style="display:none; margin-top:15px"></div>
+		<div id="showMensaje-asistencia" class="flash" style="display:none; margin-top:15px"></div>
 			
-		<div id="dynamic-asistencias" style="padding-top: 15px;"> <!-- div donde cargo el ajax -->
+		<div id="dynamic-asistencia" style="padding-top: 15px;"> <!-- div donde cargo el ajax -->
 		</div> <!-- end dynamic -->
 	
 	</div>
