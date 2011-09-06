@@ -503,11 +503,12 @@ class ProgramacionController extends VanillaController {
 				
 					load_dataTable("horarios", 1, ' . PAGINATE_LIMIT . ', "", "", "");
 					load_dataTable("inscripciones", 1, ' . PAGINATE_LIMIT . ', "", "", "");
+					load_dataTable("asistencia", 1, ' . PAGINATE_LIMIT . ', "", "", "");
 				
 					$( "h2.title" ).append("Ver");
 					
 					$( "#tabs" ).tabs({
-						selected: 1
+						selected: 0
 					});
 					
 					$( "#dialog-nuevo-inscripcion" ).dialog({
