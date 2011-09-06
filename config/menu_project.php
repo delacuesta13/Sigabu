@@ -167,6 +167,14 @@ $menu_project = array(
 		) /* end actions */
 	), /* end inscripciones */
 	
+	"asistencia" => array(
+		"show" => false,
+		"nivel" => 2,
+		"actions" => array(
+			
+		) /* end actions */
+	), /* end asistencia */
+	
 	"periodos" => array(
 		"show" => false,
 		"text" => "Períodos",
