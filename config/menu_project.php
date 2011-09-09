@@ -243,7 +243,16 @@ $menu_project = array(
 		"nivel" => 5, ## nivel mínimo exigido por una acción del controlador
 		"actions" => array(
 		
-		
+			"index" => array(
+				"text" => "Usuarios",
+				"nivel" => 5,
+				"showMenu" => true
+			), /* end index */
+			"nuevo" => array(
+				"text" => "Nuevo",
+				"nivel" => 5,
+				"showMenu" => true
+			)
 		
 		) /* end actions */
 	) /* end usuarios */
