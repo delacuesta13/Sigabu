@@ -180,7 +180,7 @@ action="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . $thi
 			<div class="group">
 				<input type="checkbox" name="estado" id="estado" class="checkbox"
 				<?php 
-				if (!isset($_POST['estado'], $ind_error, $rs_crear) || isset($_POST['estado'])) echo 'checked="checked"';
+				if ((!isset($_POST['estado']) && !isset($ind_error)  && (!isset($rs_crear) || $rs_crear)) || isset($_POST['estado'])) echo 'checked="checked"';
 				?>
 				/> <label for="estado" class="checkbox">Estado</label><br/>	
 				<span class="description">Marque la casilla si la cuenta de usuario estará activa.</span>
@@ -188,7 +188,7 @@ action="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . $thi
 			
 			<?php
 			$showDiv = ''; 
-			if (!isset($_POST['estado'], $ind_error, $rs_crear) || isset($_POST['estado']))
+			if ((!isset($_POST['estado']) && !isset($ind_error)  && (!isset($rs_crear) || $rs_crear)) || isset($_POST['estado']))
 				$showDiv = 'style="display: none;"';
 			?>
 			<div class="group" id="div_fecha" <?php echo $showDiv;?>>
