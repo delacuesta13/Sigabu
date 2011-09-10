@@ -209,7 +209,7 @@ class UsuariosController extends VanillaController {
 					classes: "ui-tooltip-dark"
 				},
 				show: {
-					event: "click"
+					event: "focus"
 				},
 				hide: {
       				event: false
