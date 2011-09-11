@@ -45,6 +45,16 @@ elseif (isset($rs_editar)) {
 		<?php 		
 	}	
 }
+## se edita el usuario mismo
+elseif (isset($edit_self) && $edit_self) {
+?>
+<div class="flash">
+	<div class="message notice">
+		<p>No se puede editar usted mismo.</p>
+	</div>
+</div>
+<?php	
+}
 
 ?>
 
