@@ -26,7 +26,7 @@ function nuevo ($data) {
 	###########################################
 	
 	function listar_roles () {
-		return $this->query('SELECT * FROM roles');
+		return $this->query('SELECT * FROM roles ORDER BY permiso DESC');
 	}
 	
 }
