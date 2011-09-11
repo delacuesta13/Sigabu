@@ -667,8 +667,10 @@ class UsuariosController extends VanillaController {
 						$validar_data['fecha_activacion'] = '';
 					
 					## si se edita la password, elimino el campo de confirmación de la data a enviar
-					if (array_key_exists('password', $validar_data))
+					if (array_key_exists('password', $validar_data)) {
+						$validar_data['password'] = md5($validar_data['password']);
 						unset ($validar_data['confirm_password']);
+					}
 					
 					if ($this->Usuario->editar($persona, $validar_data)) {
 						$editar = true;
