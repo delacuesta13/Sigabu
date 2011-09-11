@@ -168,7 +168,7 @@ action="<?php echo BASE_PATH . '/' . strtolower($this->_controller) . '/' . $thi
 					$str_select = '';
 					for ($i = 0; $i < count($lista_roles); $i++) {
 						$str_select .= '<option value="' . $lista_roles[$i]['Rol']['id'] . '"';
-						if (isset($_POST['rol']) && (isset($ind_error) || (isset($rs_crear) && !rs_crear)) && $_POST['rol']==$lista_roles[$i]['Rol']['id'])
+						if (isset($_POST['rol']) && (isset($ind_error) || (isset($rs_crear) && !$rs_crear)) && $_POST['rol']==$lista_roles[$i]['Rol']['id'])
 							$str_select .= ' selected="selected"';
 						$str_select .= '>' . $lista_roles[$i]['Rol']['nombre'] . '</option>';
 					} 
