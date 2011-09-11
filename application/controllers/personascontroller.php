@@ -342,16 +342,33 @@ class PersonasController extends VanillaController{
 		
 		## el usuario tiene permiso para eliminar
 		if($_SESSION['nivel'] >= $GLOBALS['menu_project'][strtolower($this->_controller)]['actions'][$this->_action]['nivel']){
-		
+			
 			## se recibe un dni para eliminar
 			if(isset($dni) && preg_match('/^[\d]{5,20}$/', $dni)){
-				$rs = $this->Persona->eliminar(array($dni));
-				redirectAction('personas', 'index', array('query', $rs['trueQuery']. '-' . $rs['totalQuery']));
+				if ($_SESSION['persona_dni']==$dni) {
+					## el usuario se va a eliminar a sí mismo
+					redirectAction($GLOBALS['default_controller'], $GLOBALS['default_action'], array('error', '2'));
+				} else {	
+					$rs = $this->Persona->eliminar(array($dni));
+					redirectAction('personas', 'index', array('query', $rs['trueQuery']. '-' . $rs['totalQuery']));
+				}
 			}
 			## se recibe (n) mediante post, dni (s) para eliminar
 			elseif (isset($_POST['dni']) && is_array($_POST['dni']) && count($_POST['dni'])!=0) {
-				$rs = $this->Persona->eliminar($_POST['dni']);
-				redirectAction('personas', 'index', array('query', $rs['trueQuery']. '-' . $rs['totalQuery']));
+				## el usuario se va a eliminar a sí mismo
+				$delete_self = false;
+				for ($i = 0; $i < count($_POST['dni']); $i++) {
+					## el usuario se va a eliminar a sí mismo
+					if ($_POST['dni'][$i]==$_SESSION['persona_dni']) {
+						$delete_self = true;
+						redirectAction($GLOBALS['default_controller'], $GLOBALS['default_action'], array('error', '2'));
+						break;
+					}
+				} /* for */
+				if (!$delete_self) {
+					$rs = $this->Persona->eliminar($_POST['dni']);
+					redirectAction('personas', 'index', array('query', $rs['trueQuery']. '-' . $rs['totalQuery']));
+				}
 			}
 			## no se recibe nada
 			else{
