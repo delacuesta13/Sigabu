@@ -21,6 +21,17 @@ class Usuario extends VanillaModel {
 		return $this->query($sql);
 	}
 	
+	function editar ($persona, $data) {
+		$sql = '
+		UPDATE usuarios SET ';
+		foreach ($data as $field => $value) {
+			$sql .= $field . ' = ' . ((strlen($value)==0) ? 'NULL' : ' \'' . $value . '\'') . ', ';
+		}
+		$sql = substr_replace($sql, '', -2);
+		$sql .= ' WHERE persona_dni = \'' . $persona .'\'';
+		return $this->query($sql);
+	}
+	
 	function eliminar($datos){
 	
 		$j = 0; ## número de querys exitosos
@@ -38,6 +49,24 @@ class Usuario extends VanillaModel {
 	
 		return (array('trueQuery' => $j, 'totalQuery' => count($datos)));
 			
+	}
+	
+	function consultar_usuario ($persona) {
+		$sql = '
+		SELECT persona.nombres, 
+       		   persona.apellidos,
+       		   persona.tipo_dni, 
+       		   usuario.username, 
+       		   usuario.email, 
+       		   usuario.rol_id, 
+       		   usuario.estado, 
+       		   usuario.fecha_activacion 
+		FROM   personas	persona, 
+       		   usuarios usuario 
+		WHERE  usuario.persona_dni = \'' . $persona . '\' 
+       		   AND usuario.persona_dni = persona.dni 
+		';		
+		return $this->query($sql);
 	}
 	
 	###########################################
