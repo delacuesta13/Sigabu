@@ -78,6 +78,384 @@ class UsuariosController extends VanillaController {
 	
 	function index () {
 		
+		$tag_css = '
+		table tr td a {
+			text-decoration: underline;
+		}
+		';
+		$this->set('make_tag_css', $tag_css);
+		
+		$tag_js = '
+		var info_preload = \'<div id="info_preload" class="dataTablas_preload">Cargando...</div>\';
+		
+		function load_dataTable (pag, sort, order) {
+			$(function() {
+				$( "#dynamic" ).html( info_preload );
+				var url = "'. BASE_PATH . '/'. strtolower($this->_controller) . '/' . 'listar_usuarios' .'";
+				var q = $( "#search" ).val();
+				if(pag.length!=0) url += "/pag=" + pag;
+				url += "/record=" + $( "#reg_pag" ).val();
+				if(sort.length!=0) url += "/sort=" + sort;
+				if(order.length!=0) url += "/order=" + order;
+				if(q.length!=0) url += "/q=" + encodeURIComponent(q);
+				$.ajax({
+					url: url,
+					success: function(data) {
+						$( "#dynamic" ).html(data);
+					}
+				});	
+			});		
+		}
+		
+		$(document).ready(function() {
+		
+			load_dataTable(1, \'\', \'\');
+			
+			$( "#reg_pag" ).change(function() {
+				load_dataTable(1, \'\', \'\');
+			});
+			
+			$( "#search" ).bind("keyup", function() {
+				load_dataTable(1, \'\', \'\');
+			});
+			
+		});
+		';		
+		$this->set('make_tag_js', $tag_js);
+		
+		$this->set('makecss', array('jquery.qtip.min'));
+		$this->set('makejs', array('jquery.qtip.min'));
+		
+	}
+	
+	function listar_usuarios () {
+		
+		$parametros = func_get_args();
+		
+		/**
+		 * 
+		 * empezar a ordenar por este campo ...
+		 * 	<alias>tabla.campo
+		 * @var string
+		 */
+		$campo_dft = 'usuario.username';
+		$dir_dft = 'asc'; ## dirección de ordenamiento default
+		$pag_dft = 1;
+		$record_dft = PAGINATE_LIMIT;
+		
+		## variables que pueden pasarse por medio de parámetros
+		$var_data = array(
+			## número de página
+			'/^pag=/' => array(
+				'name' => 'pag',
+				'default' => $pag_dft,
+				'regex' => '/^[\d]+$/'
+			),
+			## número de registros por página
+			'/^record=/' => array(
+				'name' => 'record',
+				'default' => $record_dft,
+				'regex' => '/^[\d]+$/'
+			),
+			## columna por la cual ordenar
+			'/^sort=/' => array(
+				'name' => 'sort',
+				'default' => $campo_dft,
+				'regex' => '/^[a-zA-Z0-9_\.]+$/'
+			),
+			## dirección del ordenamiento
+			'/^order=/' => array(	
+				'name' => 'order',
+				'default' => $dir_dft,
+				'regex' => '/^(asc|desc)$/'
+			),
+			## cadena de búsqueda
+			'/^q=/' => array(
+				'name' => 'search',
+				'regex' => '/^[a-zA-Z 0-9-]{1,45}$/'
+			)
+		);
+		
+		 $campos_tabla = array(
+			'personas' => array(
+		 		'table' => true,
+		 		'alias' => 'persona',
+		 		'fields' => array(
+		 			'dni' => array(
+		 				'text' => 'Identificación',
+		 				'showTable' => true,
+		 				'sort' => true,
+		 				'where' => true
+		 			), /* end dni */
+		 			'nombres' => array(
+			 			'text' => 'Persona',
+		 				'showTable' => true,
+		 				'sort' => true,
+		 				'where' => true
+		 			), /* end nombres */
+		 			'apellidos' => array(
+		 				'showTable' => false,
+		 				'sort' => false,
+		 				'where' => true
+		 			) /* end apellidos */
+		 		) /* end fields */
+		 	), /* end personas */
+		 	'roles' => array(
+		 		'table' => true,
+		 		'alias' => 'rol',
+		 		'fields' => array(
+		 			'nombre' => array(
+		 				'text' => 'Rol',
+		 				'showTable' => true,
+		 				'sort' => true,
+		 				'where' => true
+		 			) /* end nombre */
+		 		) /* end fields */
+		 	), /* end roles */
+		 	'usuarios' => array(
+		 		'table' => true,
+		 		'alias' => 'usuario',
+		 		'fields' => array(
+		 			'username' => array(
+		 				'text' => 'Usuario',
+		 				'showTable' => true,
+		 				'sort' => true,
+		 				'where' => true
+		 			), /* end username */
+		 			'email' => array(
+		 				'text' => 'Email',
+		 				'showTable' => true,
+		 				'sort' => true,
+		 				'where' => true
+		 			), /* end email */
+		 			'estado' => array(	
+		 				'text' => 'Estado',
+		 				'showTable' => true,
+		 				'sort' => true,
+		 				'where' => false
+		 			), /* estado */
+		 			'fecha_activacion' => array(
+		 				'text' => 'Fecha Activación',
+		 				'showTable' => true,
+		 				'sort' => true,
+		 				'where' => false
+		 			), /* end fecha_activacion */
+		 			'ultima_visita' => array(
+		 				'text' => 'Última Visita',
+		 				'showTable' => true,
+		 				'sort' => true,
+		 				'where' => false
+		 			) /* end ultima_visita */
+		 		) /* end fields */
+		 	), /* end usuario */
+		 	'join' => array(
+		 		0 => 'usuario.rol_id = rol.id',
+		 		1 => 'usuario.persona_dni = persona.dni'
+		 	) /* end join */
+		 );
+		 
+		$opciones_data = array(); ## opciones de la consulta
+		
+		/**
+		 * recorro los parámetros recibidos,
+		 * y si cumplen el respectivo patrón
+		 * definido los agrego al SQL de consulta.
+		 */
+		$str_temp = '';
+		for($i = 0; $i < count($parametros); $i++){
+			foreach($var_data as $patron => $atributos){
+				## el parámetros es un patrón para el SQL
+				if(preg_match($patron, $parametros[$i])){
+					## valido el valor de la variable que se recibió por parámetro
+					$str_temp = preg_replace($patron, '', $parametros[$i]);
+					if(preg_match($atributos['regex'], $str_temp)){
+						$opciones_data[$atributos['name']] = $str_temp;
+					} /* if */
+					## como lo que se recibió no coincide con el patrón, asigno valor default
+					elseif (array_key_exists('default', $atributos)){
+						$opciones_data[$atributos['name']] = $atributos['default'];
+					} /* elseif */
+				} /* if */
+			} /* foreach */
+		} /* for */
+		unset($str_temp);
+		if(isset($patron)) unset($patron);
+		if(isset($atributos)) unset($atributos);
+		
+		/**
+		 * inicializo el query de consulta
+		 */
+		$str_query = 'SELECT SQL_CALC_FOUND_ROWS ';
+		
+		/**
+		 * agrego las columnas al query
+		 */
+		$str_tablas_sql = 'FROM '; ## tablas de la consulta y sus aliases
+		foreach ($campos_tabla as $tabla => $def) {
+			## $tabla es una tabla
+			if(array_key_exists('table', $def) && $def['table']) {
+				$str_tablas_sql .= $tabla . ' ' . $def['alias'] . ', '; 
+				## recorro los campos de la tabla
+				foreach($def['fields'] as $field => $attr){
+					$str_query .= $def['alias'] . '.' . $field . ', ';
+				} /* foreach */
+				unset($field, $attr);
+			} /* if */
+		} /* foreach */
+		$str_query = substr_replace($str_query, '', -2) . ' ' . substr_replace($str_tablas_sql, '', -2);
+		unset($str_tablas_sql, $tabla, $def);
+		
+		/**
+		 * agrego los joins al query
+		 */
+		$str_temp = 'WHERE (';
+		if (array_key_exists('join', $campos_tabla) && is_array($campos_tabla['join']) && count($campos_tabla['join'])!=0) {
+			for ($i = 0; $i < count($campos_tabla['join']); $i++) {
+				$str_temp .= $campos_tabla['join'][$i] . ' AND ';
+			}
+		}
+		$str_query .= ' ' . substr_replace($str_temp, '', -5) . ')';
+		unset($str_temp);
+		
+		/**
+		 * agrego el where a cada una de las columnas
+		 */
+		if (array_key_exists('search', $opciones_data)) {
+			$str_query .= ' AND (';
+			foreach ($campos_tabla as $tabla => $def) {
+				if (array_key_exists('table', $def) && $def['table']) {
+					## recorro los campos de la tabla
+					foreach ($def['fields'] as $field => $attr) {
+						## se puede buscar por el campo
+						if ($attr['where']) {
+							$str_query .= $def['alias'] . '.' . $field . ' LIKE \'%' . mysql_real_escape_string($opciones_data['search']) . '%\' OR ';
+						} /* if */
+					} /* foreach */
+					unset($field, $attr);
+				} /* if */
+			} /* foreach */	
+			$str_query = substr_replace($str_query, "", -3);
+			$str_query .= ')';
+			unset($tabla, $def);
+		} /* if where */
+		
+		/**
+		 * agrego la columna y la dirección del ordenamiento
+		 */
+		$j = 0;
+		if (array_key_exists('sort', $opciones_data) && array_key_exists('order', $opciones_data)) {
+			/**
+			 * 
+			 * 0 -> alias tabla
+			 * 1 -> campo ...
+			 * @var array
+			 */
+			$str_temp = explode('.', $opciones_data['sort']);
+			foreach ($campos_tabla as $tabla => $def) {
+				if (array_key_exists('table', $def) && $def['table'] && strtolower($def['alias'])==strtolower($str_temp[0])) {
+					## el campo por el cual ordenar existe en la tabla
+					if (array_key_exists(strtolower($str_temp[1]), $def['fields']) && $def['fields'][strtolower($str_temp[1])]['sort']) {
+						$str_query .= ' ORDER BY ' . mysql_real_escape_string($opciones_data['sort']) . ' ' . strtoupper(mysql_real_escape_string($opciones_data['order']));
+						$j = 1;
+					} /* if */
+				} /* if */
+				if($j == 1) break;				
+			} /* foreach */			
+			unset($str_temp, $tabla, $def);
+		} 
+		
+		## ordernar y direccionar por default
+		if ($j==0) {
+			$str_query .= ' ORDER BY ' . $campo_dft . ' ' . strtoupper($dir_dft);
+		}
+		unset($j);
+		
+		/**
+		 * agrego el limit
+		 */
+		if (!array_key_exists('pag', $opciones_data)) $opciones_data['pag'] = $pag_dft;
+		if (!array_key_exists('record', $opciones_data)) $opciones_data['record'] = $record_dft;
+		$offset = $opciones_data['record'] * ($opciones_data['pag'] - 1);
+		$str_query .= ' LIMIT '. $offset . ', ' . $opciones_data['record'];
+
+		## ejecuto la consulta y recibo las tuplas
+		$data_query = $this->Usuario->query($str_query);
+		
+		## total de tuplas sin LIMIT
+		$str_totalquery = 'SELECT FOUND_ROWS() as total';
+		$totalreg_query = $this->Usuario->query($str_totalquery); 
+		$totalreg_query = $totalreg_query[0]['']['total'];
+
+		/**
+		 * envío variables a la vista
+		 */
+		$this->set('campos_tabla', $campos_tabla);
+		$this->set('data_query', $data_query);
+		$this->set('totalreg_query', $totalreg_query);
+		$this->set('pagina', $opciones_data['pag']);
+		$this->set('record', $opciones_data['record']);
+		
+		if (array_key_exists('sort', $opciones_data) && array_key_exists('order', $opciones_data)) {
+			$this->set('sort', $opciones_data['sort']);
+			$this->set('order', $opciones_data['order']);
+		} else {
+			$this->set('sort', $campo_dft);
+			$this->set('order', $dir_dft);
+		}
+		
+		if (array_key_exists('search', $opciones_data)) {
+			$this->set('search', $opciones_data['search']);
+		}
+		
+		unset ($data_query, $totalreg_query, $offset);
+		
+		/****************************************************/
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+		
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
+	function eliminar () {
+		
+		## el usuario tiene permiso para eliminar
+		if ($_SESSION['nivel'] >= $GLOBALS['menu_project'][strtolower($this->_controller)]['nivel']) {
+			## se recibe (n) mediante post, persona (s) para eliminar
+			if (isset($_POST['persona']) && is_array($_POST['persona']) && count($_POST['persona'])!=0) {
+				## revisar que no se vaya a eliminar el usuario activo
+				$delete_self = false;
+				for ($i = 0; $i < count($_POST['persona']); $i++) {
+					if ($_POST['persona'][$i]==$_SESSION['persona_dni']) {
+						$delete_self = true;
+						break;
+					}					
+				}
+				if (!$delete_self) {		
+					$rs = $this->Usuario->eliminar($_POST['persona']);
+					echo '<div class="message notice"><p>
+					Se ha ejecutado exitósamente ' . $rs['trueQuery'] . ' petición (es), de ' .  $rs['totalQuery'] . ' solicitada (s).
+					</p></div>';
+				} else {
+					echo '<div class="message notice"><p>No se puede eliminar usted mismo.</p></div>';
+				}
+			}
+			## no se recibe nada
+			else{
+				echo '<div class="message notice"><p>No se ha recibido peticiones.</p></div>';
+			}
+		} else {
+			echo '<div class="message warning"><p>Vaya! No tienes el permiso necesario para interactuar con la página solicitada.</p></div>';
+		}
+		
+		/****************************************************/
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+		
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
 	}
 	
 	function nuevo () {
