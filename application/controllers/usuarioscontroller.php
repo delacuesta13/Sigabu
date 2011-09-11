@@ -617,6 +617,213 @@ class UsuariosController extends VanillaController {
 		
 	}
 	
+	function editar ($persona = null, $usuario = null) {
+
+		$editar = false;
+		
+		## se envió el formulario
+		if (isset($_POST['email'], $_POST['rol'])) {
+			
+			$validar_data = array(
+				'query' => 'edit',
+				'email' => $_POST['email'],
+				'rol' => $_POST['rol']
+			);
+			
+			## si no se deja el campo password vacío, se va a editar
+			if (strlen($_POST['password'])!=0) {
+				$validar_data['password'] = $_POST['password'];	
+				$validar_data['confirm_password'] = $_POST['confirm_password'];	
+			}
+			
+			## el usuario estará activo
+			if (isset($_POST['estado'])) {
+				$validar_data['estado'] = 1;
+			} else {
+				$validar_data['estado'] = 0;
+				if (strlen($_POST['fecha_activacion'])!=0)
+					$validar_data['fecha_activacion'] = $_POST['fecha_activacion'];
+			}
+			
+			## envío los datos a revisión, y recibo los (posibles) errores
+			$ind_error = $this->validar_data_usuario($validar_data);
+			if(is_array($ind_error) && count($ind_error)!=0)
+				$this->set('ind_error', $ind_error);
+			
+			## no se recibieron errores
+			else {
+				
+				## validar que el usuario no se vaya a editar a sí mismo
+				if ($_SESSION['persona_dni']==$persona) {
+					$this->set('edit_self', true);
+				} else {
+					
+					$validar_data['rol_id'] = $validar_data['rol'];
+					
+					unset($validar_data['query'], $validar_data['rol']);
+					
+					## el usuario estará activo, entonces edito fecha_activacion como NULL
+					if ($validar_data['estado']==1)
+						$validar_data['fecha_activacion'] = '';
+					
+					## si se edita la password, elimino el campo de confirmación de la data a enviar
+					if (array_key_exists('password', $validar_data))
+						unset ($validar_data['confirm_password']);
+					
+					if ($this->Usuario->editar($persona, $validar_data)) {
+						$editar = true;
+					} else {
+						$this->set('rs_editar', false);
+					}
+					
+				} /* else */
+				
+			} /* else */
+			
+		} /* envío del formulario */
+		
+		## se recibe el dni de la cuenta de usuario
+		if (isset($persona) && preg_match('/^[\d]{5,20}$/', $persona) && !$editar) {
+			
+			## consulto la cuenta de usuario
+			$data_usuario = $this->Usuario->consultar_usuario($persona);
+		
+			##la persona tiene una cuenta de usuario
+			if (count($data_usuario)!=0) {
+				
+				## no se recibe el nombre de usuario o éste no es válido
+				if (!isset($usuario) || $usuario!=strtolower($data_usuario[0]['Usuario']['username'])) {
+					redirectAction(strtolower($this->_controller), $this->_action, array($persona, strtolower($data_usuario[0]['Usuario']['username'])));
+				}
+				#############################################################################################################################
+				## Código propio de la 'action' #############################################################################################
+				#############################################################################################################################
+				
+				$this->set('persona', $persona);
+				$this->set('usuario', $usuario);
+				$this->set('data_usuario', $data_usuario);
+				
+				$tag_js = '
+		
+				function showTip (campo, id_tip) {
+					$(function () {
+						var url = url_project + "usuarios/valida_datos";
+					
+						$.ajax({
+							url: url,
+							type: "POST",
+							dataType: "json",
+							data: { 
+								campo: campo,
+								valor: $( "#" + campo).val(),
+							},
+							success: function( response ) {
+								var validar = response.response;
+								$("#" + campo).attr("title", validar.message);
+						
+								var style = "dark";
+						
+								if (validar.type=="error") {
+									style = "red";
+									/* elimino estilos que pueda tener el tooltip */
+									$("#ui-tooltip-" + id_tip).removeClass("ui-tooltip-dark");
+									$("#ui-tooltip-" + id_tip).removeClass("ui-tooltip-green");
+									$("#ui-tooltip-" + id_tip + "-title").html("Error");
+								} else if (validar.type=="success") {
+									style = "green";
+									$("#ui-tooltip-" + id_tip).removeClass("ui-tooltip-dark");
+									$("#ui-tooltip-" + id_tip).removeClass("ui-tooltip-red");
+									$("#ui-tooltip-" + id_tip + "-title").html("Válido");
+								} else {
+									$("#ui-tooltip-" + id_tip).removeClass("ui-tooltip-red");
+									$("#ui-tooltip-" + id_tip).removeClass("ui-tooltip-green");
+									$("#ui-tooltip-" + id_tip + "-title").html("Información");
+								}
+									$("#ui-tooltip-" + id_tip + " .ui-tooltip-tip").remove();
+									$("#ui-tooltip-" + id_tip).addClass("ui-tooltip-" + style);
+							}
+						});
+				
+					});
+				}
+		
+				$(document).ready(function() {
+			
+				$("a.cancel").click(function(){
+					document.forms["formulario"].reset();
+				}); 
+			
+				$( "#fecha_activacion" ).datepicker({
+					regional: "es",
+					dateFormat: "yy-mm-dd",				
+					changeMonth: true,
+					changeYear: true,
+					showOtherMonths: true,
+					selectOtherMonths: false
+				});
+			
+				$("#estado").click(function() {
+					$("#div_fecha").toggle();
+				});
+
+				$("#password[title]")
+				.qtip({
+					content: {
+						title: {
+							text: "Información",
+                  			button: true
+						}
+					},
+					position: {
+						my: "left center", 
+						at: "right center"
+					},
+					style: {
+						classes: "ui-tooltip-dark"
+					},
+					show: {
+						event: "focus"
+					},
+					hide: {
+      					event: false
+   					}
+				});
+			
+				showTip(\'password\', 0);
+			
+				$("#password").keyup(function (){
+					showTip(\'password\', 0);
+				});
+			
+			});
+			';
+		
+			$this->set('make_tag_js', $tag_js);
+		
+			$this->set('lista_roles', $this->listar_roles());
+		
+			$this->set('makecss', array('jquery.qtip.min'));
+			$this->set('makejs', array('jquery.qtip.min', 'jquery.ui.datepicker-es'));
+				
+				#############################################################################################################################
+			} else {
+				redirectAction($GLOBALS['default_controller'], $GLOBALS['default_action'], array('error', '404'));
+			} /* else */
+			
+		} /* if */
+		
+		## se editó exitósamente
+		elseif ($editar) {
+			redirectAction(strtolower($this->_controller), 'index');
+		}
+		
+		## no se recibieron datos 
+		else {
+			redirectAction($GLOBALS['default_controller'], $GLOBALS['default_action'], array('error', '404'));
+		}
+		
+	} 
+	
 	private function validar_data_usuario ($datos) {
 		
 		$ind_error = array();
@@ -677,6 +884,21 @@ class UsuariosController extends VanillaController {
 			} /* else */			
 			
 		} /* new */
+		
+		## se va a editar un usuario
+		elseif ($datos['query']=='edit') {
+			## se va a editar la password
+			if (array_key_exists('password', $datos)) {
+				## validar la password
+				if (!preg_match($password_format['regex'], $datos['password'])) {
+					$ind_error['password'] = $password_format['error'];
+				} else {
+					## las passwords no coinciden
+					if ($datos['password']!=$datos['confirm_password'])
+						$ind_error['password'] = 'Las passwords no coinciden';
+				} /* else */
+			} /* if */
+		} /* elseif */
 		
 		## validar email
 		if (!filter_var($datos['email'], FILTER_VALIDATE_EMAIL))
