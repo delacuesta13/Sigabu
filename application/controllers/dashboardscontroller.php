@@ -41,6 +41,10 @@ class DashboardsController extends VanillaController {
 				"1" => array(
 					"text" => "Vaya! No tienes el permiso necesario para interactuar con la página solicitada.",
 					"tipo" => "warning"
+				),
+				"2" => array(
+					"text" => "No se puede eliminar usted mismo.",
+					"tipo" => "notice"
 				)
 			)
 		);
