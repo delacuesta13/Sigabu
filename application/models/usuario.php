@@ -11,7 +11,7 @@
 
 class Usuario extends VanillaModel {
 	
-function nuevo ($data) {
+	function nuevo ($data) {
 		$sql = '
 		INSERT INTO usuarios SET ';
 		foreach ($data as $field => $value){
@@ -19,6 +19,25 @@ function nuevo ($data) {
 		}
 		$sql .= 'created_at = NOW()';
 		return $this->query($sql);
+	}
+	
+	function eliminar($datos){
+	
+		$j = 0; ## número de querys exitosos
+	
+		## construyo las sentencias de eliminación
+		for($i = 0; $i < count($datos); $i++){
+			## valido que id sea número
+			if(preg_match('/^[\d]{1,}$/', $datos[$i])){
+				## query exitoso
+				if($this->query('DELETE FROM usuarios WHERE persona_dni = \'' . $datos[$i] . '\'')){
+					$j++;
+				}
+			}
+		}
+	
+		return (array('trueQuery' => $j, 'totalQuery' => count($datos)));
+			
 	}
 	
 	###########################################
