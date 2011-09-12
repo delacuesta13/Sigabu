@@ -453,7 +453,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `sigabu`;
-INSERT INTO `sigabu`.`usuarios` (`persona_dni`, `username`, `password`, `email`, `rol_id`, `estado`, `fecha_activacion`, `ultima_visita`, `created_at`) VALUES (1234567, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'john@demo.com', 1, 1, NULL, NULL, '2011-09-06 19:00:00');
+INSERT INTO `sigabu`.`usuarios` (`persona_dni`, `username`, `password`, `email`, `rol_id`, `estado`, `fecha_activacion`, `ultima_visita`, `created_at`) VALUES (1234567, 'admin', '25d55ad283aa400af464c76d713c07ad', 'john@demo.com', 1, 1, NULL, NULL, '2011-09-06 19:00:00');
 
 COMMIT;
 
