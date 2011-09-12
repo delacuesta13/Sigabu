@@ -57,7 +57,7 @@
 			<h1><?php echo $html->link('Bienestar Universitario','');?></h1>
 			<div id="user-navigation">
 				<ul class="wat-cf">
-					<li><a href="#">Configuración</a></li>
+					<li><?php echo $html->link('Configuración', 'dashboards/configuracion')?></li>
 					<li><a class="logout" href="<?php echo BASE_PATH . '/' . 'dashboards/logout'?>">Salir</a></li>
 				</ul>
 			</div>
