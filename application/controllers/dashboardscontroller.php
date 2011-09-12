@@ -13,19 +13,33 @@ class DashboardsController extends VanillaController {
 	
 	function beforeAction () {
 		
-		/*
-		 * Implemento código para iniciar sesión automáticamente.
-		 */
-		
-		session_start();		
-		
-		if(!array_key_exists('logueado', $_SESSION) || (array_key_exists('logueado', $_SESSION) && !$_SESSION['logueado'])){			
-			redirectAction('dashboards', 'login');
-		}
 	
 	}
 	
 	function index($tipo_mensaje = null, $nro_mensaje = null) {
+		
+		/**
+		 * El código de revisión de usuarios, implementado
+		 * en la función beforeAction() de cada controlador, 
+		 * valida que el usuario se haya auténticado y/o
+		 * tenga permiso para interactuar con una action
+		 * de un controlador. En dicho código, si el usuario
+		 * no ha iniciado o éste no tiene permiso suficiente,
+		 * lo redirecciona a esta action.
+		 * 
+		 * En relación a lo primero, a continuación se validará que el
+		 * usuario haya iniciado sesión, es decir se haya autenticado. 
+		 */
+		
+		session_start();
+		
+		if (!array_key_exists('logueado', $_SESSION) || !$_SESSION['logueado']) {
+			redirectAction(strtolower($this->_controller), 'login');			
+		}
+
+		#####################################################
+		## Código propio de la action #######################
+		#####################################################
 		
 		/**
 		 * 
@@ -54,8 +68,6 @@ class DashboardsController extends VanillaController {
 			$this->set('showMensaje', array("mensaje" => $mensajes_project[$tipo_mensaje][$nro_mensaje]['text'], "tipo" => $mensajes_project[$tipo_mensaje][$nro_mensaje]['tipo']));			
 		}
 		
-		/*******************************************************/
-		
 		$tag_js = '
 		$(function (){
 			$("ul.controllerslist li[title]").qtip({
@@ -76,26 +88,110 @@ class DashboardsController extends VanillaController {
 		
 	}
 	
-	function login() {
+	function login () {
 		
 		session_start();
+
+		## envío del formulario
+		if (isset($_POST['usuario'], $_POST['password'])) {
+			
+			$validar_data = array(
+				'usuario' => $_POST['usuario'],
+				'password' => $_POST['password']
+			);
+			
+			$usuario_format = performAction('usuarios', 'patron_campos', array('usuario'));
+			$password_format = performAction('usuarios', 'patron_campos', array('password'));
+			
+			## validar el nombre de usuario y el password
+			if (!preg_match($usuario_format['regex'], $validar_data['usuario']) || !preg_match($password_format['regex'], $validar_data['password'])) {
+				$this->set('error_login', array('type' => 'error', 'message' => 'El nombre usuario o la password son incorrectos.'));
+			} else {
+				
+				## recojo la data del usuario
+				$data_usuario = $this->Dashboard->login($validar_data['usuario'], md5($validar_data['password']));
+				$loguear = false; ## si valor true -> usuario puede ingresar al sistema
+				
+				## datos de usuario válidos, y estado activo
+				if (count($data_usuario)!=0 && $data_usuario[0]['Usuario']['estado']==1) {
+					$loguear = true;									
+				} elseif (count($data_usuario)!=0 && (strlen($data_usuario[0]['Usuario']['fecha_activacion'])!=0 && $data_usuario[0]['Usuario']['fecha_activacion']!='0000-00-00 00:00:00')) {
+					## usuario inactivo y tiene fecha de activación
+					$fecha_actual = strtotime(date('Y-m-d H:i:s'));
+					$fecha_activacion = strtotime($data_usuario[0]['Usuario']['fecha_activacion']);
+					/*
+					 * la fecha actual es mayor o igual
+					 * que la fecha de activiación, así 
+					 * que activar al usuario y dejarlo
+					 * ingresar al sistema.
+					 */
+					if($fecha_actual >= $fecha_activacion) {
+						$this->Dashboard->activa_usuario($data_usuario[0]['Usuario']['persona_dni']);
+						$loguear = true;
+					}
+				} else {
+					## usuario o password no existen, o usuario no está activo
+					$this->set('error_login', array('type' => 'error', 'message' => 'El nombre usuario o la password son incorrectos.'));
+				}
+				
+				## el usuario puede loguearse
+				if ($loguear) {
+					
+					## asigno variables a la sesión
+					$_SESSION['persona_dni'] = $data_usuario[0]['Usuario']['persona_dni'];
+					$_SESSION['username'] = $data_usuario[0]['Usuario']['username'];
+					$_SESSION['nivel'] = $data_usuario[0]['Rol']['permiso'];
+					$_SESSION['logueado'] = true;
+					$ultima_visita = $data_usuario[0]['Usuario']['ultima_visita'];
+					$_SESSION['ultima_visita'] = (strlen($ultima_visita)!=0 && $ultima_visita!='0000-00-00 00:00:00') ? $ultima_visita : date('Y-m-d H:i');
+					
+					## registra la fecha de visita actual
+					$this->Dashboard->ultima_visita($data_usuario[0]['Usuario']['persona_dni']);
+					
+				} /* if */
+				
+				unset($loguear);
+				
+			} /* else */
+			
+		} /* envío del formulario */
 		
-		$_SESSION['persona_dni'] = 1234567;
-		$_SESSION['username'] = 'admin';
-		$_SESSION['nivel'] = 5;
-		$_SESSION['ultima_visita'] = date('Y-m-d H:i');
-		$_SESSION['logueado'] = true;
+		/*
+		 * si ya inició sesión
+		 * lo redirecciona al home del sistema.
+		 */
 		
-		redirectAction('dashboards', 'index');
+		if (array_key_exists('logueado', $_SESSION) && $_SESSION['logueado']) {
+			redirectAction(strtolower($this->_controller), 'index');
+		} else {
+			
+		}
+		
+		########################################################################
+		
+		/**
+		 * Como esta es una action de login, no cargo
+		 * ni la cabecera ni el pie de página. Para ello
+		 * no renderizo y hago uso de la vista como si
+		 * fuese una función de respuesta ajax.
+		 */
+		$this->doNotRenderHeader = 1;
 		
 	}
 	
-	function logout(){
-	
+	function logout (){
+		
 		session_start();
+		
+		## destruyo las variables de sesión
+		session_unset();
+		$_SESSION = array();
+		## destruyo la sesión actual
 		session_destroy();
-	
-		redirectAction('dashboards', 'index');
+		
+		## redirecciono al login
+		redirectAction(strtolower($this->_controller), 'login');
+		
 	}
 	
 	function afterAction() {
