@@ -88,6 +88,213 @@ class DashboardsController extends VanillaController {
 		
 	}
 	
+	## editar los datos de la cuenta del usuario actual
+	function configuracion () {
+		
+		session_start();
+		
+		if (!array_key_exists('logueado', $_SESSION) || !$_SESSION['logueado']) {
+			redirectAction(strtolower($this->_controller), 'login');
+		}
+		
+		#####################################################
+		## Código propio de la action #######################
+		#####################################################
+		
+		$this->set('data_persona', performAction('personas', 'consultar_persona_fk', array($_SESSION['persona_dni'])));
+		
+		$email = $this->Dashboard->query('SELECT email FROM usuarios WHERE persona_dni = \'' . $_SESSION['persona_dni'] . '\'');
+		$email = $email[0]['Usuario']['email'];
+		$this->set('email', $email);
+		
+		$tag_js = '
+		$(document).ready(function() {
+			
+			$("#btn_edit").click(function() {
+				$(".edit_pass").toggle();
+				var temp = ($("#edit_pass").val()==1) ? 0 : 1;
+				$("#edit_pass").val(temp);
+			});
+
+			$("#password[title]")
+			.qtip({
+				content: {
+					title: {
+						text: "Información",
+               			button: true
+					}
+				},
+				position: {
+					my: "left center", 
+					at: "right center"
+				},
+				style: {
+					classes: "ui-tooltip-dark"
+				},
+				show: {
+					event: "focus"
+				},
+				hide: {
+      				event: false
+   				}
+			});
+			
+			showTip(\'password\', 0);
+			
+			$("#password").keyup(function (){
+				showTip(\'password\', 0);
+			});
+			
+			});
+			';
+		
+		$this->set('make_tag_js', $tag_js);
+		
+		$this->set('makecss', array('jquery.qtip.min'));
+		$this->set('makejs', array('jquery.qtip.min', 'usuarios'));
+		
+	}
+	
+	/**
+	 * recibe los datos, vía ajax,
+	 * a editar de la cuenta de usuario
+	 */
+	function editar_cuenta () {
+		
+		session_start();
+		
+		## validar que el usuario haya iniciado sesión
+		if (array_key_exists('logueado', $_SESSION) && $_SESSION['logueado']) {
+		
+			## validar que se reciban los datos
+			if (isset($_POST['email'], $_POST['edit_pass'], $_POST['old_password'], $_POST['password'], $_POST['confirm_password'])) {
+			
+				$validar_data = array(
+					'email' => $_POST['email'],
+					'edit_pass' => $_POST['edit_pass']
+				);
+				
+				## campos del formulario de editar cuenta
+				$campos_form = array(
+					'email',
+					'old_password',
+					'password',
+					'confirm_password'
+				);
+				
+				## validar los datos recibidos
+				$ind_error = array();
+				
+				## validar email
+				if (!filter_var($validar_data['email'], FILTER_VALIDATE_EMAIL))
+					$ind_error['email'] = 'Ingrese un email válido.';
+				
+				## se va a editar la password
+				if ($validar_data['edit_pass']=='1') {
+					$validar_data['old_password'] = $_POST['old_password'];
+					$validar_data['password'] = $_POST['password'];
+					$validar_data['confirm_password'] = $_POST['confirm_password'];
+					
+					$password_format = performAction('usuarios', 'patron_campos', array('password'));
+					
+					## el password actual ingresado es válido
+					if (preg_match($password_format['regex'], $validar_data['old_password'])) {
+						## validar que la password actual ingresada sea correcta
+						$sql = 'SELECT * FROM usuarios WHERE persona_dni = \'' . $_SESSION['persona_dni'] . '\'';
+						$sql .= ' AND password = \'' . mysql_real_escape_string(md5($validar_data['old_password'])) . '\'';
+						$pass_correcta = $this->Dashboard->query($sql);
+						$pass_correcta = (count($pass_correcta)!=0) ? true : false;
+						## la password actual ingresada es correcta
+						if ($pass_correcta) {
+							## validar la nueva password
+							if (!preg_match($password_format['regex'], $validar_data['password'])) {
+								## la nueva password ingresada no es correcta
+								$ind_error['password'] = $password_format['error'];
+							} else {
+								## validar que la nueva password y su confirmación coincidan
+								if($validar_data['password']!=$validar_data['confirm_password'])
+									$ind_error['confirm_password'] = 'La nueva password y su confirmación no coinciden.';
+							} /* else */
+						} else {
+							$ind_error['old_password'] = 'La password actual ingresada no es correcta.';
+						} /* else */
+					} else {
+						$ind_error['old_password'] = 'La password actual ingresada no es correcta.';
+					} /* else */
+				} /* edit pass */
+				
+				unset ($validar_data['edit_pass']);
+				
+				## mensaje que muestra el resultado del procesamiento 
+				$div_msj = '';
+				
+				$tag_js = '
+				<script type="text/JavaScript">
+				//<![CDATA[
+				$(function (){
+				';
+				
+				## se obtuvieron errores al validar
+				if (count($ind_error)!=0) {
+					/* ubico error es su respectivo span */
+					foreach ($ind_error as $campo => $msj) {
+						$tag_js .= "$('.error_" . $campo . "').html('" . $msj . "');\n";
+						## busco el key del campo que no es válido y lo elimino de los campos que resultan válidos
+						$key_temp = array_search($campo, $campos_form);
+						unset ($campos_form[$key_temp], $key_temp);
+					} /* foreach */
+					unset ($campo, $msj);
+					$div_msj = '<div class="message warning"><p>Parte de la información es incorrecta. Corrija el formulario e inténtelo de nuevo.</p></div>';
+				} else {
+					## construyo el sql de actualización
+					$sql = 'UPDATE usuarios SET email = \'' . mysql_real_escape_string($validar_data['email']) . '\'';
+					## actualizar la password
+					if (array_key_exists('password', $validar_data)) {
+						$sql .= ', password = \'' . mysql_real_escape_string(md5($validar_data['password'])) . '\'';
+					} /* if */
+					$sql .= ' WHERE persona_dni = \'' . $_SESSION['persona_dni'] . '\'';
+					## se actualizó exitósamete
+					if ($this->Dashboard->query($sql)) {
+						$div_msj = '<div class="message notice">' .
+						'<p>Tus datos se han guardado exitósamente.</p>' .
+						'</div>';
+					} else {
+						$div_msj = '<div class="message error">' .
+						'<p>Bueno, esto es vergonzoso. Se ha intentado guardar tus datos, pero al parecer existe un error.</p>' .
+						'</div>';
+					} /* else */
+				} /* else */
+				
+				## límpio los span de los campos que son válidos
+				$campos_form = array_values($campos_form);
+				for ($i = 0; $i < count($campos_form); $i++) {
+					$tag_js .= "$('.error_" . $campos_form[$i] . "').html('');\n";
+				}
+				
+				$tag_js .= '
+				});
+				//]]>
+				</script>';
+				
+				echo $tag_js . "\n" . $div_msj;
+		
+			} else {
+				echo '<div class="message warning"><p>No se ha recibido peticiones.</p></div>';
+			} /* else */
+		
+		} else {
+			$this->render = 0;
+		} /* else */
+		
+		/****************************************************/
+		
+		## función de respuesta ajax
+		$this->doNotRenderHeader = 1;
+		
+		header("Content-Type: text/html; charset=iso-8859-1");
+		
+	}
+	
 	function login () {
 		
 		session_start();
