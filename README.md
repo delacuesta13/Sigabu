@@ -28,7 +28,7 @@ Una vez instaladas las tecnolog&iacute;as necesarias del Sistema en el servidor:
 
 **Nota:** Aseg&uacute;rese que est&eacute; habilitado `mod_rewrite` en Apache. 
 
-### Configuraci&oacute;n
+## Configuraci&oacute;n
 
 Despu&eacute;s de realizar los pasos indicados de la instalaci&oacute;n, configure el Sistema de Informaci&oacute;n seg&uacute;n la configuraci&oacute;n 
 de su servidor. Para configurar el Sistema, s&oacute;lo tiene que editar el fichero `config/config.php`.
@@ -48,7 +48,7 @@ A continuaci&oacute;n se explica las variables de configuraci&oacute;n del proye
 	si sabe qu&eacute; es lo que hace.
 * DB\_HOST, DB\_USER, DB\_PASSWORD
 	* tipo: `string`.
-	* explicaci&oacute;n: nombre del host, de usuario y password para establecer conexi&oacute;n con MySQL. 	
+	* explicaci&oacute;n: nombre del host, de usuario y password para establecer conexi&oacute;n con MySQL.
 * BASE\_PATH
 	* tipo: `string`.
 	* explicaci&oacute;n: URL que apunta al directorio `sigabu`.
@@ -60,8 +60,41 @@ A continuaci&oacute;n se explica las variables de configuraci&oacute;n del proye
 	* valores: `true | false`.
 	* explicaci&oacute;n: en el fichero `config/config.php` est&aacute; comentada la explicaci&oacute;n de esta variable.
 
+## Seguimientos a bugs
+
+Si encontraste un bug, por favor crea un tema aquí en GitHub.
+
+[Crear tema!](https://github.com/delacuesta13/Sigabu/issues)
+
+## Contribuir
+
+* Si&eacute;ntete libre de hacer un ***fork*** a este repositorio.
+* Envía una solicitud de ***pull***.
+
+## Autor 
+
+Jhon Adri&aacute;n Cer&oacute;n Guzm&aacute;n.
+
+## Copyright y licencia
+
+Copyright &copy; 2011 Jhon Adri&aacute;n Cer&oacute;n Guzm&aacute;n.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+---
 1. Es pre-requisito de inscripci&oacute;n que la persona tenga un perfil en el periodo de la programaci&oacute;n de la actividad. Un perfil es la 
-clasificaci&oacute;n de la persona dentro de la *comunidad universitaria*.  
+clasificaci&oacute;n de la persona dentro de la *comunidad universitaria*.
 2. Las personas beneficiarias de Bienestar U, son quienes componen la denominada *comunidad universitaria*. Esta comunidad clasifica las personas
 en: estudiantes, docentes (catedr&aacute;tico, medio tiempo o tiempo completo), funcionarios, egresados y familiares (del primer grando de consanguineidad o
 afinidad de los anteriores).
