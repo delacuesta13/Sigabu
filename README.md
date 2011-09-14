@@ -89,9 +89,28 @@ Con el anterior *nombre de usuario* y la *password*, puede ingresar al sistema.
 
 Una vez ha ingresado en el sistema, realizar los siguientes pasos:
 
-1. Haz click en la opci&oacute;n personas de la *dashboard* o del men&uacute; superior.
+1. Haz click en la opci&oacute;n *personas* de la *dashboard* o del men&uacute; superior.
 [![Paso 1](http://l4c.me/uploads/sigabu-primer-uso-paso-1-1316020602_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-1-1316020602.png "Ver imagen")
 2. Haz click en el submen&uacute; `nuevo`.
+[![Paso 2](http://l4c.me/uploads/sigabu-primer-uso-paso-2-1316024886_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-2-1316024886.png "Ver imagen")
+3. Ingresa los datos obligatorios (marcados con *) para crear una persona. Una vez ingresado los datos para crear la persona, haz click en el bot&oacute;n ***Guardar***.
+[![Paso 3](http://l4c.me/uploads/sigabu-primer-uso-paso-3-1316025326_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-3-1316025326.png "Ver imagen")
+Si ha ingresado los datos correctamente, deber&iacute;as visualizar un mensaje como &eacute;ste:
+[![Paso 4](http://l4c.me/uploads/sigabu-primer-uso-paso-4-1316025723_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-4-1316025723.png "Ver imagen")
+4. Haz click en la opci&oacute;n *Usuarios* del men&uacute; superior.
+5. Haz click en el submen&uacute; `nuevo`.
+6. Ingresa los datos obligatorios (marcados con *) para crear una cuenta de usuario. En el campo `Identificacion de la Persona`, ingresa el n&uacute;mero de identificaci&oacute;n
+de la persona creada anteriormente (ver **paso 3**). En el campo `Rol` (de usuario), selecciona la opci&oacute;n `Jefe de Bienestar Universitario`.
+Una vez ingresado los datos, haz click en el bot&oacute;n ***Guardar***.
+[![Paso 5](http://l4c.me/uploads/sigabu-primer-uso-paso-5-1316026509_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-5-1316026509.png "Ver imagen")
+Si ha ingresado los datos correctamente, deber&iacute;as visualizar un mensaje como &eacute;ste:
+[![Paso 6](http://l4c.me/uploads/sigabu-primer-uso-paso-6-1316026842_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-6-1316026842.png "Ver imagen")
+7. Cierra la sesi&oacute;n que iniciaste con el usuario `admin`, haciendo click en la opci&oacute;n superior derecha `Salir`.
+8. Inicia una nueva sesi&oacute;n con los datos de la cuenta de usuario creada anteriormente (ver **paso 6**).
+9. Haz click en la opci&oacute;n *personas* de la *dashboard* o del men&uacute; superior.
+10. Haz click en la opci&oacute;n *eliminar* de la persona `demo` (ver datos pre-definidos de &eacute;sta). A continuaci&oacute;n aparacer&aacute; una ventana, en la cual
+se confirma la opci&oacute;n *eliminar* la persona. Haz click en ***S&iacute;***.
+[![Paso 7](http://l4c.me/uploads/sigabu-primer-uso-paso-7-1316027806_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-7-1316027806.png "Ver imagen")
 
 ## Seguimientos a bugs
 
