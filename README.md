@@ -90,9 +90,7 @@ Con el anterior *nombre de usuario* y la *password*, puede ingresar al sistema.
 Una vez ha ingresado en el sistema, realizar los siguientes pasos:
 
 1. Haz click en la opci&oacute;n personas de la *dashboard* o del men&uacute; superior.
-
 [![Paso 1](http://l4c.me/uploads/sigabu-primer-uso-paso-1-1316020602_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-1-1316020602.png "Ver imagen")
-
 2. Haz click en el submen&uacute; `nuevo`.
 
 ## Seguimientos a bugs
