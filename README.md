@@ -97,7 +97,7 @@ Una vez ha ingresado en el sistema, realizar los siguientes pasos:
 
 [![Paso 2](http://l4c.me/uploads/sigabu-primer-uso-paso-2-1316024886_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-2-1316024886.png "Ver imagen")
 
-3. Ingresa los datos obligatorios (marcados con *) para crear una persona. Una vez ingresado los datos para crear la persona, haz click en el bot&oacute;n ***Guardar***.
+3. Ingresa los datos obligatorios (marcados con \*) para crear una persona. Una vez ingresado los datos para crear la persona, haz click en el bot&oacute;n ***Guardar***.
 
 [![Paso 3](http://l4c.me/uploads/sigabu-primer-uso-paso-3-1316025326_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-3-1316025326.png "Ver imagen")
 
@@ -107,7 +107,7 @@ Si ha ingresado los datos correctamente, deber&iacute;as visualizar un mensaje c
 
 4. Haz click en la opci&oacute;n *Usuarios* del men&uacute; superior.
 5. Haz click en el submen&uacute; `nuevo`.
-6. Ingresa los datos obligatorios (marcados con *) para crear una cuenta de usuario. En el campo `Identificacion de la Persona`, ingresa el n&uacute;mero de identificaci&oacute;n
+6. Ingresa los datos obligatorios (marcados con \*) para crear una cuenta de usuario. En el campo `Identificacion de la Persona`, ingresa el n&uacute;mero de identificaci&oacute;n
 de la persona creada anteriormente (ver **paso 3**). En el campo `Rol` (de usuario), selecciona la opci&oacute;n `Jefe de Bienestar Universitario`.
 Una vez ingresado los datos, haz click en el bot&oacute;n ***Guardar***.
 
