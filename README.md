@@ -25,6 +25,7 @@ Una vez instaladas las tecnolog&iacute;as necesarias del Sistema en el servidor:
 
 1. Ubicar el directorio ***sigabu*** en el directorio web ra&iacute;z del servidor <sup>3</sup>.
 2. Importar el fichero `db/sigabu-db.sql`, el cual contiene el script que genera la BD. 
+3. Configurar el Sistema y usarlo por ***primera vez***.
 
 **Nota:** Aseg&uacute;rese que est&eacute; habilitado `mod_rewrite` en Apache. 
 
@@ -59,6 +60,40 @@ A continuaci&oacute;n se explica las variables de configuraci&oacute;n del proye
 	* tipo: `boolean`.
 	* valores: `true | false`.
 	* explicaci&oacute;n: en el fichero `config/config.php` est&aacute; comentada la explicaci&oacute;n de esta variable.
+
+---
+
+### Primer Uso
+
+Despu&eacute;s de instalado y configurado el sistema, ya est&aacute; listo para usarlo.
+
+El software tiene implementado un sistema de autenticaci&oacute;n, a trav&eacute;s del cual, s&oacute;lo los usuarios autorizados
+(quienes tienen asignada una cuenta de usuario con un *nombre de usuario* y una *password*) pueden ingresar al Sistema de Informaci&oacute;n
+e interactuar con &eacute;ste.
+
+El script `db/sigabu-db.sql` generador de la Base de Datos, trae pre-definida una persona `demo`, y a su vez, se ha asignado una cuenta de usuario
+a &eacute;sta.
+ 
+Los siguientes son los datos pre-definidos de la persona `demo`:
+
+	nombres: John
+	apellidos: Doe
+	identificacion: 1234567
+
+Como se mencion&oacute; anteriormente, a esta persona se le ha asignado una cuenta de usuario para permitir el primer uso del sistema.
+
+	usuario: admin
+	password: 12345678
+
+Con el anterior *nombre de usuario* y la *password*, puede ingresar al sistema.
+
+Una vez ha ingresado en el sistema, realizar los siguientes pasos:
+
+1. Haz click en la opci&oacute;n personas de la *dashboard* o del men&uacute; superior.
+
+[![Paso 1](http://l4c.me/uploads/sigabu-primer-uso-paso-1-1316020602_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-1-1316020602.png "Ver imagen")
+
+2. Haz click en el submen&uacute; `nuevo`.
 
 ## Seguimientos a bugs
 
