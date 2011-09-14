@@ -91,12 +91,12 @@ Una vez ha ingresado en el sistema, realizar los siguientes pasos:
 
 1. Haz click en la opci&oacute;n *personas* de la *dashboard* o del men&uacute; superior.
 
+
 [![Paso 1](http://l4c.me/uploads/sigabu-primer-uso-paso-1-1316020602_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-1-1316020602.png "Ver imagen")
 2. Haz click en el submen&uacute; `nuevo`.
 
 
 [![Paso 2](http://l4c.me/uploads/sigabu-primer-uso-paso-2-1316024886_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-2-1316024886.png "Ver imagen")
-
 3. Ingresa los datos obligatorios (marcados con \*) para crear una persona. Una vez ingresado los datos para crear la persona, haz click en el bot&oacute;n ***Guardar***.
 
 
