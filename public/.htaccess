@@ -1,10 +1,13 @@
 <IfModule mod_rewrite.c>
-RewriteEngine On
+	RewriteEngine On
+	
+	# http://betacontinua.com/blog/2008/12/24/cakephp-problemas-al-subir-la-aplicacion-a-tu-hosting/
+	RewriteBase /sigabu
  
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
  
-RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
+	RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>
