@@ -1,13 +1,13 @@
 # SIGABU
 
-El **Si**stema de Informaci&oacute;n para el proceso de Inscripci&oacute;n, Control de Asistencia y **G**esti&oacute;n de **A**ctividades de las &aacute;reas 
+El **Si**stema de Informaci&oacute;n para los procesos de Inscripci&oacute;n, Control de Asistencia y **G**esti&oacute;n de **A**ctividades de las &aacute;reas 
 de Recreaci&oacute;n y Deporte y Art&iacute;stica y Cultural del departamento de **B**ienestar **U**niversitario de la 
-[Universidad Cooperativa de Colombia](http://ucc.edu.co/), seccional [Cali](http://ucc.edu.co/cali/Paginas/UniversidadCooperativadeColombia_Cali.aspx),
-es un proyecto de desarrollo de software llevado a cabo por Jhon Adri&aacute;n Cer&oacute;n Guzm&aacute;n, aka ***De_la_Cuesta_13***, 
+[Universidad Cooperativa de Colombia](http://ucc.edu.co/), sede [Cali](http://ucc.edu.co/cali/Paginas/UniversidadCooperativadeColombia_Cali.aspx),
+es un proyecto de desarrollo de software llevado a cabo por Jhon Adri&aacute;n Cer&oacute;n Guzm&aacute;n, aka [*De_la_Cuesta_13*](https://github.com/delacuesta13), 
 estudiante del programa de Ingenier&iacute;a de Sistemas.
 
 *Sigabu* permite la gesti&oacute;n de actividades *(por ej: F&uacute;tbol, Voleibol, Danzas, etc.)* -y su clasificaci&oacute;n- de las diferentes &aacute;reas
-*(por ej: Recreaci&oacute;n y Deportes, Art&iacute;stica y Cultural)* del departamento de Bienestar U, donde adem&aacute;s se puede programar para un determinado 
+*(por ej: Recreaci&oacute;n y Deportes, Art&iacute;stica y Cultural)* del departamento de Bienestar U, donde adem&aacute;s se pueden programar para un determinado 
 periodo acad&eacute;mico *(por ej: 2011-2, segundo semestre de 2011)* las actividades que se ofertar&aacute;n, asign&aacute;ndoles un horario 
 (e indicando el lugar o espacio deportivo y/o cultural donde se desarrollar&aacute; &eacute;ste). Despu&eacute;s de programadas las actividades, se permite
 la gesti&oacute;n de las inscripciones <sup>1</sup> de las personas <sup>2</sup> beneficiarias de Bienestar U en &eacute;stas. Por &uacute;ltimo, y 
@@ -119,6 +119,13 @@ se confirma la opci&oacute;n *eliminar* la persona. Haz click en ***S&iacute;***
 
 [![Paso 7](http://l4c.me/uploads/sigabu-primer-uso-paso-7-1316027806_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-7-1316027806.png "Ver imagen")
 
+## Recomendaciones
+
+Para un adecuado uso del Sistema de Información, se recomienda que la estaciones de trabajo (o clientes) del sistema cuenten con las siguientes características:
+
+1. Navegador web [**Google Chrome**](http://www.google.com/chrome) 14.0.835.186 o superior.
+2. Resoluci&oacute;n de pantalla superior a **1200\*800** pixeles.
+
 ## Seguimientos a bugs
 
 Si encontraste un bug, por favor crea un tema aqu&iacute; en GitHub.
@@ -130,9 +137,36 @@ Si encontraste un bug, por favor crea un tema aqu&iacute; en GitHub.
 * Si&eacute;ntete libre de hacer un ***fork*** a este repositorio.
 * Env&iacute;a una solicitud de ***pull***.
 
-## Autor 
+## Desarrollo del sistema
 
-Jhon Adri&aacute;n Cer&oacute;n Guzm&aacute;n.
+El desarrollo del Sistema de Informaci&oacute;n se concibi&oacute; bajo el enfoque de separar &eacute;ste en dos partes: **Front-end** y **Back-end**.
+
+**Back-end** es la interfaz del sistema en la cual administrar, por completo, las funcionalidades implementadas y el comportamiento del mismo. Esta interfaz
+est&aacute; delimitada para ser usada por el staff de Bienestar Universitario, desde el Jefe del departamento hasta los monitores de las actividades ofertadas
+por Bienestar. **Sigabu** es la denominaci&oacute;n que se la ha dado a esta interfaz.
+
+**Front-end** es la interfaz del sistema abierta a toda la *Comunidad Universitaria*, en la cual se muestran las actividades programadas en un determinado per&iacute;odo;
+ampliando la informaci&oacute;n para cada actividad, as&iacute; como los horarios que se definieron para &eacute;sta. Adem&aacute;s de consultar las actividades, la *comunidad*
+tiene la posibilidad de inscribirse en &eacute;stas. [*Plibu*](https://github.com/delacuesta13/Plibu) es la denominaci&oacute;n que se le ha dado a esta interfaz.
+
+---
+
+### Importante
+
+Por favor **no** iniciar sesi&oacute;n en las interfaces **Sigabu** y **Plibu** al mismo tiempo, usando un mismo *navegador web*. 
+Se recomienda inicar sesi&oacute;n en una sola interfaz, y finalizada la misma, iniciar sesi&oacute;n en la otra interfaz.
+
+## Acerca de  
+
+El *Sistema de Informaci&oacute;n para los procesos de Inscripci&oacute;n, Control de Asistencia y Gesti&oacute;n de Actividades de las &aacute;reas de
+Recreaci&oacute;n y Deportes y Art&iacute;stica y Cultural del departamento de Bienestar Universitario de la Universidad Cooperativa de Colombia, sede Cali*, 
+es un proyecto de desarrollo de *software*, por medio del cual, optar al t&iacute;tulo de **Ingeniero de Sistemas** de la universidad mencionada.
+
+---
+
+### Autor
+
+Jhon Adri&aacute;n Cer&oacute;n Guzm&aacute;n <[jadrian.ceron@gmail.com](mailto:jadrian.ceron@gmail.com)>.
 
 ## Copyright y licencia
 
@@ -155,6 +189,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 1. Es pre-requisito de inscripci&oacute;n que la persona tenga un perfil en el periodo de la programaci&oacute;n de la actividad. Un perfil es la 
 clasificaci&oacute;n de la persona dentro de la *comunidad universitaria*.
 2. Las personas beneficiarias de Bienestar U, son quienes componen la denominada *comunidad universitaria*. Esta comunidad clasifica las personas
-en: estudiantes, docentes (catedr&aacute;tico, medio tiempo o tiempo completo), funcionarios, egresados y familiares (del primer grando de consanguineidad o
+en: estudiantes, docentes (catedr&aacute;tico, medio tiempo o tiempo completo), funcionarios, egresados y familiares (del primer grando de consanguinidad o
 afinidad de los anteriores).
 3. Por lo general (y sin ser una regla), el directorio ra&iacute;z de un servidor web es ***www*** o ***htdocs***.
