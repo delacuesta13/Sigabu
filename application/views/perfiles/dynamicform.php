@@ -203,11 +203,11 @@ if (isset($tipo_perfil)) {
 	
 		<div class="group">
 			<div class="fieldWithErrors">
-				<label class="label" for="parentesco">Tipo de Consanguineidad o Afinidad</label>
+				<label class="label" for="parentesco">Tipo de Consanguinidad o Afinidad</label>
 				<span class="error error_parentesco"></span>
 			</div>
 			<select name="parentesco" id="parentesco" style="width:350px;">
-				<option>Seleccione un Tipo de Consanguineidad o Afinidad</option>
+				<option>Seleccione un Tipo de Consanguinidad o Afinidad</option>
 				<?php 
 				for($i = 0; $i < count($lista_afinidad); $i++){
 					$str_salida = '<option value="' . $lista_afinidad[$i]['Multientidad']['id'] . '"';
