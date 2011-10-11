@@ -1,7 +1,7 @@
 # SIGABU
 
-El **Si**stema de Informaci&oacute;n para los procesos de Inscripci&oacute;n, Control de Asistencia y **G**esti&oacute;n de **A**ctividades de las &aacute;reas 
-de Recreaci&oacute;n y Deporte y Art&iacute;stica y Cultural del departamento de **B**ienestar **U**niversitario de la 
+El **S**istema de **I**nformaci&oacute;n para los procesos de Inscripci&oacute;n, Control de Asistencia y **G**esti&oacute;n de **A**ctividades de las &aacute;reas 
+de Recreaci&oacute;n y Deportes y Art&iacute;stica y Cultural del departamento de **B**ienestar **U**niversitario de la 
 [Universidad Cooperativa de Colombia](http://ucc.edu.co/), sede [Cali](http://ucc.edu.co/cali/Paginas/UniversidadCooperativadeColombia_Cali.aspx),
 es un proyecto de desarrollo de software llevado a cabo por Jhon Adri&aacute;n Cer&oacute;n Guzm&aacute;n, aka [*De_la_Cuesta_13*](https://github.com/delacuesta13), 
 estudiante del programa de Ingenier&iacute;a de Sistemas.
@@ -21,20 +21,20 @@ despu&eacute;s de la gesti&oacute;n de inscripciones, el Sistema permite el cont
 
 ## Instalaci&oacute;n
 
-Una vez instaladas las tecnolog&iacute;as necesarias del Sistema en el servidor:
+Una vez instaladas las tecnolog&iacute;as requeridas por el sistema en el servidor, est&aacute; listo para iniciar el proceso de instalaci&oacute;n.
 
-1. Ubicar el directorio ***sigabu*** en el directorio web ra&iacute;z del servidor <sup>3</sup>.
+1. Ubicar el directorio ***sigabu*** en el directorio ra&iacute;z del servidor web<sup>3</sup>.
 2. Importar el fichero `db/sigabu-db.sql`, el cual contiene el script que genera la BD. 
 3. Configurar el Sistema y usarlo por ***primera vez***.
 
-**Nota:** Aseg&uacute;rese que est&eacute; habilitado `mod_rewrite` en Apache. 
+**Nota:** Aseg&uacute;rese que est&eacute; habilitado el m&oacute;dolu `mod_rewrite` de Apache. 
 
 ## Configuraci&oacute;n
 
 Despu&eacute;s de realizar los pasos indicados de la instalaci&oacute;n, configure el Sistema de Informaci&oacute;n seg&uacute;n la configuraci&oacute;n 
 de su servidor. Para configurar el Sistema, s&oacute;lo tiene que editar el fichero `config/config.php`.
 
-A continuaci&oacute;n se explica las variables de configuraci&oacute;n del proyecto, sus posibles valores y su significado dentro del mismo.
+A continuaci&oacute;n se explican las variables de configuraci&oacute;n del proyecto, sus posibles valores y su significado dentro del mismo.
 
 * DEVELOPMENT\_ENVIRONMENT
 	* tipo: `boolean`.
@@ -87,7 +87,7 @@ Como se mencion&oacute; anteriormente, a esta persona se le ha asignado una cuen
 
 Con el anterior *nombre de usuario* y la *password*, puede ingresar al sistema.
 
-Una vez ha ingresado en el sistema, realizar los siguientes pasos:
+Una vez ha ingresado en el sistema, realice los siguientes pasos:
 
 1. Haz click en la opci&oacute;n *personas* de la *dashboard* o del men&uacute; superior.
 
@@ -98,7 +98,7 @@ Una vez ha ingresado en el sistema, realizar los siguientes pasos:
 3. Ingresa los datos obligatorios (marcados con \*) para crear una persona. Una vez ingresado los datos para crear la persona, haz click en el bot&oacute;n ***Guardar***.
 
 [![Paso 3](http://l4c.me/uploads/sigabu-primer-uso-paso-3-1316025326_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-3-1316025326.png "Ver imagen")    
-Si ha ingresado los datos correctamente, deber&iacute;as visualizar un mensaje como &eacute;ste:
+Si ha ingresado los datos correctamente, deber&iacute;a visualizar un mensaje como &eacute;ste:
 
 [![Paso 4](http://l4c.me/uploads/sigabu-primer-uso-paso-4-1316025723_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-4-1316025723.png "Ver imagen")    
 4. Haz click en la opci&oacute;n *Usuarios* del men&uacute; superior.	
@@ -108,11 +108,11 @@ de la persona creada anteriormente (ver **paso 3**). En el campo `Rol` (de usuar
 Una vez ingresado los datos, haz click en el bot&oacute;n ***Guardar***.
 
 [![Paso 5](http://l4c.me/uploads/sigabu-primer-uso-paso-5-1316026509_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-5-1316026509.png "Ver imagen")    
-Si ha ingresado los datos correctamente, deber&iacute;as visualizar un mensaje como &eacute;ste:
+Si ha ingresado los datos correctamente, deber&iacute;a visualizar un mensaje como &eacute;ste:
 
 [![Paso 6](http://l4c.me/uploads/sigabu-primer-uso-paso-6-1316026842_full550.png)](http://l4c.me/fullsize/sigabu-primer-uso-paso-6-1316026842.png "Ver imagen")    
-7. Cierra la sesi&oacute;n que iniciaste con el usuario `admin`, haciendo click en la opci&oacute;n superior derecha `Salir`.	
-8. Inicia una nueva sesi&oacute;n con los datos de la cuenta de usuario creada anteriormente (ver **paso 6**).	
+7. Cierra la sesi&oacute;n que ha iniciado con el usuario `admin`, haciendo click en la opci&oacute;n superior derecha `Salir`.	
+8. Inicie una nueva sesi&oacute;n con los datos de la cuenta de usuario creada anteriormente (ver **paso 6**).	
 9. Haz click en la opci&oacute;n *personas* de la *dashboard* o del men&uacute; superior.	
 10. Haz click en la opci&oacute;n *eliminar* de la persona `demo` (ver datos pre-definidos de &eacute;sta). A continuaci&oacute;n aparacer&aacute; una ventana, en la cual
 se confirma la opci&oacute;n *eliminar* la persona. Haz click en ***S&iacute;***.
@@ -126,7 +126,7 @@ Para un adecuado uso del Sistema de Información, se recomienda que la estacione
 1. Navegador web [**Google Chrome**](http://www.google.com/chrome) 14.0.835.186 o superior.
 2. Resoluci&oacute;n de pantalla superior a **1200\*800** pixeles.
 
-## Seguimientos a bugs
+## Seguimiento a bugs
 
 Si encontraste un bug, por favor crea un tema aqu&iacute; en GitHub.
 
@@ -136,6 +136,18 @@ Si encontraste un bug, por favor crea un tema aqu&iacute; en GitHub.
 
 * Si&eacute;ntete libre de hacer un ***fork*** a este repositorio.
 * Env&iacute;a una solicitud de ***pull***.
+
+---
+
+### Versionamiento
+
+El sistema de informaci&oacute;n *Sigabu* y la aplicaci&oacute;n web *Plibu*, deber&aacute;n ser mantenidos a trav&eacute;s de las directrices de Versionamiento Sem&aacute;ntico.
+
+Las versiones ser&aacute;n numeradas bajo el siguiente formato:
+
+`<major>.<minor>.<patch>`
+
+Para m&aacute;s informaci&oacute;n, por favor visita [http://semver.org/](http://semver.org/).
 
 ## Desarrollo del sistema
 
