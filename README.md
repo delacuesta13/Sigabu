@@ -124,7 +124,7 @@ se confirma la opci&oacute;n *eliminar* la persona. Haz click en ***S&iacute;***
 Para un adecuado uso del Sistema de Información, se recomienda que la estaciones de trabajo (o clientes) del sistema cuenten con las siguientes características:
 
 1. Navegador web [**Google Chrome**](http://www.google.com/chrome) 14.0.835.186 o superior.
-2. Resoluci&oacute;n de pantalla superior a **1200\*800** pixeles.
+2. Resoluci&oacute;n de pantalla superior a **1200\*800** p&iacute;xeles.
 
 ## Seguimiento a bugs
 
