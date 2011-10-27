@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_ouu8kAC-EeGrDK_IxUWJOg" name="gestionUsuarios">
+  <ownedComment xmi:id="_3nHQoAC_EeGrDK_IxUWJOg" annotatedElement="_D4L2IAC_EeGrDK_IxUWJOg">
+    <body>El usuario no podrá consultar las passwords de las cuentas de usuario del sistema. Es importante mencionar que las passwords serán almacenadas usando el algoritmo de encriptación MD5.</body>
+  </ownedComment>
+  <ownedComment xmi:id="_tmiuIADAEeGrDK_IxUWJOg" annotatedElement="_ikwRIAC_EeGrDK_IxUWJOg">
+    <body>El usuario que se ha autenticado en la aplicación, no podrá eliminar su propia cuenta de usuario.</body>
+  </ownedComment>
+  <elementImport xmi:id="_ovgYoAC-EeGrDK_IxUWJOg">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_ovhmwAC-EeGrDK_IxUWJOg">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_ovhmwQC-EeGrDK_IxUWJOg">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_ovhmwgC-EeGrDK_IxUWJOg">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_pfWhMAC-EeGrDK_IxUWJOg" name="Jefe de Bienestar"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_rElZoAC-EeGrDK_IxUWJOg" name="Gestión de usuarios">
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_w_iVIAC-EeGrDK_IxUWJOg" name="Crear usuario">
+      <include xmi:id="_oBXDwAC_EeGrDK_IxUWJOg" addition="_0yOjoAC-EeGrDK_IxUWJOg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_0yOjoAC-EeGrDK_IxUWJOg" name="Validar datos"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_D4L2IAC_EeGrDK_IxUWJOg" name="Consultar usuario"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_geyDIAC_EeGrDK_IxUWJOg" name="Modificar usuario">
+      <include xmi:id="_sRp0QAC_EeGrDK_IxUWJOg" addition="_0yOjoAC-EeGrDK_IxUWJOg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_ikwRIAC_EeGrDK_IxUWJOg" name="Eliminar usuario"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_w4xwYAC_EeGrDK_IxUWJOg" memberEnd="_w4y-gAC_EeGrDK_IxUWJOg _w4zlkQC_EeGrDK_IxUWJOg" navigableOwnedEnd="_w4zlkQC_EeGrDK_IxUWJOg">
+    <ownedEnd xmi:id="_w4y-gAC_EeGrDK_IxUWJOg" name="src" type="_pfWhMAC-EeGrDK_IxUWJOg" association="_w4xwYAC_EeGrDK_IxUWJOg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_w4zlkAC_EeGrDK_IxUWJOg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_w4y-gQC_EeGrDK_IxUWJOg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_w4zlkQC_EeGrDK_IxUWJOg" name="dst" type="_w_iVIAC-EeGrDK_IxUWJOg" association="_w4xwYAC_EeGrDK_IxUWJOg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_w4zlkwC_EeGrDK_IxUWJOg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_w4zlkgC_EeGrDK_IxUWJOg" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_xd_WQAC_EeGrDK_IxUWJOg" memberEnd="_xd_9UAC_EeGrDK_IxUWJOg _xeAkYAC_EeGrDK_IxUWJOg" navigableOwnedEnd="_xeAkYAC_EeGrDK_IxUWJOg">
+    <ownedEnd xmi:id="_xd_9UAC_EeGrDK_IxUWJOg" name="src" type="_pfWhMAC-EeGrDK_IxUWJOg" association="_xd_WQAC_EeGrDK_IxUWJOg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xd_9UgC_EeGrDK_IxUWJOg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xd_9UQC_EeGrDK_IxUWJOg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_xeAkYAC_EeGrDK_IxUWJOg" name="dst" type="_D4L2IAC_EeGrDK_IxUWJOg" association="_xd_WQAC_EeGrDK_IxUWJOg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xeAkYgC_EeGrDK_IxUWJOg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xeAkYQC_EeGrDK_IxUWJOg" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_x80AQAC_EeGrDK_IxUWJOg" memberEnd="_x80AQQC_EeGrDK_IxUWJOg _x80nUgC_EeGrDK_IxUWJOg" navigableOwnedEnd="_x80nUgC_EeGrDK_IxUWJOg">
+    <ownedEnd xmi:id="_x80AQQC_EeGrDK_IxUWJOg" name="src" type="_pfWhMAC-EeGrDK_IxUWJOg" association="_x80AQAC_EeGrDK_IxUWJOg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_x80nUQC_EeGrDK_IxUWJOg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_x80nUAC_EeGrDK_IxUWJOg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_x80nUgC_EeGrDK_IxUWJOg" name="dst" type="_geyDIAC_EeGrDK_IxUWJOg" association="_x80AQAC_EeGrDK_IxUWJOg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_x81OYAC_EeGrDK_IxUWJOg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_x80nUwC_EeGrDK_IxUWJOg" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_yp5IsAC_EeGrDK_IxUWJOg" memberEnd="_yp5vwAC_EeGrDK_IxUWJOg _yp5vwwC_EeGrDK_IxUWJOg" navigableOwnedEnd="_yp5vwwC_EeGrDK_IxUWJOg">
+    <ownedEnd xmi:id="_yp5vwAC_EeGrDK_IxUWJOg" name="src" type="_pfWhMAC-EeGrDK_IxUWJOg" association="_yp5IsAC_EeGrDK_IxUWJOg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yp5vwgC_EeGrDK_IxUWJOg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_yp5vwQC_EeGrDK_IxUWJOg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_yp5vwwC_EeGrDK_IxUWJOg" name="dst" type="_ikwRIAC_EeGrDK_IxUWJOg" association="_yp5IsAC_EeGrDK_IxUWJOg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yp6W0QC_EeGrDK_IxUWJOg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_yp6W0AC_EeGrDK_IxUWJOg" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Package>
