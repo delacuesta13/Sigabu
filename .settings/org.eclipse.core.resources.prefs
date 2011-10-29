@@ -1,4 +1,4 @@
-#Fri Oct 28 12:20:22 COT 2011
+#Sat Oct 29 11:49:57 COT 2011
 eclipse.preferences.version=1
 encoding//casosUso/autenticacionUsuarios.uml=UTF-8
 encoding//casosUso/autenticacionUsuarios.umlusc=UTF-8
@@ -16,5 +16,7 @@ encoding//casosUso/gestionPersonas.uml=UTF-8
 encoding//casosUso/gestionPersonas.umlusc=UTF-8
 encoding//casosUso/gestionUsuarios.uml=UTF-8
 encoding//casosUso/gestionUsuarios.umlusc=UTF-8
+encoding//clases/diagramaClases.uml=UTF-8
+encoding//clases/diagramaClases.umlclass=UTF-8
 encoding//dominio/modeloDominio.uml=UTF-8
 encoding//dominio/modeloDominio.umlclass=UTF-8
