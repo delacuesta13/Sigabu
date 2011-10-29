@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_CJvTAQJOEeGVaL2JXixPLA" name="diagramaClases">
+  <ownedComment xmi:id="_8ueOEAJWEeGVaL2JXixPLA" annotatedElement="_cr63kAJWEeGVaL2JXixPLA">
+    <body>Multientidad es una clase en el cual se agrupan diferentes objetos, los cuales dada su definición, comporten los mismos atributos y operaciones. El atributo entidad está definido para establecer el objeto abstracto que se utilizará como instancia de la clase multientidad.</body>
+  </ownedComment>
+  <ownedComment xmi:id="_kguaMAJiEeGVaL2JXixPLA" annotatedElement="_GBWtsAJiEeGVaL2JXixPLA">
+    <body>Permiso es el nivel de acceso que se asocia a un rol.</body>
+  </ownedComment>
+  <ownedComment xmi:id="_xNXV0AJrEeG-7I1j55WJHA" annotatedElement="_5q8dkAJUEeGVaL2JXixPLA">
+    <body>Si el valor del atributo actual es 1, el objeto período será definido como el que transcurre. Sólo un objeto podrá tener valor de atributo actual 1. </body>
+  </ownedComment>
+  <ownedComment xmi:id="_aB0m0AJsEeG-7I1j55WJHA" annotatedElement="_C3OFQAJoEeG-7I1j55WJHA">
+    <body>Si el valor del atributo abierto es 1, el objeto curso será público, y la comunidad universitaria se podrá inscribir directamente en éste.</body>
+  </ownedComment>
+  <elementImport xmi:id="_CM8YAAJOEeGVaL2JXixPLA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_CNET0AJOEeGVaL2JXixPLA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_CNET0QJOEeGVaL2JXixPLA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_CNET0gJOEeGVaL2JXixPLA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_H9mvEAJOEeGVaL2JXixPLA" name="Facultad">
+    <ownedAttribute xmi:id="_wJPFgAJOEeGVaL2JXixPLA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_8Hr0gAJOEeGVaL2JXixPLA" name="nombre" aggregation="composite"/>
+    <ownedAttribute xmi:id="_8zjcAAJOEeGVaL2JXixPLA" name="abrev" aggregation="composite"/>
+    <ownedOperation xmi:id="_TLSTAAJPEeGVaL2JXixPLA" name="listar">
+      <ownedParameter xmi:id="_UrStMAJPEeGVaL2JXixPLA" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Zcl5AAJPEeGVaL2JXixPLA" name="Programa">
+    <ownedAttribute xmi:id="_bV5kAAJPEeGVaL2JXixPLA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_cvd_AAJPEeGVaL2JXixPLA" name="nombre" aggregation="composite"/>
+    <ownedAttribute xmi:id="_dXhdgAJPEeGVaL2JXixPLA" name="abrev" aggregation="composite"/>
+    <ownedOperation xmi:id="_fotdAAJPEeGVaL2JXixPLA" name="listar">
+      <ownedParameter xmi:id="_g89TIAJPEeGVaL2JXixPLA" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_i-0dMAJPEeGVaL2JXixPLA" memberEnd="_i-1rUAJPEeGVaL2JXixPLA _i-2SYQJPEeGVaL2JXixPLA">
+    <ownedEnd xmi:id="_i-1rUAJPEeGVaL2JXixPLA" name="src" type="_H9mvEAJOEeGVaL2JXixPLA" association="_i-0dMAJPEeGVaL2JXixPLA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_i-2SYAJPEeGVaL2JXixPLA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_i-1rUQJPEeGVaL2JXixPLA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_i-2SYQJPEeGVaL2JXixPLA" name="dst" type="_Zcl5AAJPEeGVaL2JXixPLA" aggregation="composite" association="_i-0dMAJPEeGVaL2JXixPLA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_i-25cAJPEeGVaL2JXixPLA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_i-2SYgJPEeGVaL2JXixPLA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_5Ts0gAJPEeGVaL2JXixPLA" name="Persona">
+    <ownedAttribute xmi:id="_66FjgAJPEeGVaL2JXixPLA" name="nombres" aggregation="composite"/>
+    <ownedAttribute xmi:id="_710zAAJPEeGVaL2JXixPLA" name="apellidos" aggregation="composite"/>
+    <ownedAttribute xmi:id="_8kcMgAJPEeGVaL2JXixPLA" name="dni" aggregation="composite"/>
+    <ownedAttribute xmi:id="_9I1TAAJPEeGVaL2JXixPLA" name="tipo dni" aggregation="composite"/>
+    <ownedAttribute xmi:id="_OaaIgAJQEeGVaL2JXixPLA" name="teléfono fijo" aggregation="composite"/>
+    <ownedAttribute xmi:id="_WQHggAJQEeGVaL2JXixPLA" name="teléfono móvil" aggregation="composite"/>
+    <ownedAttribute xmi:id="_XqwSgAJQEeGVaL2JXixPLA" name="email" aggregation="composite"/>
+    <ownedAttribute xmi:id="_bkxRAAJQEeGVaL2JXixPLA" name="fecha nacimiento" aggregation="composite"/>
+    <ownedAttribute xmi:id="_dp-qAAJQEeGVaL2JXixPLA" name="género" aggregation="composite"/>
+    <ownedAttribute xmi:id="_gL83gAJQEeGVaL2JXixPLA" name="dirección" aggregation="composite"/>
+    <ownedAttribute xmi:id="_hvXLAAJQEeGVaL2JXixPLA" name="monitor" aggregation="composite"/>
+    <ownedAttribute xmi:id="_jEDGAAJQEeGVaL2JXixPLA" name="estado" aggregation="composite"/>
+    <ownedOperation xmi:id="_sJoxgAJQEeGVaL2JXixPLA" name="nuevo">
+      <ownedParameter xmi:id="_zutlIAJTEeGVaL2JXixPLA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_X-9EEAJUEeGVaL2JXixPLA" name="listar">
+      <ownedParameter xmi:id="_YubZMAJUEeGVaL2JXixPLA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_b72-gAJUEeGVaL2JXixPLA" name="consultar">
+      <ownedParameter xmi:id="_dxJFIAJUEeGVaL2JXixPLA" direction="return"/>
+      <ownedParameter xmi:id="_dxJsMAJUEeGVaL2JXixPLA" name="dni"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_fukbIAJUEeGVaL2JXixPLA" name="editar">
+      <ownedParameter xmi:id="_giADMAJUEeGVaL2JXixPLA" direction="return"/>
+      <ownedParameter xmi:id="_giADMQJUEeGVaL2JXixPLA" name="dni"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_hqmqAAJUEeGVaL2JXixPLA" name="eliminar">
+      <ownedParameter xmi:id="_i976IAJUEeGVaL2JXixPLA" direction="return"/>
+      <ownedParameter xmi:id="_i98hMAJUEeGVaL2JXixPLA" name="dni"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_45lSEAJUEeGVaL2JXixPLA" name="Perfil">
+    <ownedAttribute xmi:id="_vme5kAJVEeGVaL2JXixPLA" name="id" aggregation="composite"/>
+    <ownedOperation xmi:id="_L_uMwAJmEeG-7I1j55WJHA" name="nuevo">
+      <ownedParameter xmi:id="_RVia4AJmEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_RVjB8AJmEeG-7I1j55WJHA" name="persona_dni"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_PTDlwAJmEeG-7I1j55WJHA" name="listar">
+      <ownedParameter xmi:id="_V9tf4AJmEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_V9tf4QJmEeG-7I1j55WJHA" name="persona_dni"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_YyR5QAJmEeG-7I1j55WJHA" name="consultar">
+      <ownedParameter xmi:id="_ZvVXYAJmEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_ZvVXYQJmEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_aAGXQAJmEeG-7I1j55WJHA" name="editar">
+      <ownedParameter xmi:id="_ahJ14AJmEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_ahJ14QJmEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_avtPQAJmEeG-7I1j55WJHA" name="eliminar">
+      <ownedParameter xmi:id="_bjEl4AJmEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_bjEl4QJmEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_5q8dkAJUEeGVaL2JXixPLA" name="Período">
+    <ownedAttribute xmi:id="_68bTkAJUEeGVaL2JXixPLA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_7iWEEAJUEeGVaL2JXixPLA" name="período" aggregation="composite"/>
+    <ownedAttribute xmi:id="_8Xtl0AJUEeGVaL2JXixPLA" name="actual" aggregation="composite"/>
+    <ownedAttribute xmi:id="_9M7WkAJUEeGVaL2JXixPLA" name="fecha inicio" aggregation="composite"/>
+    <ownedAttribute xmi:id="_CIQBEAJVEeGVaL2JXixPLA" name="fecha finalización" aggregation="composite"/>
+    <ownedOperation xmi:id="_EKaGEAJVEeGVaL2JXixPLA" name="nuevo">
+      <ownedParameter xmi:id="_FqjqMAJVEeGVaL2JXixPLA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_F_q-kAJVEeGVaL2JXixPLA" name="listar">
+      <ownedParameter xmi:id="_G1P7sAJVEeGVaL2JXixPLA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_HmhAkAJVEeGVaL2JXixPLA" name="editar">
+      <ownedParameter xmi:id="_JW1usAJVEeGVaL2JXixPLA" direction="return"/>
+      <ownedParameter xmi:id="_JW1usQJVEeGVaL2JXixPLA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_JplrkAJVEeGVaL2JXixPLA" name="eliminar">
+      <ownedParameter xmi:id="_KcHUsAJVEeGVaL2JXixPLA" direction="return"/>
+      <ownedParameter xmi:id="_KcHUsQJVEeGVaL2JXixPLA" name="id"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_cr63kAJWEeGVaL2JXixPLA" name="Multientidad">
+    <ownedAttribute xmi:id="_eL5ckAJWEeGVaL2JXixPLA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_ezkgkAJWEeGVaL2JXixPLA" name="entidad" aggregation="composite"/>
+    <ownedAttribute xmi:id="_foNpkAJWEeGVaL2JXixPLA" name="nombre" aggregation="composite"/>
+    <ownedAttribute xmi:id="_gVipoAJWEeGVaL2JXixPLA" name="abrev" aggregation="composite"/>
+    <ownedOperation xmi:id="_hgwfkAJWEeGVaL2JXixPLA" name="listar">
+      <ownedParameter xmi:id="_iNtsMAJWEeGVaL2JXixPLA" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_h82ksAJhEeGVaL2JXixPLA" name="Usuario">
+    <ownedAttribute xmi:id="_zmJWoAJhEeGVaL2JXixPLA" name="username" aggregation="composite"/>
+    <ownedAttribute xmi:id="_1OmiMAJhEeGVaL2JXixPLA" name="password" aggregation="composite"/>
+    <ownedAttribute xmi:id="_2CQMsAJhEeGVaL2JXixPLA" name="email" aggregation="composite"/>
+    <ownedAttribute xmi:id="_3iFAsAJhEeGVaL2JXixPLA" name="estado" aggregation="composite"/>
+    <ownedAttribute xmi:id="_4GswsAJhEeGVaL2JXixPLA" name="fecha activación" aggregation="composite"/>
+    <ownedAttribute xmi:id="_5ATSMAJhEeGVaL2JXixPLA" name="última visita" aggregation="composite"/>
+    <ownedOperation xmi:id="_ejd0wAJmEeG-7I1j55WJHA" name="nuevo">
+      <ownedParameter xmi:id="_1h-F8AJoEeG-7I1j55WJHA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_gKT2wAJmEeG-7I1j55WJHA" name="listar">
+      <ownedParameter xmi:id="_gu38YAJmEeG-7I1j55WJHA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_g6c6QAJmEeG-7I1j55WJHA" name="consultar">
+      <ownedParameter xmi:id="_lY9s8AJmEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_lY-UAAJmEeG-7I1j55WJHA" name="username"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_i8OkwAJmEeG-7I1j55WJHA" name="editar">
+      <ownedParameter xmi:id="_m95DYAJmEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_m95DYQJmEeG-7I1j55WJHA" name="username"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_nWIkQAJmEeG-7I1j55WJHA" name="eliminar">
+      <ownedParameter xmi:id="_oRlf4AJmEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_oRlf4QJmEeG-7I1j55WJHA" name="username"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_27-3wAJmEeG-7I1j55WJHA" name="getPermiso">
+      <ownedParameter xmi:id="_3_I94AJmEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_3_I94QJmEeG-7I1j55WJHA" name="username"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_GBWtsAJiEeGVaL2JXixPLA" name="Rol">
+    <ownedAttribute xmi:id="_Q4PXsAJiEeGVaL2JXixPLA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_RfwqsAJiEeGVaL2JXixPLA" name="nombre" aggregation="composite"/>
+    <ownedAttribute xmi:id="_VrjVsAJiEeGVaL2JXixPLA" name="permiso" aggregation="composite"/>
+    <ownedOperation xmi:id="_JKE8sAJjEeGVaL2JXixPLA" name="listar">
+      <ownedParameter xmi:id="_J0-T0AJjEeGVaL2JXixPLA" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_2mLjsAJiEeGVaL2JXixPLA" name="Área">
+    <ownedAttribute xmi:id="_5cN8sAJiEeGVaL2JXixPLA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_6WlTMAJiEeGVaL2JXixPLA" name="nombre" aggregation="composite"/>
+    <ownedOperation xmi:id="_7m65sAJiEeGVaL2JXixPLA" name="listar">
+      <ownedParameter xmi:id="_8NxeUAJiEeGVaL2JXixPLA" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="__Vp1QAJiEeGVaL2JXixPLA" name="Coordinador" memberEnd="__VqcUAJiEeGVaL2JXixPLA __VrDYAJiEeGVaL2JXixPLA">
+    <ownedEnd xmi:id="__VqcUAJiEeGVaL2JXixPLA" name="src" type="_5Ts0gAJPEeGVaL2JXixPLA" association="__Vp1QAJiEeGVaL2JXixPLA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__VqcUgJiEeGVaL2JXixPLA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__VqcUQJiEeGVaL2JXixPLA"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="__VrDYAJiEeGVaL2JXixPLA" name="dst" type="_2mLjsAJiEeGVaL2JXixPLA" aggregation="shared" association="__Vp1QAJiEeGVaL2JXixPLA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__VrDYgJiEeGVaL2JXixPLA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__VrDYQJiEeGVaL2JXixPLA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_uR9t8AJmEeG-7I1j55WJHA" name="Asigna" memberEnd="_uR-VAAJmEeG-7I1j55WJHA _uR-8EgJmEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_uR-VAAJmEeG-7I1j55WJHA" name="src" type="_GBWtsAJiEeGVaL2JXixPLA" association="_uR9t8AJmEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uR-8EQJmEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uR-8EAJmEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_uR-8EgJmEeG-7I1j55WJHA" name="dst" type="_h82ksAJhEeGVaL2JXixPLA" association="_uR9t8AJmEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uR_jIQJmEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uR_jIAJmEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_yeW14AJmEeG-7I1j55WJHA" name="Cuenta de usuario" memberEnd="_yeYEAAJmEeG-7I1j55WJHA _yeYrEQJmEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_yeYEAAJmEeG-7I1j55WJHA" name="src" type="_h82ksAJhEeGVaL2JXixPLA" association="_yeW14AJmEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yeYrEAJmEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_yeYEAQJmEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_yeYrEQJmEeG-7I1j55WJHA" name="dst" type="_5Ts0gAJPEeGVaL2JXixPLA" association="_yeW14AJmEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yeZSIAJmEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_yeYrEgJmEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_8_Qo0AJmEeG-7I1j55WJHA" memberEnd="_8_R28AJmEeG-7I1j55WJHA _8_SeAgJmEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_8_R28AJmEeG-7I1j55WJHA" name="src" type="_cr63kAJWEeGVaL2JXixPLA" association="_8_Qo0AJmEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8_SeAQJmEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8_SeAAJmEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_8_SeAgJmEeG-7I1j55WJHA" name="dst" type="_45lSEAJUEeGVaL2JXixPLA" aggregation="shared" association="_8_Qo0AJmEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8_TFEQJmEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8_TFEAJmEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_POVBUAJnEeG-7I1j55WJHA" memberEnd="_POVoYAJnEeG-7I1j55WJHA _POWPcAJnEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_POVoYAJnEeG-7I1j55WJHA" name="src" type="_5Ts0gAJPEeGVaL2JXixPLA" association="_POVBUAJnEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_POVoYgJnEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_POVoYQJnEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_POWPcAJnEeG-7I1j55WJHA" name="dst" type="_45lSEAJUEeGVaL2JXixPLA" aggregation="composite" association="_POVBUAJnEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_POWPcgJnEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_POWPcQJnEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_YuizUAJnEeG-7I1j55WJHA" memberEnd="_YujaYAJnEeG-7I1j55WJHA _YukBcAJnEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_YujaYAJnEeG-7I1j55WJHA" name="src" type="_Zcl5AAJPEeGVaL2JXixPLA" association="_YuizUAJnEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YujaYgJnEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YujaYQJnEeG-7I1j55WJHA"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_YukBcAJnEeG-7I1j55WJHA" name="dst" type="_45lSEAJUEeGVaL2JXixPLA" association="_YuizUAJnEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YukBcgJnEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YukBcQJnEeG-7I1j55WJHA"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_p1DoUAJnEeG-7I1j55WJHA" memberEnd="_p1EPYAJnEeG-7I1j55WJHA _p1E2cAJnEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_p1EPYAJnEeG-7I1j55WJHA" name="src" type="_5q8dkAJUEeGVaL2JXixPLA" association="_p1DoUAJnEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_p1EPYgJnEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_p1EPYQJnEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_p1E2cAJnEeG-7I1j55WJHA" name="dst" type="_45lSEAJUEeGVaL2JXixPLA" aggregation="composite" association="_p1DoUAJnEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_p1E2cgJnEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_p1E2cQJnEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_A_XLwAJoEeG-7I1j55WJHA" name="Actividad">
+    <ownedAttribute xmi:id="_ICfQQAJoEeG-7I1j55WJHA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_In8twAJoEeG-7I1j55WJHA" name="nombre" aggregation="composite"/>
+    <ownedOperation xmi:id="_OsNWQAJoEeG-7I1j55WJHA" name="nuevo">
+      <ownedParameter xmi:id="_VSvlYAJoEeG-7I1j55WJHA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_V15VwAJoEeG-7I1j55WJHA" name="listar">
+      <ownedParameter xmi:id="_WX8S4AJoEeG-7I1j55WJHA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_XjEpQAJoEeG-7I1j55WJHA" name="consultar">
+      <ownedParameter xmi:id="_YM-h4AJoEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_YM-h4QJoEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_YaO6wAJoEeG-7I1j55WJHA" name="editar">
+      <ownedParameter xmi:id="_ZBPQYAJoEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_ZBPQYQJoEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_ZPGtQAJoEeG-7I1j55WJHA" name="eliminar">
+      <ownedParameter xmi:id="_aDxrcAJoEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_aDxrcQJoEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_C3OFQAJoEeG-7I1j55WJHA" name="Curso">
+    <ownedAttribute xmi:id="_E2BUQAJoEeG-7I1j55WJHA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_FfERQAJoEeG-7I1j55WJHA" name="fecha inicio" aggregation="composite"/>
+    <ownedAttribute xmi:id="_GsMywAJoEeG-7I1j55WJHA" name="fecha finalización" aggregation="composite"/>
+    <ownedAttribute xmi:id="_LxcOQAJoEeG-7I1j55WJHA" name="abierto" aggregation="composite"/>
+    <ownedOperation xmi:id="_lVyyQAJoEeG-7I1j55WJHA" name="nuevo">
+      <ownedParameter xmi:id="_zAEw8AJoEeG-7I1j55WJHA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_o3A2QAJoEeG-7I1j55WJHA" name="listar">
+      <ownedParameter xmi:id="_viDK4AJoEeG-7I1j55WJHA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_7TlfQAJoEeG-7I1j55WJHA" name="consultar">
+      <ownedParameter xmi:id="_8HLfYAJoEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_8HLfYQJoEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_9nv6QAJoEeG-7I1j55WJHA" name="editar">
+      <ownedParameter xmi:id="_-zc4YAJoEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_-zdfcAJoEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="__R8yQAJoEeG-7I1j55WJHA" name="eliminar">
+      <ownedParameter xmi:id="__7ZX4AJoEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="__7Z-8AJoEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_bTVO0AJoEeG-7I1j55WJHA" memberEnd="_bTV14AJoEeG-7I1j55WJHA _bTV14wJoEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_bTV14AJoEeG-7I1j55WJHA" name="src" type="_2mLjsAJiEeGVaL2JXixPLA" association="_bTVO0AJoEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_bTV14gJoEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_bTV14QJoEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_bTV14wJoEeG-7I1j55WJHA" name="dst" type="_A_XLwAJoEeG-7I1j55WJHA" aggregation="composite" association="_bTVO0AJoEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_bTWc8QJoEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_bTWc8AJoEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_IgZe0AJpEeG-7I1j55WJHA" name="Monitor" memberEnd="_Igas8AJpEeG-7I1j55WJHA _IgbUAQJpEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_Igas8AJpEeG-7I1j55WJHA" name="src" type="_5Ts0gAJPEeGVaL2JXixPLA" association="_IgZe0AJpEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_IgbUAAJpEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Igas8QJpEeG-7I1j55WJHA"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_IgbUAQJpEeG-7I1j55WJHA" name="dst" type="_C3OFQAJoEeG-7I1j55WJHA" aggregation="shared" association="_IgZe0AJpEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cACuYAJpEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cAD8gAJpEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_MD_hYAJpEeG-7I1j55WJHA" name="Programación" memberEnd="_MD_hYQJpEeG-7I1j55WJHA _MEAIcQJpEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_MD_hYQJpEeG-7I1j55WJHA" name="src" type="_A_XLwAJoEeG-7I1j55WJHA" association="_MD_hYAJpEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MEAIcAJpEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MD_hYgJpEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_MEAIcQJpEeG-7I1j55WJHA" name="dst" type="_C3OFQAJoEeG-7I1j55WJHA" aggregation="composite" association="_MD_hYAJpEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MEAvgAJpEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MEAIcgJpEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_f0Zw0AJpEeG-7I1j55WJHA" name="Programación" memberEnd="_f0aX4AJpEeG-7I1j55WJHA _f0a-8AJpEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_f0aX4AJpEeG-7I1j55WJHA" name="src" type="_5q8dkAJUEeGVaL2JXixPLA" association="_f0Zw0AJpEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_f0aX4gJpEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_f0aX4QJpEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_f0a-8AJpEeG-7I1j55WJHA" name="dst" type="_C3OFQAJoEeG-7I1j55WJHA" aggregation="composite" association="_f0Zw0AJpEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_f0a-8gJpEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_f0a-8QJpEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_wlAnQAJpEeG-7I1j55WJHA" name="Inscripción">
+    <ownedAttribute xmi:id="_zXO3QAJpEeG-7I1j55WJHA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_6uWOwAJpEeG-7I1j55WJHA" name="fecha inscripción" aggregation="composite"/>
+    <ownedOperation xmi:id="_9lroQAJpEeG-7I1j55WJHA" name="nuevo">
+      <ownedParameter xmi:id="_-tzG4AJpEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_-tzt8AJpEeG-7I1j55WJHA" name="curso_id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="__GprwAJpEeG-7I1j55WJHA" name="listar">
+      <ownedParameter xmi:id="_BMpH4AJqEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_BMpH4QJqEeG-7I1j55WJHA" name="curso_id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_BeBLwAJqEeG-7I1j55WJHA" name="getInscripciones">
+      <ownedParameter xmi:id="_Cu1TYAJqEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_Cu16cAJqEeG-7I1j55WJHA" name="persona_dni"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_Db_UUAJqEeG-7I1j55WJHA" name="eliminar">
+      <ownedParameter xmi:id="_Ey-8cAJqEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_Ey-8cQJqEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_Xhnl0AJqEeG-7I1j55WJHA" name="Inscripción" memberEnd="_XhoM4AJqEeG-7I1j55WJHA _Xhoz8QJqEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_XhoM4AJqEeG-7I1j55WJHA" name="src" type="_5Ts0gAJPEeGVaL2JXixPLA" association="_Xhnl0AJqEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Xhoz8AJqEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XhoM4QJqEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_Xhoz8QJqEeG-7I1j55WJHA" name="dst" type="_C3OFQAJoEeG-7I1j55WJHA" association="_Xhnl0AJqEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Xhoz8wJqEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Xhoz8gJqEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_jg1UYAJrEeG-7I1j55WJHA" memberEnd="_jg1UYQJrEeG-7I1j55WJHA _jg17cQJrEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_jg1UYQJrEeG-7I1j55WJHA" name="src" type="_Xhnl0AJqEeG-7I1j55WJHA" association="_jg1UYAJrEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jg17cAJrEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jg1UYgJrEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_jg17cQJrEeG-7I1j55WJHA" name="dst" type="_wlAnQAJpEeG-7I1j55WJHA" aggregation="composite" association="_jg1UYAJrEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jg2igAJrEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jg17cgJrEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_spwV0AJtEeG-7I1j55WJHA" name="Horario">
+    <ownedAttribute xmi:id="_xWM20AJtEeG-7I1j55WJHA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_yIZv0AJtEeG-7I1j55WJHA" name="día" aggregation="composite"/>
+    <ownedAttribute xmi:id="_zE50UAJtEeG-7I1j55WJHA" name="hora inicio" aggregation="composite"/>
+    <ownedAttribute xmi:id="_7A8d0AJtEeG-7I1j55WJHA" name="hora finalización" aggregation="composite"/>
+    <ownedOperation xmi:id="_fYXi0AJuEeG-7I1j55WJHA" name="nuevo">
+      <ownedParameter xmi:id="_gRm38AJuEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_gRm38QJuEeG-7I1j55WJHA" name="curso_id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_jnvtUAJuEeG-7I1j55WJHA" name="listar">
+      <ownedParameter xmi:id="_kiSC8AJuEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_kiSC8QJuEeG-7I1j55WJHA" name="curso_id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_kyDkUAJuEeG-7I1j55WJHA" name="consultar">
+      <ownedParameter xmi:id="_ltgf8AJuEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_ltgf8QJuEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_ojwUUAJuEeG-7I1j55WJHA" name="editar">
+      <ownedParameter xmi:id="_plihcAJuEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_plihcQJuEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_3GFVUAJuEeG-7I1j55WJHA" name="eliminar">
+      <ownedParameter xmi:id="_3_UqcAJuEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_3_UqcQJuEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_t-0rUAJtEeG-7I1j55WJHA" name="Asistencia">
+    <ownedAttribute xmi:id="_LkXM0AJuEeG-7I1j55WJHA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_NfRaUAJuEeG-7I1j55WJHA" name="fecha asistencia" aggregation="composite"/>
+    <ownedOperation xmi:id="_UkYb0AJuEeG-7I1j55WJHA" name="nuevo">
+      <ownedParameter xmi:id="_Vboz8AJuEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_Vboz8QJuEeG-7I1j55WJHA" name="curso_id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_XkaeUAJuEeG-7I1j55WJHA" name="listar">
+      <ownedParameter xmi:id="_Yhi08AJuEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_Yhi08QJuEeG-7I1j55WJHA" name="curso_id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_Z7Zj0AJuEeG-7I1j55WJHA" name="eliminar">
+      <ownedParameter xmi:id="_ar8P8AJuEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_ar83AAJuEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_KsmB4AJvEeG-7I1j55WJHA" name="Asistencia" memberEnd="_Ksmo8AJvEeG-7I1j55WJHA _KsnQAAJvEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_Ksmo8AJvEeG-7I1j55WJHA" name="src" type="_wlAnQAJpEeG-7I1j55WJHA" association="_KsmB4AJvEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ksmo8gJvEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Ksmo8QJvEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_KsnQAAJvEeG-7I1j55WJHA" name="dst" type="_spwV0AJtEeG-7I1j55WJHA" association="_KsmB4AJvEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KsnQAgJvEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KsnQAQJvEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_T-7I4AJvEeG-7I1j55WJHA" memberEnd="_T-7v8AJvEeG-7I1j55WJHA _T-8XAAJvEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_T-7v8AJvEeG-7I1j55WJHA" name="src" type="_KsmB4AJvEeG-7I1j55WJHA" association="_T-7I4AJvEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_T-7v8gJvEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_T-7v8QJvEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_T-8XAAJvEeG-7I1j55WJHA" name="dst" type="_t-0rUAJtEeG-7I1j55WJHA" aggregation="composite" association="_T-7I4AJvEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_T-8XAgJvEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_T-8XAQJvEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_eL7IYAJvEeG-7I1j55WJHA" memberEnd="_eL8WgAJvEeG-7I1j55WJHA _eL89kgJvEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_eL8WgAJvEeG-7I1j55WJHA" name="src" type="_C3OFQAJoEeG-7I1j55WJHA" association="_eL7IYAJvEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_eL89kQJvEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eL89kAJvEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_eL89kgJvEeG-7I1j55WJHA" name="dst" type="_spwV0AJtEeG-7I1j55WJHA" aggregation="composite" association="_eL7IYAJvEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_eL89lAJvEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eL89kwJvEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_afs40AJwEeG-7I1j55WJHA" name="Lugar">
+    <ownedAttribute xmi:id="_bYxO0AJwEeG-7I1j55WJHA" name="id" aggregation="composite"/>
+    <ownedAttribute xmi:id="_eZLr0AJwEeG-7I1j55WJHA" name="nombre" aggregation="composite"/>
+    <ownedAttribute xmi:id="_gw7mUAJwEeG-7I1j55WJHA" name="administrador" aggregation="composite"/>
+    <ownedAttribute xmi:id="_hjcBUAJwEeG-7I1j55WJHA" name="dirección" aggregation="composite"/>
+    <ownedAttribute xmi:id="_l0HMUAJwEeG-7I1j55WJHA" name="teléfono fijo" aggregation="composite"/>
+    <ownedAttribute xmi:id="_m8g-0AJwEeG-7I1j55WJHA" name="teléfono móvil" aggregation="composite"/>
+    <ownedAttribute xmi:id="_q1UcYAJwEeG-7I1j55WJHA" name="email" aggregation="composite"/>
+    <ownedOperation xmi:id="_u8Ju4AJwEeG-7I1j55WJHA" name="nuevo">
+      <ownedParameter xmi:id="_vcgp8AJwEeG-7I1j55WJHA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_vqFL4AJwEeG-7I1j55WJHA" name="listar">
+      <ownedParameter xmi:id="_wUrBAAJwEeG-7I1j55WJHA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_wgxjUAJwEeG-7I1j55WJHA" name="consultar">
+      <ownedParameter xmi:id="_yGfj8AJwEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_yGfj8QJwEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_z9Vw0AJwEeG-7I1j55WJHA" name="editar">
+      <ownedParameter xmi:id="_1EjQgAJwEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_1EjQgQJwEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_1T7wUAJwEeG-7I1j55WJHA" name="eliminar">
+      <ownedParameter xmi:id="_2AIH8AJwEeG-7I1j55WJHA" direction="return"/>
+      <ownedParameter xmi:id="_2AIvAAJwEeG-7I1j55WJHA" name="id"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_NKIwcAJxEeG-7I1j55WJHA" name="Desarrolla" memberEnd="_NKIwcQJxEeG-7I1j55WJHA _NKJXgQJxEeG-7I1j55WJHA">
+    <ownedEnd xmi:id="_NKIwcQJxEeG-7I1j55WJHA" name="src" type="_afs40AJwEeG-7I1j55WJHA" association="_NKIwcAJxEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NKJXgAJxEeG-7I1j55WJHA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NKIwcgJxEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_NKJXgQJxEeG-7I1j55WJHA" name="dst" type="_spwV0AJtEeG-7I1j55WJHA" aggregation="composite" association="_NKIwcAJxEeG-7I1j55WJHA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NKJXgwJxEeG-7I1j55WJHA" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NKJXggJxEeG-7I1j55WJHA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Package>
