@@ -1,0 +1,14 @@
+<<view>>\nListar actividades-><<controller>>\nProgramaciones: index()
+<<controller>>\nProgramaciones-><<view>>\nIndex: listar_programaciones()
+<<view>>\nIndex-><<action>>\nListar programaciones: getProgramaciones()
+<<view>>\nIndex-><<view>>\nNuevo:nuevo()
+<<view>>\nNuevo-><<controller>>\nProgramaciones: *[para cada campo del formulario] recoger()
+note right of <<view>>\nNuevo
+   Los campos del
+   formulario se 
+   recogen como 
+   array $_POST.
+end note
+<<controller>>\nProgramaciones-><<controller>>\nProgramaciones: datosVálidos:=validar_datos()
+<<controller>>\nProgramaciones-><<model>>\nProgramación:[datosVálidos] rs_query:=nuevo() 
+<<controller>>\nProgramaciones-><<view>>\nNuevo: nuevo(rs_query)
