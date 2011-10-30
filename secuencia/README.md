@@ -1,4 +1,4 @@
-## Diagramas de secuencia
+# Diagramas de secuencia
 
 Los diagramas de secuencia se realizaron en la web [websequencediagrams](http://www.websequencediagrams.com/).
 
