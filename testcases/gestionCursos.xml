@@ -1,0 +1,32 @@
+<testcases repeat="1">
+
+<testvar varname="APP_URL">http://localhost/sigabu_testing/</testvar>
+
+<comment>
+El valor '3' del parámetro actividad, corresponde a Fútbol; estos es,
+la clave de la actividad Fútbol en la BD es '3'.
+</comment>
+
+<case
+id="17"
+url="${APP_URL}programacion/nuevo&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear curso"
+description2="Nótese que un curso es la programación de una actividad para un período.
+El caso de prueba debe crear un curso de Fútbol para el período creado en el caso de prueba 12."
+method="post"
+verifypositive="La programación se ha creado exitósamente."
+verifynegative="Parte de la información es incorrecta."
+postbody="actividad=3&periodo={PARSEDRESULT1}&abierto=1"
+/>
+
+<case
+id="18"
+url="${APP_URL}programacion/listar_programaciones&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Consultar curso"
+description2="Revisar que exista en el sistema el curso Fútbol del período 2011-2, creado en el caso de prueba 17."
+verifypositive="2011-2"
+verifypositive1="Fútbol"
+verifypositive2="Recreación y Deportes"
+/>
+
+</testcases>
