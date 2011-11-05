@@ -1,0 +1,41 @@
+<testcases repeat="1">
+
+<testvar varname="APP_URL">http://localhost/sigabu_testing/</testvar>
+<testvar varname="DNI">1111111</testvar>
+
+<comment>
+El propósito del siguiente caso de prueba es crear un perfil a una persona, 
+la cual existe previamente en el sistema. Dicho perfil se asignará a la persona
+(Jhon Adrián Cerón Guzmán) creada en el caso de prueba 4, para el período (2011-2) 
+creado en el caso de prueba 12. 
+
+Es importante mencionar los siguientes puntos:
+
+1. El valor '13' del parámetro fields[1][perfil], corresponde al perfil egresado, es decir,
+la clave del perfil egresado en la BD es '13'.
+2. El valor '1' del parámetro fields[2][programa], corresponde al programa académico; esto es,
+la clave en la BD del programa Ingeniería de Sistemas es '1'.
+</comment>
+
+<case
+id="15"
+url="${APP_URL}perfiles/crear_perfiles&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear perfil"
+description2="Asignar perfil a la persona del caso de prueba 4, como egresado en el período del caso de prueba 12."
+method="post"
+verifypositive="Se ha asignado el perfil"
+verifynegative="Parte de la información es incorrecta."
+verifynegative1="Bueno, esto es vergonzoso."
+postbody="dni=${DNI}&fields[0][periodo]={PARSEDRESULT1}&fields[1][perfil]=13&fields[2][programa]=1"
+/>
+
+<case
+id="16"
+url="${APP_URL}perfiles/listar_perfiles/${DNI}&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Consultar perfil"
+description2="Revisar que se haya asignado el perfil anterior."
+verifypositive="2011-2"
+verifypositive1="Egresado"
+/>
+
+</testcases>
