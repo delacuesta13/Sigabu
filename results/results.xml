@@ -1,0 +1,363 @@
+<results>
+
+    <testcases file="../testcases/autenticacionUsuarios.xml">
+
+        <testcase id="1">
+            <description1>Caso de prueba: Log in</description1>
+            <description2>En este caso de prueba no se inicia sesión, porque no se han ingresado un nombre de usuario y una password.</description2>
+            <verifypositive>El nombre usuario o la password son incorrectos.</verifypositive>
+            <verifypositive-success>true</verifypositive-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.046</responsetime>
+        </testcase>
+
+        <testcase id="2">
+            <description1>Caso de prueba: Log in</description1>
+            <description2>El caso de prueba debe ser exitoso porque se han ingresado un nombre de usuario y una password.  Además, la cuenta de usuario existe en el sistema. Véase el caso de pueba 9.</description2>
+            <verifynegative>El nombre usuario y la password son válidos.</verifynegative>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.087</responsetime>
+        </testcase>
+
+    </testcases>
+
+    <testcases file="../testcases/gestionPersonas.xml">
+
+        <testcase id="3">
+            <description1>Caso de prueba: Crear persona</description1>
+            <description2>Este caso de prueba debe no crear la persona, pues no se han enviado los datos requeridos por el sistema.</description2>
+            <verifypositive>Parte de la información es incorrecta.</verifypositive>
+            <verifynegative>La persona se ha creado exitósamente.</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.009</responsetime>
+        </testcase>
+
+        <testcase id="4">
+            <description1>Caso de prueba: Crear persona</description1>
+            <description2>Este caso de prueba debe crear la persona, pues se han enviado los datos requeridos por el sistema.</description2>
+            <verifypositive>La persona se ha creado exitósamente.</verifypositive>
+            <verifynegative>Parte de la información es incorrecta.</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.083</responsetime>
+        </testcase>
+
+        <testcase id="5">
+            <description1>Caso de prueba: Crear persona</description1>
+            <description2>Este caso de prueba no debe crear la persona, porque ya existe una en el sistema con el mismo número de identificación.</description2>
+            <verifypositive>Parte de la información es incorrecta.</verifypositive>
+            <verifynegative>La persona se ha creado exitósamente.</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.01</responsetime>
+        </testcase>
+
+        <testcase id="6">
+            <description1>Caso de prueba: Crear persona</description1>
+            <description2>Este caso de prueba crea otra persona en el sistema, según los datos enviados.</description2>
+            <verifypositive>La persona se ha creado exitósamente.</verifypositive>
+            <verifynegative>Parte de la información es incorrecta.</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.077</responsetime>
+        </testcase>
+
+        <testcase id="7">
+            <description1>Caso de prueba: Editar persona</description1>
+            <description2>Este caso de prueba debe editar los datos de la persona creada en el caso de prueba 4, según los datos enviados.</description2>
+            <verifynegative>Parte de la información es incorrecta.</verifynegative>
+            <verifynegative1>Bueno, esto es vergonzoso.</verifynegative1>
+            <verifynegative-success>true</verifynegative-success>
+            <verifynegative1-success>true</verifynegative1-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.071</responsetime>
+        </testcase>
+
+        <testcase id="8">
+            <description1>Caso de prueba: Consultar persona</description1>
+            <description2>Se deben visualizar los datos de la persona creada en el caso de prueba 4, además de los datos editados de la misma en el caso de prueba 6.</description2>
+            <verifypositive>Jhon Adrián Cerón Guzmán</verifypositive>
+            <verifypositive1>01 Abr 1991</verifypositive1>
+            <verifypositive2>jadrian.ceron@gmail.com</verifypositive2>
+            <verifypositive-success>true</verifypositive-success>
+            <verifypositive1-success>true</verifypositive1-success>
+            <verifypositive2-success>true</verifypositive2-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.011</responsetime>
+        </testcase>
+
+    </testcases>
+
+    <testcases file="../testcases/gestionUsuarios.xml">
+
+        <testcase id="9">
+            <description1>Caso de prueba: Crear usuario</description1>
+            <description2>Este caso de prueba debe crear la cuenta de usuario, según los datos ingresados por el usuario. La cuenta de usuario ha de asociarse a la persona creada en el caso de prueba 4.</description2>
+            <verifypositive>La cuenta de usuario se ha creado exitósamente.</verifypositive>
+            <verifynegative>Parte de la información es incorrecta.</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.084</responsetime>
+        </testcase>
+
+        <testcase id="10">
+            <description1>Caso de prueba: Crear usuario</description1>
+            <description2>El caso de prueba debe mostrar error al crear la cuenta de usuario, porque ya existe el nombre de usuario en el sistema.</description2>
+            <verifypositive>Parte de la información es incorrecta.</verifypositive>
+            <verifynegative>La cuenta de usuario se ha creado exitósamente.</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.015</responsetime>
+        </testcase>
+
+        <testcase id="11">
+            <description1>Caso de prueba: Consultar usuario</description1>
+            <description2>Revisar que exista en el sistema la cuenta de usuario creada en el caso de prueba 8, y que los datos de dicha cuenta estén asociados a la persona creada en el caso de prueba 4.</description2>
+            <verifypositive>1111111</verifypositive>
+            <verifypositive1>Jhon Adrián Cerón Guzmán</verifypositive1>
+            <verifypositive2>De_la_Cuesta_13</verifypositive2>
+            <verifypositive-success>true</verifypositive-success>
+            <verifypositive1-success>true</verifypositive1-success>
+            <verifypositive2-success>true</verifypositive2-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.01</responsetime>
+        </testcase>
+
+    </testcases>
+
+    <testcases file="../testcases/gestionPeriodos.xml">
+
+        <testcase id="12">
+            <description1>Caso de prueba: Crear período</description1>
+            <description2>Este caso de prueba debe crear el período 2011-2.</description2>
+            <verifypositive>El período se ha creado exitósamente.</verifypositive>
+            <verifynegative>Parte de la información es incorrecta.</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.065</responsetime>
+        </testcase>
+
+        <testcase id="13">
+            <description1>Caso de prueba: Crear período</description1>
+            <description2>Este caso de prueba debe no crear el período. Debido a que las fechas del período a crear, se cruzan con las del período creado en el caso de prueba 12.</description2>
+            <verifypositive>Parte de la información es incorrecta.</verifypositive>
+            <verifypositive1>Las fechas del período a crear, se cruzan con las del periodo 2011-2.</verifypositive1>
+            <verifynegative>El período se ha creado exitósamente.</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifypositive1-success>true</verifypositive1-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.009</responsetime>
+        </testcase>
+
+        <testcase id="14">
+            <description1>Caso de prueba: Consultar período</description1>
+            <description2>Revisar que exista el período 2011-2 en el sistema, creado en el caso de prueba 12.</description2>
+            <verifypositive>2011-2</verifypositive>
+            <verifypositive1>2011-07-25</verifypositive1>
+            <verifynegative>2011$</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifypositive1-success>true</verifypositive1-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.008</responsetime>
+        </testcase>
+
+    </testcases>
+
+    <testcases file="../testcases/gestionPerfiles.xml">
+
+        <testcase id="15">
+            <description1>Caso de prueba: Crear perfil</description1>
+            <description2>Asignar perfil a la persona del caso de prueba 4, como egresado en el período del caso de prueba 12.</description2>
+            <verifypositive>Se ha asignado el perfil</verifypositive>
+            <verifynegative>Parte de la información es incorrecta.</verifynegative>
+            <verifynegative1>Bueno, esto es vergonzoso.</verifynegative1>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifynegative1-success>true</verifynegative1-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.062</responsetime>
+        </testcase>
+
+        <testcase id="16">
+            <description1>Caso de prueba: Consultar perfil</description1>
+            <description2>Revisar que se haya asignado el perfil anterior.</description2>
+            <verifypositive>2011-2</verifypositive>
+            <verifypositive1>Egresado</verifypositive1>
+            <verifypositive-success>true</verifypositive-success>
+            <verifypositive1-success>true</verifypositive1-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.016</responsetime>
+        </testcase>
+
+    </testcases>
+
+    <testcases file="../testcases/gestionCursos.xml">
+
+        <testcase id="17">
+            <description1>Caso de prueba: Crear curso</description1>
+            <description2>Nótese que un curso es la programación de una actividad para un período. El caso de prueba debe crear un curso de Fútbol para el período creado en el caso de prueba 12.</description2>
+            <verifypositive>La programación se ha creado exitósamente.</verifypositive>
+            <verifynegative>Parte de la información es incorrecta.</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.079</responsetime>
+        </testcase>
+
+        <testcase id="18">
+            <description1>Caso de prueba: Consultar curso</description1>
+            <description2>Revisar que exista en el sistema el curso Fútbol del período 2011-2, creado en el caso de prueba 17.</description2>
+            <verifypositive>2011-2</verifypositive>
+            <verifypositive1>Fútbol</verifypositive1>
+            <verifypositive2>Recreación y Deportes</verifypositive2>
+            <verifypositive-success>true</verifypositive-success>
+            <verifypositive1-success>true</verifypositive1-success>
+            <verifypositive2-success>true</verifypositive2-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.009</responsetime>
+        </testcase>
+
+    </testcases>
+
+    <testcases file="../testcases/gestionInscripciones.xml">
+
+        <testcase id="19">
+            <description1>Caso de prueba: Consultar curso</description1>
+            <description2>Obtener el ID del curso creado en el caso de prueba 17.</description2>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.009</responsetime>
+        </testcase>
+
+        <testcase id="20">
+            <description1>Caso de prueba: Crear inscripción</description1>
+            <description2>Este caso de prueba inscribe a la persona creada en el caso de prueba 4,  en curso creado en el caso de prueba 17. La inscripción es válida, porque la persona tiene asignado un perfil en el período en que se ha programado la actividad. Véase  el caso de prueba 15.</description2>
+            <verifypositive>Se ha creado la inscripci&oacute;n exit&oacute;samente.</verifypositive>
+            <verifynegative>Parte de la información es incorrecta.</verifynegative>
+            <verifynegative1>Bueno, esto es vergonzoso.</verifynegative1>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifynegative1-success>true</verifynegative1-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.069</responsetime>
+        </testcase>
+
+        <testcase id="21">
+            <description1>Caso de prueba: Crear inscripción</description1>
+            <description2>No se crea la inscripción, porque la persona (creada en el caso de prueba 6), la cual se va a inscribir, no tiene un perfil en el período (2011-2) de la programación de la actividad.</description2>
+            <verifypositive>Parte de la información es incorrecta.</verifypositive>
+            <verifynegative>Se ha creado la inscripci&oacute;n exit&oacute;samente.</verifynegative>
+            <verifypositive-success>true</verifypositive-success>
+            <verifynegative-success>true</verifynegative-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.016</responsetime>
+        </testcase>
+
+        <testcase id="22">
+            <description1>Caso de prueba: Consultar inscripción</description1>
+            <description2>Revisar que exista la inscripción creada en el caso de prueba 20. Además, debe verificarse que la inscripción corresponde con el perfil (egresado) asignado a la persona de la inscripción,  creado en el caso de prueba 15.</description2>
+            <verifypositive>1111111</verifypositive>
+            <verifypositive1>Jhon Adrián</verifypositive1>
+            <verifypositive2>Cerón Guzmán</verifypositive2>
+            <verifypositive3>Egresado</verifypositive3>
+            <verifypositive-success>true</verifypositive-success>
+            <verifypositive1-success>true</verifypositive1-success>
+            <verifypositive2-success>true</verifypositive2-success>
+            <verifypositive3-success>true</verifypositive3-success>
+            <verifyresponsecode-success>true</verifyresponsecode-success>
+            <verifyresponsecode-message>Passed HTTP Response Code Verification (not in error range)</verifyresponsecode-message>
+            <success>true</success>
+            <result-message>TEST CASE PASSED</result-message>
+            <responsetime>0.016</responsetime>
+        </testcase>
+
+    
+    </testcases>
+
+    <test-summary>
+        <start-time>Sat Nov  5 16:51:43 2011</start-time>
+        <total-run-time>1.023</total-run-time>
+        <test-cases-run>22</test-cases-run>
+        <test-cases-passed>22</test-cases-passed>
+        <test-cases-failed>0</test-cases-failed>
+        <verifications-passed>71</verifications-passed>
+        <verifications-failed>0</verifications-failed>
+        <average-response-time>0.039</average-response-time>
+        <max-response-time>0.087</max-response-time>
+        <min-response-time>0.008</min-response-time>
+    </test-summary>
+
+</results>
