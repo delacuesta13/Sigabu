@@ -1,0 +1,55 @@
+<testcases repeat="1">
+
+<testvar varname="APP_URL">http://localhost/sigabu_testing/</testvar>
+<testvar varname="DNI1">1111111</testvar>
+<testvar varname="DNI2">2222222</testvar>
+
+<case
+id="19"
+url="${APP_URL}programacion/listar_programaciones&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Consultar curso"
+description2="Obtener el ID del curso creado en el caso de prueba 17."
+parseresponse2='value="|"/>\</td>\s*\<td>2011-2\</td>\s*\<td>Fútbol\</td>'
+/>
+
+<case
+id="20"
+url="${APP_URL}inscripciones/crear_inscripcion&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear inscripción"
+description2="Este caso de prueba inscribe a la persona creada en el caso de prueba 4, 
+en curso creado en el caso de prueba 17. La inscripción es válida, porque la persona
+tiene asignado un perfil en el período en que se ha programado la actividad. Véase 
+el caso de prueba 15."
+method="post"
+verifypositive="Se ha creado la inscripci&oacute;n exit&oacute;samente."
+verifynegative="Parte de la información es incorrecta."
+verifynegative1="Bueno, esto es vergonzoso."
+postbody="curso={PARSEDRESULT2}&persona=${DNI1}"
+/>
+
+<case
+id="21"
+url="${APP_URL}inscripciones/crear_inscripcion&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear inscripción"
+description2="No se crea la inscripción, porque la persona (creada en el caso de prueba 6), la cual se va a inscribir,
+no tiene un perfil en el período (2011-2) de la programación de la actividad."
+method="post"
+verifypositive="Parte de la información es incorrecta."
+verifynegative="Se ha creado la inscripci&oacute;n exit&oacute;samente."
+postbody="curso={PARSEDRESULT2}&persona=${DNI2}"
+/>
+
+<case
+id="22"
+url="${APP_URL}inscripciones/listar_inscripciones/{PARSEDRESULT2}&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Consultar inscripción"
+description2="Revisar que exista la inscripción creada en el caso de prueba 20. Además, debe verificarse
+que la inscripción corresponde con el perfil (egresado) asignado a la persona de la inscripción, 
+creado en el caso de prueba 15."
+verifypositive="${DNI1}"
+verifypositive1="Jhon Adrián"
+verifypositive2="Cerón Guzmán"
+verifypositive3="Egresado"
+/>
+
+</testcases>
