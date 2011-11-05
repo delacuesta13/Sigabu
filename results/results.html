@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>WebInject Test Results</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <style type="text/css">
+        body {
+            background-color: #F5F5F5;
+            color: #000000;
+            font-family: Verdana, Arial, Helvetica, sans-serif; 
+            font-size: 10px;
+        }
+        .pass { 
+            color: green; 
+        }
+        .fail { 
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<hr />
+-------------------------------------------------------<br />
+<b>Test:  ../testcases/autenticacionUsuarios.xml - 1 </b><br />
+Caso de prueba: Log in <br />
+En este caso de prueba no se inicia sesión, porque no se han ingresado un nombre de usuario y una password. <br />
+<br />
+Verify : "El nombre usuario o la password son incorrectos." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.046 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/autenticacionUsuarios.xml - 2 </b><br />
+Caso de prueba: Log in <br />
+El caso de prueba debe ser exitoso porque se han ingresado un nombre de usuario y una password.  Además, la cuenta de usuario existe en el sistema. Véase el caso de pueba 9. <br />
+<br />
+Verify Negative: "El nombre usuario y la password son válidos." <br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.087 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPersonas.xml - 3 </b><br />
+Caso de prueba: Crear persona <br />
+Este caso de prueba debe no crear la persona, pues no se han enviado los datos requeridos por el sistema. <br />
+<br />
+Verify : "Parte de la información es incorrecta." <br />
+Verify Negative: "La persona se ha creado exitósamente." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.009 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPersonas.xml - 4 </b><br />
+Caso de prueba: Crear persona <br />
+Este caso de prueba debe crear la persona, pues se han enviado los datos requeridos por el sistema. <br />
+<br />
+Verify : "La persona se ha creado exitósamente." <br />
+Verify Negative: "Parte de la información es incorrecta." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.083 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPersonas.xml - 5 </b><br />
+Caso de prueba: Crear persona <br />
+Este caso de prueba no debe crear la persona, porque ya existe una en el sistema con el mismo número de identificación. <br />
+<br />
+Verify : "Parte de la información es incorrecta." <br />
+Verify Negative: "La persona se ha creado exitósamente." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.01 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPersonas.xml - 6 </b><br />
+Caso de prueba: Crear persona <br />
+Este caso de prueba crea otra persona en el sistema, según los datos enviados. <br />
+<br />
+Verify : "La persona se ha creado exitósamente." <br />
+Verify Negative: "Parte de la información es incorrecta." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.077 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPersonas.xml - 7 </b><br />
+Caso de prueba: Editar persona <br />
+Este caso de prueba debe editar los datos de la persona creada en el caso de prueba 4, según los datos enviados. <br />
+<br />
+Verify Negative: "Parte de la información es incorrecta." <br />
+Verify Negative: "Bueno, esto es vergonzoso." <br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.071 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPersonas.xml - 8 </b><br />
+Caso de prueba: Consultar persona <br />
+Se deben visualizar los datos de la persona creada en el caso de prueba 4, además de los datos editados de la misma en el caso de prueba 6. <br />
+<br />
+Verify : "Jhon Adrián Cerón Guzmán" <br />
+Verify : "01 Abr 1991" <br />
+Verify : "jadrian.ceron@gmail.com" <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.011 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionUsuarios.xml - 9 </b><br />
+Caso de prueba: Crear usuario <br />
+Este caso de prueba debe crear la cuenta de usuario, según los datos ingresados por el usuario. La cuenta de usuario ha de asociarse a la persona creada en el caso de prueba 4. <br />
+<br />
+Verify : "La cuenta de usuario se ha creado exitósamente." <br />
+Verify Negative: "Parte de la información es incorrecta." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.084 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionUsuarios.xml - 10 </b><br />
+Caso de prueba: Crear usuario <br />
+El caso de prueba debe mostrar error al crear la cuenta de usuario, porque ya existe el nombre de usuario en el sistema. <br />
+<br />
+Verify : "Parte de la información es incorrecta." <br />
+Verify Negative: "La cuenta de usuario se ha creado exitósamente." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.015 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionUsuarios.xml - 11 </b><br />
+Caso de prueba: Consultar usuario <br />
+Revisar que exista en el sistema la cuenta de usuario creada en el caso de prueba 8, y que los datos de dicha cuenta estén asociados a la persona creada en el caso de prueba 4. <br />
+<br />
+Verify : "1111111" <br />
+Verify : "Jhon Adrián Cerón Guzmán" <br />
+Verify : "De_la_Cuesta_13" <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.01 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPeriodos.xml - 12 </b><br />
+Caso de prueba: Crear período <br />
+Este caso de prueba debe crear el período 2011-2. <br />
+<br />
+Verify : "El período se ha creado exitósamente." <br />
+Verify Negative: "Parte de la información es incorrecta." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.065 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPeriodos.xml - 13 </b><br />
+Caso de prueba: Crear período <br />
+Este caso de prueba debe no crear el período. Debido a que las fechas del período a crear, se cruzan con las del período creado en el caso de prueba 12. <br />
+<br />
+Verify : "Parte de la información es incorrecta." <br />
+Verify : "Las fechas del período a crear, se cruzan con las del periodo 2011-2." <br />
+Verify Negative: "El período se ha creado exitósamente." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.009 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPeriodos.xml - 14 </b><br />
+Caso de prueba: Consultar período <br />
+Revisar que exista el período 2011-2 en el sistema, creado en el caso de prueba 12. <br />
+<br />
+Verify : "2011-2" <br />
+Verify : "2011-07-25" <br />
+Verify Negative: "2011$" <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.008 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPerfiles.xml - 15 </b><br />
+Caso de prueba: Crear perfil <br />
+Asignar perfil a la persona del caso de prueba 4, como egresado en el período del caso de prueba 12. <br />
+<br />
+Verify : "Se ha asignado el perfil" <br />
+Verify Negative: "Parte de la información es incorrecta." <br />
+Verify Negative: "Bueno, esto es vergonzoso." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.062 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionPerfiles.xml - 16 </b><br />
+Caso de prueba: Consultar perfil <br />
+Revisar que se haya asignado el perfil anterior. <br />
+<br />
+Verify : "2011-2" <br />
+Verify : "Egresado" <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.016 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionCursos.xml - 17 </b><br />
+Caso de prueba: Crear curso <br />
+Nótese que un curso es la programación de una actividad para un período. El caso de prueba debe crear un curso de Fútbol para el período creado en el caso de prueba 12. <br />
+<br />
+Verify : "La programación se ha creado exitósamente." <br />
+Verify Negative: "Parte de la información es incorrecta." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.079 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionCursos.xml - 18 </b><br />
+Caso de prueba: Consultar curso <br />
+Revisar que exista en el sistema el curso Fútbol del período 2011-2, creado en el caso de prueba 17. <br />
+<br />
+Verify : "2011-2" <br />
+Verify : "Fútbol" <br />
+Verify : "Recreación y Deportes" <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.009 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionInscripciones.xml - 19 </b><br />
+Caso de prueba: Consultar curso <br />
+Obtener el ID del curso creado en el caso de prueba 17. <br />
+<br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.009 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionInscripciones.xml - 20 </b><br />
+Caso de prueba: Crear inscripción <br />
+Este caso de prueba inscribe a la persona creada en el caso de prueba 4,  en curso creado en el caso de prueba 17. La inscripción es válida, porque la persona tiene asignado un perfil en el período en que se ha programado la actividad. Véase  el caso de prueba 15. <br />
+<br />
+Verify : "Se ha creado la inscripci&oacute;n exit&oacute;samente." <br />
+Verify Negative: "Parte de la información es incorrecta." <br />
+Verify Negative: "Bueno, esto es vergonzoso." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.069 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionInscripciones.xml - 21 </b><br />
+Caso de prueba: Crear inscripción <br />
+No se crea la inscripción, porque la persona (creada en el caso de prueba 6), la cual se va a inscribir, no tiene un perfil en el período (2011-2) de la programación de la actividad. <br />
+<br />
+Verify : "Parte de la información es incorrecta." <br />
+Verify Negative: "Se ha creado la inscripci&oacute;n exit&oacute;samente." <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Negative Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.016 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+<b>Test:  ../testcases/gestionInscripciones.xml - 22 </b><br />
+Caso de prueba: Consultar inscripción <br />
+Revisar que exista la inscripción creada en el caso de prueba 20. Además, debe verificarse que la inscripción corresponde con el perfil (egresado) asignado a la persona de la inscripción,  creado en el caso de prueba 15. <br />
+<br />
+Verify : "1111111" <br />
+Verify : "Jhon Adrián" <br />
+Verify : "Cerón Guzmán" <br />
+Verify : "Egresado" <br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed Positive Verification</span><br />
+<span class="pass">Passed HTTP Response Code Verification (not in error range)</span><br />
+<b><span class="pass">TEST CASE PASSED</span></b><br />
+Response Time = 0.016 sec <br />
+<br />
+------------------------------------------------------- <br />
+
+    
+<br /><hr /><br />
+<b>
+Start Time: Sat Nov  5 16:51:43 2011 <br />
+Total Run Time: 1.023 seconds <br />
+<br />
+Test Cases Run: 22 <br />
+Test Cases Passed: 22 <br />
+Test Cases Failed: 0 <br />
+Verifications Passed: 71 <br />
+Verifications Failed: 0 <br />
+<br />
+Average Response Time: 0.039 seconds <br />
+Max Response Time: 0.087 seconds <br />
+Min Response Time: 0.008 seconds <br />
+</b>
+<br />
+
+</body>
+</html>
