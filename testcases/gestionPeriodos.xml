@@ -1,0 +1,46 @@
+<testcases repeat="1">
+
+<testvar varname="APP_URL">http://localhost/sigabu_testing/</testvar>
+
+<case
+id="12"
+url="${APP_URL}periodos/nuevo&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear período"
+description2="Este caso de prueba debe crear el período 2011-2."
+method="post"
+verifypositive="El período se ha creado exitósamente."
+verifynegative="Parte de la información es incorrecta."
+postbody="periodo=2011-2&fecha_inic=2011-07-25&fecha_fin=2011-12-03&actual=1"
+/>
+
+<case
+id="13"
+url="${APP_URL}periodos/nuevo&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear período"
+description2="Este caso de prueba debe no crear el período. Debido a que las fechas del período a crear,
+se cruzan con las del período creado en el caso de prueba 12."
+method="post"
+verifypositive="Parte de la información es incorrecta."
+verifypositive1="Las fechas del período a crear, se cruzan con las del periodo 2011-2."
+verifynegative="El período se ha creado exitósamente."
+postbody="periodo=2011&fecha_inic=2011-01-01&fecha_fin=2011-12-31"
+/>
+
+<comment>
+parseresponse1 es una expresión regular (regex), por medio de la cual, se obtiene el id del período 
+2011-2 (creado en el caso de prueba 12). Es necesario revisar el código fuente de la vista
+listar_periodos.php, del controlador períodos, para entender mejor la regex.
+</comment>
+
+<case
+id="14"
+url="${APP_URL}periodos/listar_periodos&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Consultar período"
+description2="Revisar que exista el período 2011-2 en el sistema, creado en el caso de prueba 12."
+verifypositive="2011-2"
+verifypositive1="2011-07-25"
+verifynegative="2011$"
+parseresponse1='value="|"/>\</td>\s*\<td>2011-2\</td>'
+/>
+
+</testcases>
