@@ -1,0 +1,39 @@
+<testcases repeat="1">
+
+<testvar varname="APP_URL">http://localhost/sigabu_testing/</testvar>
+
+<case
+id="9"
+url="${APP_URL}usuarios/nuevo&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear usuario"
+description2="Este caso de prueba debe crear la cuenta de usuario, según los datos ingresados por el usuario.
+La cuenta de usuario ha de asociarse a la persona creada en el caso de prueba 4."
+method="post"
+verifypositive="La cuenta de usuario se ha creado exitósamente."
+verifynegative="Parte de la información es incorrecta."
+postbody="persona=1111111&usuario=De_la_Cuesta_13&password=ingenieria&confirm_password=ingenieria&email=jadrian.ceron@gmail.com&rol=1&estado=1"
+/>
+
+<case
+id="10"
+url="${APP_URL}usuarios/nuevo&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear usuario"
+description2="El caso de prueba debe mostrar error al crear la cuenta de usuario, porque ya existe el nombre de usuario en el sistema."
+method="post"
+verifypositive="Parte de la información es incorrecta."
+verifynegative="La cuenta de usuario se ha creado exitósamente."
+postbody="persona=2222222&usuario=De_la_Cuesta_13&password=holamundo&confirm_password=holamundo&email=Jhon.canob@campusucc.edu.co&rol=1&estado=1"
+/>
+
+<case
+id="11"
+url="${APP_URL}usuarios/listar_usuarios&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Consultar usuario"
+description2="Revisar que exista en el sistema la cuenta de usuario creada en el caso de prueba 8, y que los datos de dicha cuenta
+estén asociados a la persona creada en el caso de prueba 4."
+verifypositive="1111111"
+verifypositive1="Jhon Adrián Cerón Guzmán"
+verifypositive2="De_la_Cuesta_13"
+/>
+
+</testcases>
