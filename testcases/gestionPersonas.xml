@@ -1,0 +1,70 @@
+<testcases repeat="1">
+
+<testvar varname="APP_URL">http://localhost/sigabu_testing/</testvar>
+
+<case
+id="3"
+url="${APP_URL}personas/nuevo&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear persona"
+description2="Este caso de prueba debe no crear la persona, pues no se han enviado los datos requeridos por el sistema."
+method="post"
+verifypositive="Parte de la información es incorrecta."
+verifynegative="La persona se ha creado exitósamente."
+postbody="nombres=&apellidos=&tipo_dni=&dni=&genero="
+/>
+
+<case
+id="4"
+url="${APP_URL}personas/nuevo&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear persona"
+description2="Este caso de prueba debe crear la persona, pues se han enviado los datos requeridos por el sistema."
+method="post"
+verifypositive="La persona se ha creado exitósamente."
+verifynegative="Parte de la información es incorrecta."
+postbody="nombres=Jhon Adrián&apellidos=Cerón Guzmán&tipo_dni=CC&dni=1111111&genero=H&estado=1"
+/>
+
+<case
+id="5"
+url="${APP_URL}personas/nuevo&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear persona"
+description2="Este caso de prueba no debe crear la persona, porque ya existe una en el sistema con el mismo número de identificación."
+method="post"
+verifypositive="Parte de la información es incorrecta."
+verifynegative="La persona se ha creado exitósamente."
+postbody="nombres=John Haide&apellidos=Cano Beltrán&tipo_dni=CC&dni=1111111&genero=H&estado=1"
+/>
+
+<case
+id="6"
+url="${APP_URL}personas/nuevo&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Crear persona"
+description2="Este caso de prueba crea otra persona en el sistema, según los datos enviados."
+method="post"
+verifypositive="La persona se ha creado exitósamente."
+verifynegative="Parte de la información es incorrecta."
+postbody="nombres=John Haide&apellidos=Cano Beltrán&tipo_dni=CC&dni=2222222&genero=H&estado=1"
+/>
+
+<case
+id="7"
+url="${APP_URL}personas/editar/1111111/jhon-adrian-ceron-guzman&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Editar persona"
+description2="Este caso de prueba debe editar los datos de la persona creada en el caso de prueba 4, según los datos enviados."
+method="post"
+verifynegative="Parte de la información es incorrecta."
+verifynegative1="Bueno, esto es vergonzoso."
+postbody="nombres=Jhon Adrián&apellidos=Cerón Guzmán&tipo_dni=CC&dni=1111111&genero=H&estado=1&fecha_nac=1991-04-01&email=jadrian.ceron@gmail.com"
+/>
+
+<case
+id="8"
+url="${APP_URL}personas/ver/1111111/jhon-adrian-ceron-guzman&;PHPSESSID={PARSEDRESULT}"
+description1="Caso de prueba: Consultar persona"
+description2="Se deben visualizar los datos de la persona creada en el caso de prueba 4, además de los datos editados de la misma en el caso de prueba 6."
+verifypositive="Jhon Adrián Cerón Guzmán"
+verifypositive1="01 Abr 1991"
+verifypositive2="jadrian.ceron@gmail.com"
+/>
+
+</testcases>
