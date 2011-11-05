@@ -1,0 +1,27 @@
+<testcases repeat="1">
+
+<testvar varname="APP_URL">http://localhost/sigabu_testing/</testvar>
+
+<case
+id="1"
+url="${APP_URL}dashboards/login"
+description1="Caso de prueba: Log in"
+description2="En este caso de prueba no se inicia sesión, porque no se han ingresado un nombre de usuario y una password."
+verifypositive="El nombre usuario o la password son incorrectos."
+method="post"
+postbody="usuario=&password="
+/>
+
+<case
+id="2"
+url="${APP_URL}dashboards/login"
+description1="Caso de prueba: Log in"
+description2="El caso de prueba debe ser exitoso porque se han ingresado un nombre de usuario y una password. 
+Además, la cuenta de usuario existe en el sistema. Véase el caso de pueba 9."
+verifynegative="El nombre usuario y la password son válidos."
+method="post"
+postbody="usuario=admin&password=12345678"
+parseresponse="PHPSESSID=|;"
+/>
+
+</testcases>
