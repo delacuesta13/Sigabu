@@ -32,8 +32,7 @@ description2="Este caso de prueba no debe crear la persona, porque ya existe una
 method="post"
 verifypositive="Parte de la información es incorrecta."
 verifynegative="La persona se ha creado exitósamente."
-postbody="nombres=John Haide&apellidos=Cano Beltrán&tipo_dni=CC&dni=1111111&genero=H&estado=1"
-/>
+postbody="nombres=John Haide&apellidos=Cano Beltrán&tipo_dni=CC&dni=1111111&genero=H&estado=1"/>
 
 <case
 id="6"
@@ -43,8 +42,7 @@ description2="Este caso de prueba crea otra persona en el sistema, según los da
 method="post"
 verifypositive="La persona se ha creado exitósamente."
 verifynegative="Parte de la información es incorrecta."
-postbody="nombres=John Haide&apellidos=Cano Beltrán&tipo_dni=CC&dni=2222222&genero=H&estado=1"
-/>
+postbody="nombres=John Haide&apellidos=Cano Beltrán&tipo_dni=CC&dni=2222222&genero=H&estado=1"/>
 
 <case
 id="7"
@@ -54,8 +52,7 @@ description2="Este caso de prueba debe editar los datos de la persona creada en 
 method="post"
 verifynegative="Parte de la información es incorrecta."
 verifynegative1="Bueno, esto es vergonzoso."
-postbody="nombres=Jhon Adrián&apellidos=Cerón Guzmán&tipo_dni=CC&dni=1111111&genero=H&estado=1&fecha_nac=1991-04-01&email=jadrian.ceron@gmail.com"
-/>
+postbody="nombres=Jhon Adrián&apellidos=Cerón Guzmán&tipo_dni=CC&dni=1111111&genero=H&estado=1&fecha_nac=1991-04-01&email=jadrian.ceron@gmail.com"/>
 
 <case
 id="8"
@@ -64,7 +61,6 @@ description1="Caso de prueba: Consultar persona"
 description2="Se deben visualizar los datos de la persona creada en el caso de prueba 4, además de los datos editados de la misma en el caso de prueba 6."
 verifypositive="Jhon Adrián Cerón Guzmán"
 verifypositive1="01 Abr 1991"
-verifypositive2="jadrian.ceron@gmail.com"
-/>
+verifypositive2="jadrian.ceron@gmail.com"/>
 
 </testcases>
