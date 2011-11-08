@@ -77,4 +77,15 @@ class Usuario extends VanillaModel {
 		return $this->query('SELECT * FROM roles ORDER BY permiso DESC');
 	}
 	
+	function getRol ($dniUsuario) {
+		
+		$sql = '
+		select usuario.username, rol.nombre, rol.permiso 
+		from roles rol, usuarios usuario 
+		where usuario.persona_dni = \''. mysql_real_escape_string($dniUsuario) . '\'
+		and usuario.rol_id = rol.id
+		';
+		return $this->query($sql);
+	}
+	
 }
