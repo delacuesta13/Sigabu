@@ -35,7 +35,7 @@ $ultima_visita = $_SESSION['ultima_visita'];
 		<?php
 		## obtener el rol del usuario de la sesión
 		$rolUsuario = performAction('usuarios', 'getRol', array($_SESSION['persona_dni']));
-		$rolUsuario = $rolUsuario['rol'] 
+		$rolUsuario = (count($rolUsuario)!=0) ? $rolUsuario['rol'] : 'Oops! Hubo un error al obtener el rol asignado :(';
 		?>
 		Rol: <?php echo $rolUsuario;?><br/>
 		Último ingreso: 
