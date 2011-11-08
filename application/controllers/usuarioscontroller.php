@@ -871,6 +871,22 @@ class UsuariosController extends VanillaController {
 		return $this->Usuario->listar_roles();
 	}
 	
+	/**
+	 * 
+	 * Obtener el rol de un usuario ...
+	 * @param int $dniUsuario
+	 */
+	function getRol ($dniUsuario = null) {
+		$rol = array();
+		if (isset ($rol) && preg_match('/^[\d]{5,20}$/', $dniUsuario)) {
+			$temp = $this->Usuario->getRol($dniUsuario);
+			$rol['usuario'] = $temp[0]['Usuario']['username'];
+			$rol['rol'] = $temp[0]['Rol']['nombre'];
+			$rol['nivel'] = $temp[0]['Rol']['permiso'];
+		}
+		return $rol;
+	}
+	
 	###########################################
 	## Funciones JSON #########################
 	###########################################
