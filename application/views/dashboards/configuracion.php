@@ -32,6 +32,12 @@ $ultima_visita = $_SESSION['ultima_visita'];
 		<?php echo $data_persona[0]['Persona']['nombres'] . ' ' . $data_persona[0]['Persona']['apellidos']?>
 		(<?php echo $data_persona[0]['Persona']['tipo_dni'] . ' ' . $_SESSION['persona_dni']?>)<br/>
 		Usuario: <?php echo $_SESSION['username']?><br/>
+		<?php
+		## obtener el rol del usuario de la sesión
+		$rolUsuario = performAction('usuarios', 'getRol', array($_SESSION['persona_dni']));
+		$rolUsuario = $rolUsuario['rol'] 
+		?>
+		Rol: <?php echo $rolUsuario;?><br/>
 		Último ingreso: 
 		<?php
 		echo substr($ultima_visita, 8, 2) . ' ' . $lista_meses[intval(substr($ultima_visita, 5, 2)) - 1] . ' ' . substr($ultima_visita, 0,4) .
