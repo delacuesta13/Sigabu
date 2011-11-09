@@ -12,8 +12,7 @@
 class DashboardsController extends VanillaController {
 	
 	function beforeAction () {
-		
-	
+					
 	}
 	
 	function index($tipo_mensaje = null, $nro_mensaje = null) {
@@ -32,6 +31,17 @@ class DashboardsController extends VanillaController {
 		 */
 		
 		session_start();
+		
+		if (!$this->loginSigabu()) {
+			## destruyo las variables de sesión
+			session_unset();
+			$_SESSION = array();
+			
+			## destruyo la sesión actual
+			session_destroy();
+			
+			session_start();
+		}
 		
 		if (!array_key_exists('logueado', $_SESSION) || !$_SESSION['logueado']) {
 			redirectAction(strtolower($this->_controller), 'login');			
@@ -92,6 +102,17 @@ class DashboardsController extends VanillaController {
 	function configuracion () {
 		
 		session_start();
+		
+		if (!$this->loginSigabu()) {
+			## destruyo las variables de sesión
+			session_unset();
+			$_SESSION = array();
+			
+			## destruyo la sesión actual
+			session_destroy();
+			
+			session_start();
+		}
 		
 		if (!array_key_exists('logueado', $_SESSION) || !$_SESSION['logueado']) {
 			redirectAction(strtolower($this->_controller), 'login');
@@ -162,6 +183,17 @@ class DashboardsController extends VanillaController {
 	function editar_cuenta () {
 		
 		session_start();
+		
+		if (!$this->loginSigabu()) {
+			## destruyo las variables de sesión
+			session_unset();
+			$_SESSION = array();
+			
+			## destruyo la sesión actual
+			session_destroy();
+			
+			session_start();
+		}
 		
 		## validar que el usuario haya iniciado sesión
 		if (array_key_exists('logueado', $_SESSION) && $_SESSION['logueado']) {
@@ -298,6 +330,17 @@ class DashboardsController extends VanillaController {
 	function login () {
 		
 		session_start();
+		
+		if (!$this->loginSigabu()) {
+			## destruyo las variables de sesión
+			session_unset();
+			$_SESSION = array();
+			
+			## destruyo la sesión actual
+			session_destroy();
+			
+			session_start();
+		}
 
 		## envío del formulario
 		if (isset($_POST['usuario'], $_POST['password'])) {
@@ -349,6 +392,7 @@ class DashboardsController extends VanillaController {
 					$_SESSION['username'] = $data_usuario[0]['Usuario']['username'];
 					$_SESSION['nivel'] = $data_usuario[0]['Rol']['permiso'];
 					$_SESSION['logueado'] = true;
+					$_SESSION['webapp'] = 'sigabu';
 					$ultima_visita = $data_usuario[0]['Usuario']['ultima_visita'];
 					$_SESSION['ultima_visita'] = (strlen($ultima_visita)!=0 && $ultima_visita!='0000-00-00 00:00:00') ? $ultima_visita : date('Y-m-d H:i');
 					
@@ -399,6 +443,21 @@ class DashboardsController extends VanillaController {
 		## redirecciono al login
 		redirectAction(strtolower($this->_controller), 'login');
 		
+	}
+	
+	/**
+	 * 
+	 * Revisar si la sesión iniciada, 
+	 * se hizo desde sigabu.
+	 */
+	function loginSigabu () {
+		$login = false;
+		if (isset($_SESSION['persona_dni'], $_SESSION['username'], $_SESSION['nivel'], $_SESSION['logueado'], $_SESSION['webapp'])) {
+			if ($_SESSION['logueado'] && $_SESSION['webapp']=='sigabu') {
+				$login = true;
+			}
+		}
+		return $login;
 	}
 	
 	function afterAction() {
