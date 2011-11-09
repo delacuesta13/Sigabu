@@ -21,7 +21,20 @@ class PersonasController extends VanillaController{
 		 * es decir, cuando tiene su propia vista.
 		 */
 		
-		session_start();		
+		session_start();
+
+		$loginSigabu = performAction('dashboards', 'loginSigabu', array());
+		
+		if (!$loginSigabu) {
+			## destruyo las variables de sesión
+			session_unset();
+			$_SESSION = array();
+			
+			## destruyo la sesión actual
+			session_destroy();
+			
+			session_start();
+		}
 		
 		/**
 		 * Validar que el usuario tengo el nivel de permiso

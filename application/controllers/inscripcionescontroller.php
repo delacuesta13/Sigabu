@@ -15,6 +15,19 @@ class InscripcionesController extends VanillaController {
 		
 		session_start();
 		
+		$loginSigabu = performAction('dashboards', 'loginSigabu', array());
+		
+		if (!$loginSigabu) {
+			## destruyo las variables de sesión
+			session_unset();
+			$_SESSION = array();
+			
+			## destruyo la sesión actual
+			session_destroy();
+			
+			session_start();
+		}
+		
 		/**
 		 * El usuario no ha iniciado sesión,
 		 * y como las actions de este controlador

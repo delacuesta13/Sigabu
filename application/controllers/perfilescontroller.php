@@ -15,6 +15,19 @@ class PerfilesController extends VanillaController {
 				
 		session_start();
 		
+		$loginSigabu = performAction('dashboards', 'loginSigabu', array());
+		
+		if (!$loginSigabu) {
+			## destruyo las variables de sesión
+			session_unset();
+			$_SESSION = array();
+			
+			## destruyo la sesión actual
+			session_destroy();
+			
+			session_start();
+		}
+		
 		## El usuario no ha iniciado sesión
 		if(!array_key_exists('logueado', $_SESSION) || !$_SESSION['logueado']) {			
 			redirectAction($GLOBALS['default_controller'], $GLOBALS['default_action']);					
