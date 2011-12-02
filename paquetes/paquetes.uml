@@ -12,15 +12,16 @@
   <elementImport xmi:id="_GCED8wQFEeGWH5qtNbhCgw">
     <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
   </elementImport>
-  <packagedElement xmi:type="uml:Package" xmi:id="_o2wx8AQFEeGWH5qtNbhCgw" name="Gestión de personas" clientDependency="_5En48AQLEeGWH5qtNbhCgw">
-    <packagedElement xmi:type="uml:Dependency" xmi:id="_5En48AQLEeGWH5qtNbhCgw" supplier="_wF1ZAAQLEeGWH5qtNbhCgw" client="_o2wx8AQFEeGWH5qtNbhCgw"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_o2wx8AQFEeGWH5qtNbhCgw" name="Gestión de personas" clientDependency="_-nOxMB0KEeGXApPsJZ8Ecg">
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_-nOxMB0KEeGXApPsJZ8Ecg" supplier="_G8njgAQMEeGWH5qtNbhCgw" client="_o2wx8AQFEeGWH5qtNbhCgw"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_x5mrcAQFEeGWH5qtNbhCgw" name="Perfil de personas" clientDependency="_-aDz8AQIEeGWH5qtNbhCgw _EdLM8AQJEeGWH5qtNbhCgw">
     <packagedElement xmi:type="uml:Dependency" xmi:id="_-aDz8AQIEeGWH5qtNbhCgw" supplier="_o2wx8AQFEeGWH5qtNbhCgw" client="_x5mrcAQFEeGWH5qtNbhCgw"/>
     <packagedElement xmi:type="uml:Dependency" xmi:id="_EdLM8AQJEeGWH5qtNbhCgw" supplier="_xX86cAQGEeGWH5qtNbhCgw" client="_x5mrcAQFEeGWH5qtNbhCgw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_1-YIcAQFEeGWH5qtNbhCgw" name="Gestión de usuarios" clientDependency="_7uZe8AQIEeGWH5qtNbhCgw">
+  <packagedElement xmi:type="uml:Package" xmi:id="_1-YIcAQFEeGWH5qtNbhCgw" name="Gestión de usuarios" clientDependency="_7uZe8AQIEeGWH5qtNbhCgw _IuWLIB0LEeGXApPsJZ8Ecg">
     <packagedElement xmi:type="uml:Dependency" xmi:id="_7uZe8AQIEeGWH5qtNbhCgw" supplier="_o2wx8AQFEeGWH5qtNbhCgw" client="_1-YIcAQFEeGWH5qtNbhCgw"/>
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_IuWLIB0LEeGXApPsJZ8Ecg" supplier="_G8njgAQMEeGWH5qtNbhCgw" client="_1-YIcAQFEeGWH5qtNbhCgw"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_a4Dl8AQGEeGWH5qtNbhCgw" name="Perfil de usuarios" clientDependency="_kiJawAQIEeGWH5qtNbhCgw _5zpCcAQIEeGWH5qtNbhCgw">
     <packagedElement xmi:type="uml:Dependency" xmi:id="_kiJawAQIEeGWH5qtNbhCgw" supplier="_epcz8AQGEeGWH5qtNbhCgw" client="_a4Dl8AQGEeGWH5qtNbhCgw"/>
@@ -29,8 +30,8 @@
   <packagedElement xmi:type="uml:Package" xmi:id="_epcz8AQGEeGWH5qtNbhCgw" name="Autenticación de usuarios" clientDependency="_xBgecAQIEeGWH5qtNbhCgw">
     <packagedElement xmi:type="uml:Dependency" xmi:id="_xBgecAQIEeGWH5qtNbhCgw" supplier="_1-YIcAQFEeGWH5qtNbhCgw" client="_epcz8AQGEeGWH5qtNbhCgw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_iDRPcAQGEeGWH5qtNbhCgw" name="Gestión de actividades" clientDependency="_6ef18AQLEeGWH5qtNbhCgw">
-    <packagedElement xmi:type="uml:Dependency" xmi:id="_6ef18AQLEeGWH5qtNbhCgw" supplier="_wF1ZAAQLEeGWH5qtNbhCgw" client="_iDRPcAQGEeGWH5qtNbhCgw"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_iDRPcAQGEeGWH5qtNbhCgw" name="Gestión de actividades" clientDependency="__7dZMB0KEeGXApPsJZ8Ecg">
+    <packagedElement xmi:type="uml:Dependency" xmi:id="__7dZMB0KEeGXApPsJZ8Ecg" supplier="_G8njgAQMEeGWH5qtNbhCgw" client="_iDRPcAQGEeGWH5qtNbhCgw"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_lv7ucAQGEeGWH5qtNbhCgw" name="Gestión de cursos" clientDependency="_bEZRcAQJEeGWH5qtNbhCgw _hv8jcAQJEeGWH5qtNbhCgw">
     <packagedElement xmi:type="uml:Dependency" xmi:id="_bEZRcAQJEeGWH5qtNbhCgw" supplier="_iDRPcAQGEeGWH5qtNbhCgw" client="_lv7ucAQGEeGWH5qtNbhCgw"/>
@@ -40,12 +41,10 @@
     <packagedElement xmi:type="uml:Dependency" xmi:id="_d1U9cAQIEeGWH5qtNbhCgw" supplier="_lv7ucAQGEeGWH5qtNbhCgw" client="_rkyB8AQGEeGWH5qtNbhCgw"/>
     <packagedElement xmi:type="uml:Dependency" xmi:id="_Ieg7cAQJEeGWH5qtNbhCgw" supplier="_uC8GcAQGEeGWH5qtNbhCgw" client="_rkyB8AQGEeGWH5qtNbhCgw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_uC8GcAQGEeGWH5qtNbhCgw" name="Gestión de lugares" clientDependency="_ChLS8AQMEeGWH5qtNbhCgw">
-    <packagedElement xmi:type="uml:Dependency" xmi:id="_ChLS8AQMEeGWH5qtNbhCgw" supplier="_wF1ZAAQLEeGWH5qtNbhCgw" client="_uC8GcAQGEeGWH5qtNbhCgw"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_uC8GcAQGEeGWH5qtNbhCgw" name="Gestión de lugares" clientDependency="_DRJioB0LEeGXApPsJZ8Ecg">
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_DRJioB0LEeGXApPsJZ8Ecg" supplier="_G8njgAQMEeGWH5qtNbhCgw" client="_uC8GcAQGEeGWH5qtNbhCgw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_xX86cAQGEeGWH5qtNbhCgw" name="Gestión de períodos" clientDependency="_AjwkAAQMEeGWH5qtNbhCgw">
-    <packagedElement xmi:type="uml:Dependency" xmi:id="_AjwkAAQMEeGWH5qtNbhCgw" supplier="_wF1ZAAQLEeGWH5qtNbhCgw" client="_xX86cAQGEeGWH5qtNbhCgw"/>
-  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_xX86cAQGEeGWH5qtNbhCgw" name="Gestión de períodos"/>
   <packagedElement xmi:type="uml:Package" xmi:id="_3reG8AQGEeGWH5qtNbhCgw" name="Gestión de inscripciones" clientDependency="_UvvR8AQIEeGWH5qtNbhCgw _WC5i8AQIEeGWH5qtNbhCgw">
     <packagedElement xmi:type="uml:Dependency" xmi:id="_UvvR8AQIEeGWH5qtNbhCgw" supplier="_x5mrcAQFEeGWH5qtNbhCgw" client="_3reG8AQGEeGWH5qtNbhCgw"/>
     <packagedElement xmi:type="uml:Dependency" xmi:id="_WC5i8AQIEeGWH5qtNbhCgw" supplier="_lv7ucAQGEeGWH5qtNbhCgw" client="_3reG8AQGEeGWH5qtNbhCgw"/>
@@ -54,12 +53,12 @@
     <packagedElement xmi:type="uml:Dependency" xmi:id="_K00g8AQIEeGWH5qtNbhCgw" supplier="_3reG8AQGEeGWH5qtNbhCgw" client="_BKnh8AQHEeGWH5qtNbhCgw"/>
     <packagedElement xmi:type="uml:Dependency" xmi:id="_Olmq8AQIEeGWH5qtNbhCgw" supplier="_rkyB8AQGEeGWH5qtNbhCgw" client="_BKnh8AQHEeGWH5qtNbhCgw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_ode9AAQKEeGWH5qtNbhCgw" name="Navegador web" clientDependency="_8ruX8AQKEeGWH5qtNbhCgw">
-    <packagedElement xmi:type="uml:Dependency" xmi:id="_8ruX8AQKEeGWH5qtNbhCgw" supplier="_5g3lgAQKEeGWH5qtNbhCgw" client="_ode9AAQKEeGWH5qtNbhCgw"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_ode9AAQKEeGWH5qtNbhCgw" name="Navegador web" clientDependency="_USBCoB0LEeGXApPsJZ8Ecg">
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_USBCoB0LEeGXApPsJZ8Ecg" supplier="_5g3lgAQKEeGWH5qtNbhCgw" client="_ode9AAQKEeGWH5qtNbhCgw"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_5g3lgAQKEeGWH5qtNbhCgw" name="TCP/IP"/>
-  <packagedElement xmi:type="uml:Package" xmi:id="_MEw-gAQLEeGWH5qtNbhCgw" name="MySQL" clientDependency="_iUsu8AQMEeGWH5qtNbhCgw">
-    <packagedElement xmi:type="uml:Dependency" xmi:id="_iUsu8AQMEeGWH5qtNbhCgw" supplier="_eTwegAQLEeGWH5qtNbhCgw" client="_MEw-gAQLEeGWH5qtNbhCgw"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_MEw-gAQLEeGWH5qtNbhCgw" name="MySQL" clientDependency="_WFhnoB0LEeGXApPsJZ8Ecg">
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_WFhnoB0LEeGXApPsJZ8Ecg" supplier="_eTwegAQLEeGWH5qtNbhCgw" client="_MEw-gAQLEeGWH5qtNbhCgw"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_eTwegAQLEeGWH5qtNbhCgw" name="Ubuntu Server 11.04" clientDependency="_klu9cAQMEeGWH5qtNbhCgw">
     <packagedElement xmi:type="uml:Dependency" xmi:id="_klu9cAQMEeGWH5qtNbhCgw" supplier="_5g3lgAQKEeGWH5qtNbhCgw" client="_eTwegAQLEeGWH5qtNbhCgw"/>
@@ -67,11 +66,11 @@
   <packagedElement xmi:type="uml:Package" xmi:id="_mBiCgAQLEeGWH5qtNbhCgw" name="Apache HTTPd" clientDependency="_fbshgAQMEeGWH5qtNbhCgw">
     <packagedElement xmi:type="uml:Dependency" xmi:id="_fbshgAQMEeGWH5qtNbhCgw" supplier="_eTwegAQLEeGWH5qtNbhCgw" client="_mBiCgAQLEeGWH5qtNbhCgw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_wF1ZAAQLEeGWH5qtNbhCgw" name="ODBC" clientDependency="_KusG8AQMEeGWH5qtNbhCgw _SmABcAQMEeGWH5qtNbhCgw">
-    <packagedElement xmi:type="uml:Dependency" xmi:id="_KusG8AQMEeGWH5qtNbhCgw" supplier="_G8njgAQMEeGWH5qtNbhCgw" client="_wF1ZAAQLEeGWH5qtNbhCgw"/>
-    <packagedElement xmi:type="uml:Dependency" xmi:id="_SmABcAQMEeGWH5qtNbhCgw" supplier="_MEw-gAQLEeGWH5qtNbhCgw" client="_wF1ZAAQLEeGWH5qtNbhCgw"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_wF1ZAAQLEeGWH5qtNbhCgw" name="ODBC" clientDependency="_419WIB0KEeGXApPsJZ8Ecg _YfVXoB0LEeGXApPsJZ8Ecg">
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_419WIB0KEeGXApPsJZ8Ecg" supplier="_G8njgAQMEeGWH5qtNbhCgw" client="_wF1ZAAQLEeGWH5qtNbhCgw"/>
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_YfVXoB0LEeGXApPsJZ8Ecg" supplier="_MEw-gAQLEeGWH5qtNbhCgw" client="_wF1ZAAQLEeGWH5qtNbhCgw"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_G8njgAQMEeGWH5qtNbhCgw" name="PHP" clientDependency="_autN8AQMEeGWH5qtNbhCgw">
-    <packagedElement xmi:type="uml:Dependency" xmi:id="_autN8AQMEeGWH5qtNbhCgw" supplier="_mBiCgAQLEeGWH5qtNbhCgw" client="_G8njgAQMEeGWH5qtNbhCgw"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_G8njgAQMEeGWH5qtNbhCgw" name="PHP" clientDependency="_XsciIB0LEeGXApPsJZ8Ecg">
+    <packagedElement xmi:type="uml:Dependency" xmi:id="_XsciIB0LEeGXApPsJZ8Ecg" supplier="_mBiCgAQLEeGWH5qtNbhCgw" client="_G8njgAQMEeGWH5qtNbhCgw"/>
   </packagedElement>
 </uml:Package>
